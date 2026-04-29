@@ -1,4 +1,4 @@
-// File: C:\Users\gupta\Downloads\text2sql_data_collection_platform-main\frontend\src\app\layout.tsx
+// File: C:\Users\gupta\Downloads\text2sql_data_collection_platform\frontend\src\app\layout.tsx
 import * as entry from '../../../src/app/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

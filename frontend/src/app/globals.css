@@ -70,7 +70,7 @@ body {
   font-family: var(--font-sans);
   background: var(--bg);
   color: var(--text-primary);
-  font-size: 13px;
+  font-size: clamp(13px, 0.85vw, 15px);
   line-height: 1.5;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
@@ -86,20 +86,20 @@ body {
 /* ── NAVBAR ── */
 .navbar {
   position: sticky; top: 0; z-index: 200;
-  height: 48px;
+  height: clamp(48px, 4vh, 60px);
   background: var(--navbar-bg);
   border-bottom: 1px solid var(--border-sub);
   display: flex; align-items: center;
-  padding: 0 20px; gap: 12px;
+  padding: 0 clamp(20px, 2vw, 40px); gap: clamp(12px, 1vw, 20px);
   transition: background 150ms ease;
 }
 .navbar-brand { display: flex; align-items: center; gap: 8px; text-decoration: none; flex-shrink: 0; }
-.navbar-brand-text { font-size: 14px; font-weight: 700; color: var(--text-primary); letter-spacing: -0.02em; }
+.navbar-brand-text { font-size: clamp(14px, 1vw, 16px); font-weight: 700; color: var(--text-primary); letter-spacing: -0.02em; }
 
 /* FIX 1 — navbar center title */
 .navbar-center { display: flex; align-items: center; gap: 8px; margin-left: auto; margin-right: auto; }
-.navbar-page-title { font-size: 13px; font-weight: 600; color: var(--text-secondary); white-space: nowrap; }
-.navbar-page-subtitle { font-size: 11px; color: var(--text-muted); white-space: nowrap; }
+.navbar-page-title { font-size: clamp(13px, 0.9vw, 15px); font-weight: 600; color: var(--text-secondary); white-space: nowrap; }
+.navbar-page-subtitle { font-size: clamp(11px, 0.75vw, 13px); color: var(--text-muted); white-space: nowrap; }
 @media (max-width: 700px) { .navbar-page-subtitle { display: none; } }
 
 .navbar-right { display: flex; align-items: center; gap: 8px; }
@@ -115,12 +115,16 @@ body {
 .icon-btn svg { width: 14px; height: 14px; pointer-events: none; }
 
 /* FIX 6 — wider page wrapper */
-.page-wrapper { max-width: 1200px; margin: 0 auto; padding: 10px 14px 20px; }
+.page-wrapper {
+  max-width: clamp(1200px, 90vw, 1800px);
+  margin: 0 auto;
+  padding: clamp(10px, 1vh, 18px) clamp(14px, 1.5vw, 32px) clamp(20px, 2vh, 36px);
+}
 
 /* page-title-row removed (FIX 1 — merged into navbar) */
 
 /* ── FORM GRID ── */
-.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; align-items: start; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(8px, 0.6vw, 14px); align-items: start; }
 @media (max-width: 860px) { .form-grid { grid-template-columns: 1fr; } }
 
 /* ── SECTION ── */
@@ -128,7 +132,7 @@ body {
   background: var(--surface);
   border: 1px solid var(--border-sub);
   border-radius: var(--radius-lg);
-  padding: 10px 12px;
+  padding: clamp(10px, 0.9vh, 16px) clamp(12px, 1vw, 20px);
   overflow: visible;
   transition: border-color 150ms;
 }
@@ -139,7 +143,7 @@ body {
 .section-title em { color: var(--accent-text); font-style: normal; margin-right: 4px; }
 
 /* ── FORM FIELDS ── */
-.field-label { display: block; font-size: 11px; font-weight: 600; color: var(--text-secondary); margin-bottom: 3px; }
+.field-label { display: block; font-size: clamp(11px, 0.75vw, 13px); font-weight: 600; color: var(--text-secondary); margin-bottom: 3px; }
 .req { color: var(--accent); margin-left: 1px; }
 
 .form-input {
@@ -147,8 +151,8 @@ body {
   background: var(--input-bg);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 6px 10px;
-  font-size: 12px;
+  padding: clamp(6px, 0.5vh, 10px) clamp(10px, 0.8vw, 14px);
+  font-size: clamp(12px, 0.8vw, 14px);
   font-family: var(--font-sans);
   color: var(--text-primary);
   outline: none; resize: none;
@@ -160,13 +164,13 @@ body {
 .form-input:hover:not(:focus) { border-color: var(--text-muted); }
 
 select.form-input {
-  height: 32px; cursor: pointer; appearance: none;
+  height: clamp(32px, 2.8vh, 40px); cursor: pointer; appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2371717A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
   background-repeat: no-repeat; background-position: right 8px center;
   padding-right: 28px;
 }
 select.form-input option { background: var(--surface); color: var(--text-primary); }
-textarea.form-input { min-height: 56px; }
+textarea.form-input { min-height: clamp(56px, 5vh, 80px); }
 
 /* ── META ROW ── */
 .meta-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
@@ -317,7 +321,7 @@ textarea.form-input { min-height: 56px; }
 }
 
 /* ── FOOTER ── */
-.footer { position: fixed; bottom: 0; left: 0; right: 0; height: 52px; background: var(--footer-bg); border-top: 1px solid var(--border-sub); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; z-index: 200; transition: background 150ms ease; }
+.footer { position: fixed; bottom: 0; left: 0; right: 0; height: clamp(52px, 4.5vh, 64px); background: var(--footer-bg); border-top: 1px solid var(--border-sub); display: flex; align-items: center; justify-content: space-between; padding: 0 clamp(20px, 2vw, 40px); z-index: 200; transition: background 150ms ease; }
 .footer-left { display: flex; align-items: center; gap: 10px; font-size: 11px; color: var(--text-muted); }
 .footer-right { display: flex; align-items: center; gap: 8px; }
 
@@ -334,8 +338,8 @@ textarea.form-input { min-height: 56px; }
 
 /* The form grid columns must stretch to fill available height */
 .form-grid {
-  /* FIX 6 — viewport minus: navbar(48) + page padding(10+20) + footer(52) */
-  min-height: calc(100vh - 48px - 80px - 52px);
+  /* Dynamic viewport fill: accounts for clamp-based navbar + footer */
+  min-height: calc(100vh - clamp(48px, 4vh, 60px) - clamp(80px, 7vh, 108px) - clamp(52px, 4.5vh, 64px));
   align-items: stretch;
 }
 
@@ -343,7 +347,7 @@ textarea.form-input { min-height: 56px; }
 .form-col {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: clamp(8px, 0.6vw, 14px);
   min-height: 100%;
 }
 
@@ -394,4 +398,69 @@ textarea.form-input { min-height: 56px; }
   display: flex;
   flex-direction: column;
   overflow: hidden;
+}
+
+/* ══════════════════════════════════════
+   LARGE SCREEN BREAKPOINTS
+   ══════════════════════════════════════ */
+
+/* 1400px — wider screens, more breathing room */
+@media (min-width: 1400px) {
+  :root {
+    --radius: 10px;
+    --radius-lg: 12px;
+  }
+  .section-title { font-size: 11px; letter-spacing: 0.09em; }
+  .table-cell textarea, .table-cell input { font-size: 13px; }
+  .cot-step textarea { font-size: 13px; }
+  .list-item input { font-size: 13px; }
+  .sql-editor { font-size: 13px; }
+  .add-btn { font-size: 12px; }
+  .btn { padding: 8px 18px; font-size: 14px; }
+  .icon-btn { width: 36px; height: 36px; }
+  .schema-col-label { font-size: 11px; }
+}
+
+/* 1600px — large desktop monitors */
+@media (min-width: 1600px) {
+  .page-wrapper { max-width: min(90vw, 1700px); }
+  .navbar { height: 56px; padding: 0 36px; }
+  .footer { height: 60px; padding: 0 36px; }
+  .section { padding: 14px 18px; }
+  .form-grid { gap: 12px; }
+  .form-col { gap: 12px; }
+  .meta-row { gap: 10px; }
+  .datamodel-row { gap: 10px; }
+  .json-drawer { width: 420px; }
+  .form-grid.drawer-open { padding-right: 428px; }
+}
+
+/* 1920px and above — full HD and ultrawide */
+@media (min-width: 1920px) {
+  .page-wrapper { max-width: min(88vw, 2000px); }
+  .navbar { height: 60px; padding: 0 48px; gap: 20px; }
+  .footer { height: 64px; padding: 0 48px; }
+  .section { padding: 16px 22px; }
+  .form-grid { gap: 14px; }
+  .form-col { gap: 14px; }
+  .section-title { font-size: 11.5px; }
+  .field-label { font-size: 13px; }
+  .form-input { font-size: 14px; padding: 8px 14px; }
+  select.form-input { height: 40px; }
+  textarea.form-input { min-height: 80px; }
+  .table-cell textarea, .table-cell input { font-size: 13.5px; min-height: 38px; }
+  .cot-step textarea { font-size: 13.5px; }
+  .list-item input { font-size: 13.5px; height: 30px; }
+  .sql-editor { font-size: 13.5px; }
+  .add-btn { font-size: 12.5px; }
+  .btn { padding: 9px 20px; font-size: 14px; }
+  .btn svg { width: 15px; height: 15px; }
+  .icon-btn { width: 38px; height: 38px; }
+  .cot-num { width: 20px; height: 20px; font-size: 10px; }
+  .json-drawer { width: 480px; }
+  .form-grid.drawer-open { padding-right: 488px; }
+  .schema-col-label { font-size: 11.5px; }
+  .navbar-brand-text { font-size: 16px; }
+  .badge-optional { font-size: 10px; padding: 2px 8px; }
+  .tooltip-btn { width: 17px; height: 17px; font-size: 9px; }
 }
