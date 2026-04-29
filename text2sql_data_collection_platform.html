@@ -1,0 +1,738 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-sans, 'Segoe UI', sans-serif); background: var(--color-background-tertiary, #f5f5f5); color: var(--color-text-primary, #1a1a1a); font-size: 14px; min-height: 100vh; }
+
+  /* NAV */
+  .nav { background: var(--color-background-primary, #fff); border-bottom: 0.5px solid var(--color-border-tertiary, #e0e0e0); display: flex; align-items: center; padding: 0 24px; height: 52px; gap: 0; position: sticky; top: 0; z-index: 100; }
+  .nav-brand { font-size: 15px; font-weight: 500; margin-right: 32px; display: flex; align-items: center; gap: 8px; }
+  .nav-brand-dot { width: 8px; height: 8px; border-radius: 50%; background: #378ADD; }
+  .nav-tabs { display: flex; gap: 0; height: 100%; }
+  .nav-tab { padding: 0 16px; height: 100%; display: flex; align-items: center; font-size: 13px; cursor: pointer; border-bottom: 2px solid transparent; color: var(--color-text-secondary, #666); transition: all 0.15s; }
+  .nav-tab:hover { color: var(--color-text-primary, #1a1a1a); }
+  .nav-tab.active { color: #378ADD; border-bottom-color: #378ADD; font-weight: 500; }
+  .nav-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+  .badge { background: #E6F1FB; color: #185FA5; font-size: 11px; padding: 2px 8px; border-radius: 99px; font-weight: 500; }
+
+  /* LAYOUT */
+  .page { display: none; padding: 24px; max-width: 1100px; margin: 0 auto; }
+  .page.active { display: block; }
+
+  /* CARDS */
+  .card { background: var(--color-background-primary, #fff); border-radius: 12px; border: 0.5px solid var(--color-border-tertiary, #e0e0e0); padding: 20px 24px; margin-bottom: 16px; }
+  .card-title { font-size: 13px; font-weight: 500; color: var(--color-text-secondary, #666); margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .card-subtitle { font-size: 12px; color: var(--color-text-tertiary, #999); margin-bottom: 16px; margin-top: -10px; }
+
+  /* FORM ELEMENTS */
+  .form-row { display: grid; gap: 12px; margin-bottom: 12px; }
+  .form-row.cols-2 { grid-template-columns: 1fr 1fr; }
+  .form-row.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .form-row.cols-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+  .form-group { display: flex; flex-direction: column; gap: 5px; }
+  label { font-size: 12px; font-weight: 500; color: var(--color-text-secondary, #666); }
+  label .req { color: #E24B4A; margin-left: 2px; }
+  input[type=text], input[type=number], select, textarea {
+    background: var(--color-background-secondary, #f9f9f9);
+    border: 0.5px solid var(--color-border-secondary, #d0d0d0);
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 13px;
+    color: var(--color-text-primary, #1a1a1a);
+    font-family: inherit;
+    transition: border-color 0.15s;
+    width: 100%;
+  }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: #378ADD; box-shadow: 0 0 0 3px rgba(55,138,221,0.1); }
+  textarea { resize: vertical; min-height: 72px; line-height: 1.5; }
+  .mono { font-family: var(--font-mono, monospace); font-size: 12px; }
+
+  /* DYNAMIC LISTS */
+  .dynamic-list { display: flex; flex-direction: column; gap: 8px; }
+  .dynamic-item { display: flex; gap: 8px; align-items: flex-start; }
+  .dynamic-item input { flex: 1; }
+  .btn-icon { width: 30px; height: 30px; border: 0.5px solid var(--color-border-secondary, #d0d0d0); border-radius: 6px; background: var(--color-background-primary, #fff); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; color: var(--color-text-secondary, #666); flex-shrink: 0; transition: all 0.15s; margin-top: 1px; }
+  .btn-icon:hover { background: var(--color-background-info, #E6F1FB); border-color: #B5D4F4; color: #185FA5; }
+  .btn-icon.danger:hover { background: #FCEBEB; border-color: #F7C1C1; color: #A32D2D; }
+
+  /* BUTTONS */
+  .btn { padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.15s; border: 0.5px solid transparent; font-family: inherit; }
+  .btn-primary { background: #378ADD; color: #fff; border-color: #185FA5; }
+  .btn-primary:hover { background: #185FA5; }
+  .btn-secondary { background: var(--color-background-primary, #fff); color: var(--color-text-primary, #1a1a1a); border-color: var(--color-border-secondary, #d0d0d0); }
+  .btn-secondary:hover { background: var(--color-background-secondary, #f5f5f5); }
+  .btn-success { background: #3B6D11; color: #fff; border-color: #27500A; }
+  .btn-success:hover { background: #27500A; }
+  .btn-danger { background: #fff; color: #A32D2D; border-color: #F7C1C1; }
+  .btn-danger:hover { background: #FCEBEB; }
+  .btn-sm { padding: 5px 10px; font-size: 12px; }
+  .btn-row { display: flex; gap: 8px; align-items: center; margin-top: 8px; }
+
+  /* SECTION DIVIDER */
+  .section-divider { border: none; border-top: 0.5px solid var(--color-border-tertiary, #e0e0e0); margin: 20px 0; }
+
+  /* METRICS / AGGREGATION FIELDS */
+  .kv-pair { display: grid; grid-template-columns: 1fr 1.5fr; gap: 8px; align-items: flex-start; }
+  .kv-label { font-size: 12px; font-weight: 500; color: var(--color-text-secondary, #666); padding-top: 9px; }
+
+  /* TOAST */
+  #toast { position: fixed; bottom: 24px; right: 24px; background: #1a1a1a; color: #fff; padding: 10px 18px; border-radius: 8px; font-size: 13px; opacity: 0; pointer-events: none; transition: opacity 0.2s; z-index: 999; }
+  #toast.show { opacity: 1; }
+
+  /* ADMIN TABLE */
+  .data-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .data-table th { text-align: left; padding: 8px 10px; font-weight: 500; color: var(--color-text-secondary, #666); border-bottom: 0.5px solid var(--color-border-tertiary, #e0e0e0); font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .data-table td { padding: 9px 10px; border-bottom: 0.5px solid var(--color-border-tertiary, #e0e0e0); color: var(--color-text-primary, #1a1a1a); vertical-align: middle; }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:hover td { background: var(--color-background-secondary, #f9f9f9); }
+  .pill { display: inline-block; padding: 2px 8px; border-radius: 99px; font-size: 11px; font-weight: 500; }
+  .pill-easy { background: #EAF3DE; color: #3B6D11; }
+  .pill-medium { background: #FAEEDA; color: #854F0B; }
+  .pill-hard { background: #FCEBEB; color: #A32D2D; }
+  .pill-schema { background: #E1F5EE; color: #0F6E56; }
+  .pill-data { background: #E6F1FB; color: #185FA5; }
+
+  /* STATS ROW */
+  .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+  .stat-card { background: var(--color-background-secondary, #f9f9f9); border-radius: 8px; padding: 14px 16px; }
+  .stat-label { font-size: 11px; color: var(--color-text-secondary, #666); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .stat-value { font-size: 22px; font-weight: 500; }
+
+  /* SEARCH BAR */
+  .search-bar { display: flex; gap: 8px; margin-bottom: 16px; }
+  .search-bar input { max-width: 300px; }
+
+  /* PAGE HEADER */
+  .page-header { margin-bottom: 24px; }
+  .page-header h1 { font-size: 20px; font-weight: 500; margin-bottom: 4px; }
+  .page-header p { font-size: 13px; color: var(--color-text-secondary, #666); }
+
+  /* STEP INDICATOR */
+  .step-indicator { display: flex; gap: 8px; align-items: center; margin-bottom: 20px; flex-wrap: wrap; }
+  .step { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--color-text-tertiary, #999); }
+  .step.active { color: #378ADD; font-weight: 500; }
+  .step.done { color: #3B6D11; }
+  .step-num { width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid currentColor; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; flex-shrink: 0; }
+  .step-arrow { color: var(--color-border-secondary, #ccc); font-size: 12px; }
+
+  /* DATA MODEL GRID */
+  .dm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+  /* EMPTY STATE */
+  .empty-state { text-align: center; padding: 48px 24px; color: var(--color-text-secondary, #666); }
+  .empty-state .icon { font-size: 32px; margin-bottom: 12px; }
+  .empty-state p { font-size: 13px; }
+
+  /* JSON PREVIEW */
+  .json-preview { background: var(--color-background-secondary, #f9f9f9); border: 0.5px solid var(--color-border-tertiary, #e0e0e0); border-radius: 8px; padding: 12px; font-family: var(--font-mono, monospace); font-size: 11px; max-height: 240px; overflow-y: auto; white-space: pre-wrap; word-break: break-all; color: var(--color-text-secondary, #555); line-height: 1.6; }
+
+  @media (max-width: 700px) {
+    .form-row.cols-2, .form-row.cols-3, .form-row.cols-4 { grid-template-columns: 1fr; }
+    .stats-row { grid-template-columns: 1fr 1fr; }
+    .dm-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div id="toast"></div>
+
+<nav class="nav">
+  <div class="nav-brand"><div class="nav-brand-dot"></div>Text2SQL Studio</div>
+  <div class="nav-tabs">
+    <div class="nav-tab active" onclick="showPage('schema')">Schema Entry</div>
+    <div class="nav-tab" onclick="showPage('data')">Query Entry</div>
+    <div class="nav-tab" onclick="showPage('admin')">Admin Panel</div>
+  </div>
+  <div class="nav-right">
+    <span class="badge" id="nav-schema-count">0 schemas</span>
+    <span class="badge" id="nav-data-count">0 queries</span>
+  </div>
+</nav>
+
+<!-- ===================== SCHEMA PAGE ===================== -->
+<div class="page active" id="page-schema">
+  <div class="page-header">
+    <h1>Schema Submission</h1>
+    <p>Document a database schema for a domain. This feeds the Text2SQL model's structural understanding.</p>
+  </div>
+
+  <form id="schema-form" onsubmit="submitSchema(event)">
+    <div class="card">
+      <div class="card-title">Domain metadata</div>
+      <div class="form-row cols-3">
+        <div class="form-group">
+          <label>Domain name <span class="req">*</span></label>
+          <input type="text" id="s_domain" placeholder="e.g. HighTech (SaaS), Retail, Healthcare" required>
+        </div>
+        <div class="form-group">
+          <label>Schema version</label>
+          <input type="text" id="s_version" placeholder="e.g. v1.0, 2024-Q4">
+        </div>
+        <div class="form-group">
+          <label>Business context <span class="req">*</span></label>
+          <input type="text" id="s_context" placeholder="e.g. SaaS subscription & revenue analytics" required>
+        </div>
+      </div>
+      <div class="form-row cols-2">
+        <div class="form-group">
+          <label>Data warehouse / DB type</label>
+          <select id="s_db_type">
+            <option value="">Select platform...</option>
+            <option>BigQuery</option>
+            <option>Snowflake</option>
+            <option>PostgreSQL</option>
+            <option>Redshift</option>
+            <option>Databricks (Delta Lake)</option>
+            <option>MySQL</option>
+            <option>SQL Server</option>
+            <option>DuckDB</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Schema pattern</label>
+          <select id="s_pattern">
+            <option value="">Select pattern...</option>
+            <option>Star Schema</option>
+            <option>Snowflake Schema</option>
+            <option>OBT (One Big Table)</option>
+            <option>Medallion (Bronze/Silver/Gold)</option>
+            <option>Data Vault</option>
+            <option>Operational / OLTP</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Fact tables</div>
+      <div class="card-subtitle">Add each fact table with its primary key and brief description</div>
+      <div id="fact-tables" class="dynamic-list"></div>
+      <div class="btn-row">
+        <button type="button" class="btn btn-secondary btn-sm" onclick="addFactRow()">+ Add fact table</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Dimension tables</div>
+      <div class="card-subtitle">Add dimension tables that support joins</div>
+      <div id="dim-tables" class="dynamic-list"></div>
+      <div class="btn-row">
+        <button type="button" class="btn btn-secondary btn-sm" onclick="addDimRow()">+ Add dimension table</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">DDL / Raw schema SQL</div>
+      <div class="card-subtitle">Paste the CREATE TABLE statements for this schema (optional but recommended)</div>
+      <textarea id="s_ddl" class="mono" style="min-height:160px" placeholder="CREATE TABLE fact_subscriptions (
+  subscription_key SERIAL PRIMARY KEY,
+  customer_key     INTEGER NOT NULL REFERENCES dim_customer(customer_key),
+  mrr_usd          NUMERIC(14,2),
+  ...
+);"></textarea>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Key joins & relationships</div>
+      <div class="card-subtitle">Describe important FK relationships or common join paths</div>
+      <div id="schema-joins" class="dynamic-list"></div>
+      <div class="btn-row">
+        <button type="button" class="btn btn-secondary btn-sm" onclick="addJoinRow()">+ Add join</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Notes & special considerations</div>
+      <textarea id="s_notes" placeholder="e.g. mrr_usd is always monthly. arr_usd = mrr_usd * 12. date_key is integer YYYYMMDD..."></textarea>
+    </div>
+
+    <div class="btn-row" style="margin-top:4px">
+      <button type="submit" class="btn btn-primary">Save schema</button>
+      <button type="button" class="btn btn-secondary" onclick="clearSchemaForm()">Clear</button>
+    </div>
+  </form>
+</div>
+
+<!-- ===================== DATA PAGE ===================== -->
+<div class="page" id="page-data">
+  <div class="page-header">
+    <h1>Query / NL-SQL Entry</h1>
+    <p>Submit a natural language question paired with its SQL answer. This is the core training tuple for the Text2SQL model.</p>
+  </div>
+
+  <form id="data-form" onsubmit="submitData(event)">
+
+    <!-- STEP 1 -->
+    <div class="card">
+      <div class="card-title">Step 1 — Identification</div>
+      <div class="form-row cols-4">
+        <div class="form-group">
+          <label>Q ID <span class="req">*</span></label>
+          <input type="number" id="d_qid" placeholder="e.g. 42" required min="1">
+        </div>
+        <div class="form-group">
+          <label>Domain <span class="req">*</span></label>
+          <input type="text" id="d_domain" placeholder="e.g. HighTech (SaaS)" required>
+        </div>
+        <div class="form-group">
+          <label>Difficulty <span class="req">*</span></label>
+          <select id="d_difficulty" required>
+            <option value="">Select...</option>
+            <option>Easy</option>
+            <option>Medium</option>
+            <option>Hard</option>
+            <option>Expert</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Expected row count</label>
+          <input type="number" id="d_row_count" placeholder="e.g. 4" min="0">
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="card">
+      <div class="card-title">Step 2 — Natural language instruction & context</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Instruction (the NL question) <span class="req">*</span></label>
+          <textarea id="d_instruction" placeholder="e.g. What is the total Monthly Recurring Revenue (MRR) broken down by subscription status?" required style="min-height:60px"></textarea>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Business context / persona <span class="req">*</span></label>
+          <textarea id="d_context" placeholder="e.g. The VP of Finance needs a quick snapshot of MRR categorized by subscription status to assess revenue health. This helps prioritize retention or reactivation campaigns." required></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="card">
+      <div class="card-title">Step 3 — Required metrics & KPIs</div>
+      <div class="card-subtitle">List each KPI/metric this query must compute</div>
+      <div id="metrics-list" class="dynamic-list"></div>
+      <div class="btn-row">
+        <button type="button" class="btn btn-secondary btn-sm" onclick="addMetricRow()">+ Add metric</button>
+      </div>
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="card">
+      <div class="card-title">Step 4 — Aggregation logic</div>
+      <div class="card-subtitle">For each metric above, describe the aggregation formula (metric name → logic)</div>
+      <div id="aggr-list" class="dynamic-list"></div>
+      <div class="btn-row">
+        <button type="button" class="btn btn-secondary btn-sm" onclick="addAggrRow()">+ Add aggregation</button>
+      </div>
+    </div>
+
+    <!-- STEP 5 -->
+    <div class="card">
+      <div class="card-title">Step 5 — Chain of thought</div>
+      <div class="card-subtitle">Numbered reasoning steps the model should follow to produce the SQL</div>
+      <div id="cot-list" class="dynamic-list"></div>
+      <div class="btn-row">
+        <button type="button" class="btn btn-secondary btn-sm" onclick="addCotRow()">+ Add step</button>
+      </div>
+    </div>
+
+    <!-- STEP 6 -->
+    <div class="card">
+      <div class="card-title">Step 6 — Data model usage</div>
+      <div class="card-subtitle">Which tables / objects does this query touch?</div>
+      <div class="dm-grid">
+        <div class="form-group">
+          <label>Fact tables used</label>
+          <input type="text" id="dm_facts" placeholder="e.g. fact_subscriptions">
+        </div>
+        <div class="form-group">
+          <label>Dimension tables used</label>
+          <input type="text" id="dm_dims" placeholder="e.g. dim_customer, dim_date">
+        </div>
+        <div class="form-group">
+          <label>Aggregations / CTEs</label>
+          <input type="text" id="dm_aggrs" placeholder="e.g. SUM, GROUP BY">
+        </div>
+        <div class="form-group">
+          <label>Hierarchies</label>
+          <input type="text" id="dm_hierarchies" placeholder="e.g. Year → Quarter → Month">
+        </div>
+        <div class="form-group">
+          <label>Snapshots</label>
+          <input type="text" id="dm_snapshots" placeholder="e.g. daily snapshot table">
+        </div>
+        <div class="form-group">
+          <label>Views / materialized views</label>
+          <input type="text" id="dm_views" placeholder="e.g. vw_mrr_monthly">
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 7 -->
+    <div class="card">
+      <div class="card-title">Step 7 — SQL answer <span class="req" style="margin-left:2px">*</span></div>
+      <textarea id="d_sql" class="mono" style="min-height:120px" placeholder="SELECT subscription_status,
+       SUM(mrr_usd) AS total_mrr_usd
+FROM   fact_subscriptions
+GROUP  BY subscription_status
+ORDER  BY total_mrr_usd DESC;" required></textarea>
+    </div>
+
+    <div class="btn-row" style="margin-top:4px">
+      <button type="submit" class="btn btn-primary">Save query tuple</button>
+      <button type="button" class="btn btn-secondary" onclick="previewData()">Preview JSON</button>
+      <button type="button" class="btn btn-secondary" onclick="clearDataForm()">Clear</button>
+    </div>
+
+    <div id="json-preview-box" style="display:none; margin-top:12px;">
+      <div class="card">
+        <div class="card-title">JSON preview</div>
+        <div id="json-preview-content" class="json-preview"></div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<!-- ===================== ADMIN PAGE ===================== -->
+<div class="page" id="page-admin">
+  <div class="page-header">
+    <h1>Admin Panel</h1>
+    <p>Review all submitted schemas and training tuples. Download for model training.</p>
+  </div>
+
+  <div class="stats-row" id="admin-stats"></div>
+
+  <div class="card" style="margin-bottom:16px">
+    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; flex-wrap:wrap; gap:8px;">
+      <div style="font-size:13px; font-weight:500;">Schemas <span id="schema-count-label" class="pill pill-schema">0</span></div>
+      <div style="display:flex; gap:8px;">
+        <button class="btn btn-secondary btn-sm" onclick="downloadJSON('schemas')">Download schemas.json</button>
+        <button class="btn btn-danger btn-sm" onclick="clearAll('schemas')">Clear schemas</button>
+      </div>
+    </div>
+    <div id="schema-table-wrap">
+      <div class="empty-state"><div class="icon">📋</div><p>No schemas submitted yet.</p></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; flex-wrap:wrap; gap:8px;">
+      <div style="font-size:13px; font-weight:500;">Training tuples <span id="data-count-label" class="pill pill-data">0</span></div>
+      <div style="display:flex; gap:8px;">
+        <button class="btn btn-success btn-sm" onclick="downloadJSON('all')">Download all_training_data.json</button>
+        <button class="btn btn-secondary btn-sm" onclick="downloadJSON('data')">Download queries.json</button>
+        <button class="btn btn-danger btn-sm" onclick="clearAll('data')">Clear queries</button>
+      </div>
+    </div>
+    <div class="search-bar">
+      <input type="text" id="admin-search" placeholder="Search by domain, instruction..." oninput="renderAdminData()" style="max-width:320px;">
+      <select id="admin-filter-diff" onchange="renderAdminData()" style="max-width:150px;">
+        <option value="">All difficulties</option>
+        <option>Easy</option><option>Medium</option><option>Hard</option><option>Expert</option>
+      </select>
+    </div>
+    <div id="data-table-wrap">
+      <div class="empty-state"><div class="icon">🗃️</div><p>No query tuples submitted yet.</p></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const DB = {
+  schemas: JSON.parse(localStorage.getItem('t2s_schemas') || '[]'),
+  data: JSON.parse(localStorage.getItem('t2s_data') || '[]'),
+  save() {
+    localStorage.setItem('t2s_schemas', JSON.stringify(this.schemas));
+    localStorage.setItem('t2s_data', JSON.stringify(this.data));
+    updateNavCounts();
+  }
+};
+
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  event.target.classList.add('active');
+  if (name === 'admin') renderAdmin();
+}
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+function updateNavCounts() {
+  document.getElementById('nav-schema-count').textContent = DB.schemas.length + ' schema' + (DB.schemas.length !== 1 ? 's' : '');
+  document.getElementById('nav-data-count').textContent = DB.data.length + ' quer' + (DB.data.length !== 1 ? 'ies' : 'y');
+}
+
+// ===== SCHEMA FORM =====
+function makeRow(container, placeholder1, placeholder2, placeholder3) {
+  const row = document.createElement('div');
+  row.className = 'dynamic-item';
+  row.innerHTML = `<input type="text" placeholder="${placeholder1}" style="flex:1">
+    ${placeholder2 ? `<input type="text" placeholder="${placeholder2}" style="flex:1.5">` : ''}
+    ${placeholder3 ? `<input type="text" placeholder="${placeholder3}" style="flex:1">` : ''}
+    <button type="button" class="btn-icon danger" onclick="this.parentElement.remove()">✕</button>`;
+  document.getElementById(container).appendChild(row);
+}
+
+function addFactRow() { makeRow('fact-tables', 'Table name (e.g. fact_revenue)', 'Key columns (e.g. revenue_key, customer_key, mrr_usd)', 'Grain / description'); }
+function addDimRow() { makeRow('dim-tables', 'Table name (e.g. dim_customer)', 'Key columns (e.g. customer_key, customer_id, region)', 'Description'); }
+function addJoinRow() { makeRow('schema-joins', 'From (e.g. fact_subscriptions.customer_key)', 'To (e.g. dim_customer.customer_key)', 'Join type'); }
+
+function getRows(containerId) {
+  return Array.from(document.getElementById(containerId).querySelectorAll('.dynamic-item')).map(row => {
+    const inputs = row.querySelectorAll('input');
+    return Array.from(inputs).map(i => i.value.trim()).filter(Boolean);
+  }).filter(r => r.length > 0);
+}
+
+function submitSchema(e) {
+  e.preventDefault();
+  const schema = {
+    schema_id: 'SCH_' + Date.now(),
+    domain: document.getElementById('s_domain').value.trim(),
+    version: document.getElementById('s_version').value.trim(),
+    business_context: document.getElementById('s_context').value.trim(),
+    db_type: document.getElementById('s_db_type').value,
+    schema_pattern: document.getElementById('s_pattern').value,
+    fact_tables: getRows('fact-tables').map(r => ({ name: r[0] || '', columns: r[1] || '', description: r[2] || '' })),
+    dimension_tables: getRows('dim-tables').map(r => ({ name: r[0] || '', columns: r[1] || '', description: r[2] || '' })),
+    ddl: document.getElementById('s_ddl').value.trim(),
+    key_joins: getRows('schema-joins').map(r => ({ from: r[0] || '', to: r[1] || '', join_type: r[2] || 'INNER' })),
+    notes: document.getElementById('s_notes').value.trim(),
+    submitted_at: new Date().toISOString()
+  };
+  DB.schemas.push(schema);
+  DB.save();
+  toast('Schema saved successfully');
+  clearSchemaForm();
+}
+
+function clearSchemaForm() {
+  document.getElementById('schema-form').reset();
+  ['fact-tables', 'dim-tables', 'schema-joins'].forEach(id => document.getElementById(id).innerHTML = '');
+}
+
+// ===== DATA FORM =====
+function addMetricRow() {
+  const row = document.createElement('div');
+  row.className = 'dynamic-item';
+  row.innerHTML = `<input type="text" placeholder="KPI name (e.g. Total MRR by Status)" style="flex:1">
+    <button type="button" class="btn-icon danger" onclick="this.parentElement.remove()">✕</button>`;
+  document.getElementById('metrics-list').appendChild(row);
+}
+
+function addAggrRow() {
+  const row = document.createElement('div');
+  row.className = 'dynamic-item kv-pair';
+  row.innerHTML = `<input type="text" placeholder="Metric name (e.g. Total MRR by Status)" style="flex:1">
+    <input type="text" placeholder="Logic (e.g. SUM(mrr_usd) grouped by subscription_status from fact_subscriptions)" style="flex:2">
+    <button type="button" class="btn-icon danger" onclick="this.parentElement.remove()">✕</button>`;
+  document.getElementById('aggr-list').appendChild(row);
+}
+
+function addCotRow() {
+  const idx = document.getElementById('cot-list').children.length + 1;
+  const row = document.createElement('div');
+  row.className = 'dynamic-item';
+  row.innerHTML = `<div style="flex-shrink:0;width:22px;height:22px;border-radius:50%;border:1.5px solid #378ADD;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:#378ADD;margin-top:8px">${idx}</div>
+    <textarea placeholder="Step ${idx}: Identify the relevant table / column / filter logic..." style="flex:1;min-height:52px"></textarea>
+    <button type="button" class="btn-icon danger" onclick="this.parentElement.remove()" style="margin-top:8px">✕</button>`;
+  document.getElementById('cot-list').appendChild(row);
+}
+
+function getMetrics() {
+  return Array.from(document.getElementById('metrics-list').querySelectorAll('input')).map(i => i.value.trim()).filter(Boolean);
+}
+
+function getAggr() {
+  const obj = {};
+  document.getElementById('aggr-list').querySelectorAll('.dynamic-item').forEach(row => {
+    const inputs = row.querySelectorAll('input');
+    if (inputs[0] && inputs[1] && inputs[0].value.trim()) {
+      obj[inputs[0].value.trim()] = inputs[1].value.trim();
+    }
+  });
+  return obj;
+}
+
+function getCot() {
+  return Array.from(document.getElementById('cot-list').querySelectorAll('textarea')).map((t, i) => `Step ${i+1}: ${t.value.trim()}`).filter(s => s.replace('Step ' + (Array.from(document.getElementById('cot-list').querySelectorAll('textarea')).indexOf(t)+1) + ': ', '').trim());
+}
+
+function getCotFixed() {
+  return Array.from(document.getElementById('cot-list').querySelectorAll('textarea')).map((t, i) => {
+    const val = t.value.trim();
+    return val ? `Step ${i+1}: ${val}` : null;
+  }).filter(Boolean);
+}
+
+function buildDataObj() {
+  return {
+    q_id: parseInt(document.getElementById('d_qid').value) || null,
+    domain: document.getElementById('d_domain').value.trim(),
+    difficulty: document.getElementById('d_difficulty').value,
+    instruction: document.getElementById('d_instruction').value.trim(),
+    context: document.getElementById('d_context').value.trim(),
+    required_metrics_kpis: getMetrics(),
+    aggregation_logic: getAggr(),
+    chain_of_thought: getCotFixed(),
+    data_model: {
+      facts: document.getElementById('dm_facts').value.trim(),
+      dims: document.getElementById('dm_dims').value.trim(),
+      aggrs: document.getElementById('dm_aggrs').value.trim(),
+      hierarchies: document.getElementById('dm_hierarchies').value.trim(),
+      snapshots: document.getElementById('dm_snapshots').value.trim(),
+      views: document.getElementById('dm_views').value.trim()
+    },
+    sql: document.getElementById('d_sql').value.trim(),
+    row_count: parseInt(document.getElementById('d_row_count').value) || null,
+    submitted_at: new Date().toISOString()
+  };
+}
+
+function submitData(e) {
+  e.preventDefault();
+  const obj = buildDataObj();
+  DB.data.push(obj);
+  DB.save();
+  toast('Query tuple #' + obj.q_id + ' saved');
+  document.getElementById('json-preview-box').style.display = 'none';
+  clearDataForm();
+}
+
+function previewData() {
+  const obj = buildDataObj();
+  document.getElementById('json-preview-content').textContent = JSON.stringify(obj, null, 2);
+  document.getElementById('json-preview-box').style.display = 'block';
+}
+
+function clearDataForm() {
+  document.getElementById('data-form').reset();
+  ['metrics-list', 'aggr-list', 'cot-list'].forEach(id => document.getElementById(id).innerHTML = '');
+  document.getElementById('json-preview-box').style.display = 'none';
+}
+
+// ===== ADMIN =====
+function renderAdmin() {
+  const s = DB.schemas;
+  const d = DB.data;
+  document.getElementById('schema-count-label').textContent = s.length;
+  document.getElementById('data-count-label').textContent = d.length;
+
+  const easy = d.filter(x => x.difficulty === 'Easy').length;
+  const med = d.filter(x => x.difficulty === 'Medium').length;
+  const hard = d.filter(x => x.difficulty === 'Hard' || x.difficulty === 'Expert').length;
+  const domains = [...new Set(d.map(x => x.domain).filter(Boolean))].length;
+
+  document.getElementById('admin-stats').innerHTML = `
+    <div class="stat-card"><div class="stat-label">Total schemas</div><div class="stat-value">${s.length}</div></div>
+    <div class="stat-card"><div class="stat-label">Total tuples</div><div class="stat-value">${d.length}</div></div>
+    <div class="stat-card"><div class="stat-label">Unique domains</div><div class="stat-value">${domains}</div></div>
+    <div class="stat-card"><div class="stat-label">Easy / Med / Hard</div><div class="stat-value" style="font-size:16px">${easy} / ${med} / ${hard}</div></div>
+  `;
+
+  // Schemas table
+  const sw = document.getElementById('schema-table-wrap');
+  if (s.length === 0) {
+    sw.innerHTML = '<div class="empty-state"><div class="icon">📋</div><p>No schemas submitted yet.</p></div>';
+  } else {
+    sw.innerHTML = `<table class="data-table">
+      <thead><tr><th>#</th><th>Domain</th><th>DB type</th><th>Pattern</th><th>Facts</th><th>Dims</th><th>Submitted</th><th></th></tr></thead>
+      <tbody>${s.map((x, i) => `<tr>
+        <td>${i+1}</td>
+        <td style="font-weight:500">${esc(x.domain)}</td>
+        <td><span class="pill pill-schema">${esc(x.db_type || '—')}</span></td>
+        <td>${esc(x.schema_pattern || '—')}</td>
+        <td>${x.fact_tables ? x.fact_tables.length : 0}</td>
+        <td>${x.dimension_tables ? x.dimension_tables.length : 0}</td>
+        <td style="color:var(--color-text-secondary)">${x.submitted_at ? x.submitted_at.slice(0,10) : ''}</td>
+        <td><button class="btn btn-danger btn-sm" onclick="deleteItem('schemas',${i})">Delete</button></td>
+      </tr>`).join('')}</tbody>
+    </table>`;
+  }
+
+  renderAdminData();
+}
+
+function renderAdminData() {
+  const search = (document.getElementById('admin-search')?.value || '').toLowerCase();
+  const diff = document.getElementById('admin-filter-diff')?.value || '';
+  let d = DB.data;
+  if (search) d = d.filter(x => (x.domain + x.instruction + x.sql).toLowerCase().includes(search));
+  if (diff) d = d.filter(x => x.difficulty === diff);
+
+  const dw = document.getElementById('data-table-wrap');
+  if (d.length === 0) {
+    dw.innerHTML = '<div class="empty-state"><div class="icon">🗃️</div><p>No matching tuples.</p></div>';
+    return;
+  }
+  dw.innerHTML = `<table class="data-table">
+    <thead><tr><th>Q ID</th><th>Domain</th><th>Difficulty</th><th>Instruction</th><th>SQL preview</th><th>Rows</th><th>Submitted</th><th></th></tr></thead>
+    <tbody>${d.map((x) => {
+      const origIdx = DB.data.indexOf(x);
+      const diffPill = x.difficulty === 'Easy' ? 'pill-easy' : x.difficulty === 'Medium' ? 'pill-medium' : 'pill-hard';
+      return `<tr>
+        <td style="font-weight:500">${x.q_id || '—'}</td>
+        <td>${esc(x.domain || '—')}</td>
+        <td><span class="pill ${diffPill}">${esc(x.difficulty || '—')}</span></td>
+        <td style="max-width:220px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(x.instruction || '')}</td>
+        <td style="max-width:180px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:var(--font-mono);font-size:11px;color:var(--color-text-secondary)">${esc((x.sql || '').replace(/\n/g,' ').slice(0,60))}...</td>
+        <td>${x.row_count || '—'}</td>
+        <td style="color:var(--color-text-secondary)">${x.submitted_at ? x.submitted_at.slice(0,10) : ''}</td>
+        <td><button class="btn btn-danger btn-sm" onclick="deleteItem('data',${origIdx})">Delete</button></td>
+      </tr>`;
+    }).join('')}</tbody>
+  </table>`;
+}
+
+function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function deleteItem(type, idx) {
+  if (!confirm('Delete this entry?')) return;
+  DB[type].splice(idx, 1);
+  DB.save();
+  renderAdmin();
+  toast('Entry deleted');
+}
+
+function clearAll(type) {
+  if (!confirm('Clear ALL ' + type + '? This cannot be undone.')) return;
+  DB[type] = [];
+  DB.save();
+  renderAdmin();
+  toast('Cleared ' + type);
+}
+
+function downloadJSON(type) {
+  let data, filename;
+  if (type === 'schemas') { data = DB.schemas; filename = 'schemas.json'; }
+  else if (type === 'data') { data = DB.data; filename = 'queries.json'; }
+  else { data = { schemas: DB.schemas, training_data: DB.data }; filename = 'all_training_data.json'; }
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+  toast('Downloaded ' + filename);
+}
+
+// Init
+updateNavCounts();
+addFactRow(); addDimRow(); addMetricRow(); addAggrRow(); addCotRow();
+</script>
+</body>
+</html>

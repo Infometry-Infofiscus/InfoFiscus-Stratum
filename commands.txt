@@ -1,0 +1,10 @@
+# Terminal 1 — Frontend (Local Development)
+cd frontend
+npm install
+npm run dev
+
+
+
+# Terminal 2 — Frontend (GitHub Pages Build)
+cd frontend
+npm run build:pages
