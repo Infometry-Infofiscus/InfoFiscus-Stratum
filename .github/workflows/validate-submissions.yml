@@ -1,0 +1,23 @@
+name: Validate submission JSON
+
+on:
+  push:
+    paths:
+      - "submissions/**/*.json"
+      - "scripts/validate-submissions.mjs"
+  pull_request:
+    paths:
+      - "submissions/**/*.json"
+      - "scripts/validate-submissions.mjs"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate submission files
+        run: node scripts/validate-submissions.mjs

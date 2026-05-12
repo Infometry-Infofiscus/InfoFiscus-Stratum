@@ -3,10 +3,15 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import toast from "react-hot-toast";
 import { api } from "@/lib/api";
+import type { DatasetPayload } from "@/types";
+import { buildSubmissionRecordFromDataset } from "@/lib/buildSubmissionRecord";
+import { isGitHubSubmitConfigured } from "@/lib/githubConfig";
+import { submitPendingSubmission, formatSubmitError } from "@/lib/githubSubmit";
+import { validateDatasetPayload } from "@/lib/submissionValidate";
 
 interface Props { onSaved: () => void; }
 
-const DOMAINS = ["Retail","Healthcare", "HighTech (SaaS)",,"Finance","Manufacturing", "Supply Chain","Other"];
+const DOMAINS = ["Retail", "Healthcare", "HighTech (SaaS)", "Finance", "Manufacturing", "Supply Chain", "Other"];
 const DB_TYPES = ["BigQuery","Snowflake","Redshift","PostgreSQL","MySQL","Oracle","Azure Synapse","Other"];
 
 const COT_PLACEHOLDERS = [
@@ -178,15 +183,36 @@ export default function QueryForm({ onSaved }: Props) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) { toast.error("Please fill all required fields."); return; }
+    const payload = buildObj() as DatasetPayload;
+    const serverValidate = validateDatasetPayload(payload);
+    if (serverValidate) {
+      toast.error(serverValidate);
+      return;
+    }
     setLoading(true);
     try {
-      const payload = buildObj();
-      await api.data.create(payload);
-      toast.success("Entry saved! Commit to Git.");
-      onSaved();
-      clearForm();
+      if (isGitHubSubmitConfigured()) {
+        const submissionId = crypto.randomUUID();
+        const createdAt = new Date().toISOString();
+        const record = buildSubmissionRecordFromDataset(payload, submissionId, createdAt);
+        const result = await submitPendingSubmission(record);
+        await api.data.create(payload);
+        const msg = result.htmlUrl
+          ? `Submitted to GitHub: ${result.htmlUrl}`
+          : `Submitted to GitHub: ${result.path}`;
+        toast.success(msg);
+        onSaved();
+        clearForm();
+      } else {
+        await api.data.create(payload);
+        toast.success(
+          "Entry saved locally. Set NEXT_PUBLIC_GITHUB_OWNER / REPO and TOKEN or SUBMIT_PROXY to push to the repository.",
+        );
+        onSaved();
+        clearForm();
+      }
     } catch (err: unknown) {
-      toast.error(err instanceof Error ? err.message : "Save failed");
+      toast.error(formatSubmitError(err));
     } finally { setLoading(false); }
   };
 
