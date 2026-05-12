@@ -38,7 +38,15 @@ jobs:
       - name: Build
         run: npm run build
         working-directory: ./frontend
-        # basePath + NEXT_PUBLIC_* come from GITHUB_REPOSITORY in next.config.js (any repo name OK)
+        env:
+          # Set these under repo → Settings → Secrets and variables → Actions → Variables
+          NEXT_PUBLIC_GITHUB_OWNER: ${{ vars.NEXT_PUBLIC_GITHUB_OWNER }}
+          NEXT_PUBLIC_GITHUB_REPO: ${{ vars.NEXT_PUBLIC_GITHUB_REPO }}
+          NEXT_PUBLIC_GITHUB_BRANCH: ${{ vars.NEXT_PUBLIC_GITHUB_BRANCH || 'main' }}
+          NEXT_PUBLIC_GITHUB_SUBMIT_PROXY: ${{ vars.NEXT_PUBLIC_GITHUB_SUBMIT_PROXY }}
+          NEXT_PUBLIC_GITHUB_PENDING_PREFIX: ${{ vars.NEXT_PUBLIC_GITHUB_PENDING_PREFIX }}
+          # basePath: next.config uses GITHUB_REPOSITORY in Actions (auto) unless you set NEXT_PUBLIC_REPO_NAME
+          NEXT_PUBLIC_REPO_NAME: ${{ vars.NEXT_PUBLIC_REPO_NAME }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
