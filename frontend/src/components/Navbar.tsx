@@ -11,7 +11,7 @@ interface Props {
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 // ── Configurable Help / Documentation URL ──────────────────────────────────
-const HELP_DOCS_URL = "PASTE_DOC_LINK_HERE";
+const HELP_DOCS_URL = "https://retail-analytics-docs.readthedocs.io/en/latest/";
 // ───────────────────────────────────────────────────────────────────────────
 
 const SunIcon = () => (
