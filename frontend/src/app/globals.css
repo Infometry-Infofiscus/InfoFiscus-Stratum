@@ -96,6 +96,10 @@ body {
 .navbar-brand { display: flex; align-items: center; gap: 8px; text-decoration: none; flex-shrink: 0; }
 .navbar-brand-text { font-size: clamp(14px, 1vw, 16px); font-weight: 700; color: var(--text-primary); letter-spacing: -0.02em; }
 
+/* Theme-aware logo: logo PNG is light-on-dark; invert in light mode */
+.navbar-logo { transition: filter 150ms ease; }
+[data-theme="light"] .navbar-logo { filter: invert(1); }
+
 /* FIX 1 — navbar center title */
 .navbar-center { display: flex; align-items: center; gap: 8px; margin-left: auto; margin-right: auto; }
 .navbar-page-title { font-size: clamp(13px, 0.9vw, 15px); font-weight: 600; color: var(--text-secondary); white-space: nowrap; }

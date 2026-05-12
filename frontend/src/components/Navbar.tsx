@@ -10,6 +10,10 @@ interface Props {
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
+// ── Configurable Help / Documentation URL ──────────────────────────────────
+const HELP_DOCS_URL = "PASTE_DOC_LINK_HERE";
+// ───────────────────────────────────────────────────────────────────────────
+
 const SunIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
@@ -30,6 +34,15 @@ const BracesIcon = () => (
   </svg>
 );
 
+const HelpIcon = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="10"/>
+    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+    <line x1="12" y1="17" x2="12.01" y2="17"/>
+  </svg>
+);
+
 export default function Navbar({ dataCount, theme, onToggleTheme }: Props) {
   const handleToggleJson = () => {
     window.dispatchEvent(new CustomEvent("toggle-json"));
@@ -43,6 +56,7 @@ export default function Navbar({ dataCount, theme, onToggleTheme }: Props) {
           alt="Infometry"
           width={100}
           height={28}
+          className="navbar-logo"
           style={{ objectFit: "contain", objectPosition: "left center" }}
           priority
         />
@@ -60,7 +74,7 @@ export default function Navbar({ dataCount, theme, onToggleTheme }: Props) {
           {dataCount} {dataCount === 1 ? "entry" : "entries"} saved
         </span>
 
-        {/* FIX 2 — JSON preview toggle button */}
+        {/* JSON preview toggle button */}
         <button
           className="icon-btn"
           onClick={handleToggleJson}
@@ -69,6 +83,18 @@ export default function Navbar({ dataCount, theme, onToggleTheme }: Props) {
         >
           <BracesIcon />
         </button>
+
+        {/* Help / Documentation button */}
+        <a
+          href={HELP_DOCS_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="icon-btn"
+          title="Help & Documentation"
+          aria-label="Help & Documentation"
+        >
+          <HelpIcon />
+        </a>
 
         <button
           className="icon-btn"
