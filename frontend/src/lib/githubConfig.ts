@@ -12,29 +12,26 @@ export interface GitHubSubmitConfig {
   proxyUrl?: string;
 }
 
-function readEnv(key: string): string | undefined {
-  if (typeof process === "undefined" || !process.env) return undefined;
-  const v = process.env[key];
-  return v && v.trim() ? v.trim() : undefined;
+function t(v: string | undefined): string | undefined {
+  const s = v?.trim();
+  return s ? s : undefined;
 }
 
 /**
- * Resolves configuration from Next.js public env vars.
- *
- * Security: `NEXT_PUBLIC_GITHUB_TOKEN` is exposed in the browser bundle on static hosting.
- * Prefer `NEXT_PUBLIC_GITHUB_SUBMIT_PROXY` + a small edge worker that holds `GITHUB_TOKEN`.
+ * Next.js inlines `NEXT_PUBLIC_*` at build time only for **direct**
+ * `process.env.NEXT_PUBLIC_*` reads. Never use `process.env[dynamicKey]` here.
  */
 export function getGitHubSubmitConfig(): GitHubSubmitConfig | null {
-  const owner = readEnv("NEXT_PUBLIC_GITHUB_OWNER");
-  const repo = readEnv("NEXT_PUBLIC_GITHUB_REPO");
+  const owner = t(process.env.NEXT_PUBLIC_GITHUB_OWNER);
+  const repo = t(process.env.NEXT_PUBLIC_GITHUB_REPO);
   if (!owner || !repo) return null;
 
-  const branch = readEnv("NEXT_PUBLIC_GITHUB_BRANCH") ?? "main";
+  const branch = t(process.env.NEXT_PUBLIC_GITHUB_BRANCH) ?? "main";
   const pendingPathPrefix =
-    readEnv("NEXT_PUBLIC_GITHUB_PENDING_PREFIX") ?? "submissions/pending";
+    t(process.env.NEXT_PUBLIC_GITHUB_PENDING_PREFIX) ?? "submissions/pending";
 
-  const proxyUrl = readEnv("NEXT_PUBLIC_GITHUB_SUBMIT_PROXY");
-  const token = readEnv("NEXT_PUBLIC_GITHUB_TOKEN");
+  const proxyUrl = t(process.env.NEXT_PUBLIC_GITHUB_SUBMIT_PROXY);
+  const token = t(process.env.NEXT_PUBLIC_GITHUB_TOKEN);
 
   if (proxyUrl) {
     return { mode: "proxy", owner, repo, branch, pendingPathPrefix, proxyUrl };
