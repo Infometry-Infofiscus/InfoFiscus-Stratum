@@ -38,8 +38,7 @@ jobs:
       - name: Build
         run: npm run build
         working-directory: ./frontend
-        env:
-          NEXT_PUBLIC_BASE_PATH: /text2sql_data_collection_platform
+        # basePath + NEXT_PUBLIC_* come from GITHUB_REPOSITORY in next.config.js (any repo name OK)
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

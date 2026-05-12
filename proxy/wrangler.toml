@@ -1,0 +1,9 @@
+name = "text2sql-github-submit"
+main = "cloudflare-worker.js"
+compatibility_date = "2024-01-01"
+
+[vars]
+ALLOWED_ORIGINS = "https://Infometry-Infofiscus.github.io,http://localhost:3000"
+
+# Set secret: wrangler secret put GITHUB_TOKEN
+# Use a fine-grained PAT: Contents read/write on this repository only.
