@@ -1,0 +1,45 @@
+{
+  "submission_id": "ef61d2d6-aea3-4907-96f1-daa360aa296e",
+  "created_at": "2026-05-13T05:40:30.137Z",
+  "difficulty": "Hard",
+  "db_type": "Snowflake",
+  "domain": "Retail",
+  "business_question": "Rank the top 19 product class in Catalog by net profit growth from 2001 to 2002.",
+  "business_context": "The executive analytics team evaluates profitability momentum by assortment segment to decide where to expand investment or adjust pricing.",
+  "metrics": {
+    "kpis": [
+      "Net Profit (Current Year)",
+      "Net Profit (Previous Year)",
+      "Net Profit Growth %",
+      "Profit Growth Rank"
+    ],
+    "aggregation_logic": {
+      "Net Profit (Current Year)": "Net Profit (Current Year)\": \"SUM(CAST(cs.cs_net_profit AS DECIMAL)) grouped by Product Class for year=2002",
+      "Net Profit (Previous Year)": "Net Profit (Current Year)\": \"SUM(CAST(cs.cs_net_profit AS DECIMAL)) grouped by Product Class for year=2002",
+      "Net Profit Growth %": "Net Profit Growth %\": \"(Current - Previous) / NULLIF(Previous,0) * 100",
+      "Profit Growth Rank": "Profit Growth Rank\": \"RANK() OVER (ORDER BY net_profit_growth_pct DESC)"
+    }
+  },
+  "chain_of_thought": [
+    "Step 1: Aggregate net profit by the selected item dimension for the current and previous years.",
+    "Step 2: Join these year-specific aggregates and compute growth percentage using NULLIF.",
+    "Step 3: Rank segments by growth percentage using RANK() window ordering.",
+    "Step 4: Filter to the top N ranks to provide an actionable list."
+  ],
+  "schema_tables": {
+    "fact_tables": [
+      "catalog_sales"
+    ],
+    "dimension_tables": [
+      "date_dim",
+      "item"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "Date > Year, Product > Product Class",
+    "aggregations": "",
+    "snapshots": ""
+  },
+  "sql_answer": "WITH profit_by_year AS (\\n  SELECT\\n    i.i_class AS dim_key,\\n    CASE WHEN d.d_year = 2002 THEN 'current' ELSE 'previous' END AS period,\\n    SUM(CAST(cs.cs_net_profit AS DECIMAL(15,2)) ) AS net_profit\\n  FROM catalog_sales cs\\n  JOIN date_dim d ON cs.cs_sold_date_sk = d.d_date_sk\\n  JOIN item i ON cs.cs_item_sk = i.i_item_sk\\n  WHERE d.d_year IN (2001, 2002)\\n  GROUP BY i_class, period\\n),\\npivoted AS (\\n  SELECT\\n    dim_key,\\n    SUM(CASE WHEN period='current' THEN net_profit ELSE 0 END) AS current_net_profit,\\n    SUM(CASE WHEN period='previous' THEN net_profit ELSE 0 END) AS previous_net_profit\\n  FROM profit_by_year\\n  GROUP BY dim_key\\n),\\nscored AS (\\n  SELECT\\n    dim_key,\\n    current_net_profit,\\n    previous_net_profit,\\n    ROUND((current_net_profit - previous_net_profit) * 100.0 / NULLIF(previous_net_profit, 0), 2) AS net_profit_growth_pct,\\n    RANK() OVER (ORDER BY (current_net_profit - previous_net_profit) * 100.0 / NULLIF(previous_net_profit, 0) DESC) AS profit_growth_rank\\n  FROM pivoted\\n)\\nSELECT\\n  dim_key AS i_class,\\n  current_net_profit,\\n  previous_net_profit,\\n  net_profit_growth_pct,\\n  profit_growth_rank\\nFROM scored\\nWHERE profit_growth_rank <= 18\\nORDER BY profit_growth_rank ASC;",
+  "status": "pending"
+}
