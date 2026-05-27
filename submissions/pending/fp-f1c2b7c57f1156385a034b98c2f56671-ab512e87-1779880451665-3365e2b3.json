@@ -1,0 +1,42 @@
+{
+  "submission_id": "ab512e87-50cf-4c9f-aa5c-7bca990c5732",
+  "created_at": "2026-05-27T11:14:11.646Z",
+  "difficulty": "Easy",
+  "db_type": "Snowflake",
+  "domain": "Healthcare",
+  "business_question": "What was the total revenue leakage by year over the last 3 years?",
+  "business_context": "The CFO wants to understand whether reimbursement leakage is improving or worsening year over year.",
+  "metrics": {
+    "kpis": [
+      "Total Revenue Leakage",
+      "Total Claim Amount",
+      "Leakage Rate"
+    ],
+    "aggregation_logic": {
+      "Total Revenue Leakage": "SUM(revenue_loss_amount) grouped by year",
+      "Total Claim Amount": "SUM(claim_amount) grouped by year",
+      "Leakage Rate": "revenue leakage divided by total claim amount"
+    }
+  },
+  "chain_of_thought": [
+    "Step 1: Group claims by year.",
+    "Step 2: Calculate total submitted amount.",
+    "Step 3: Calculate total revenue loss.",
+    "Step 4: Derive leakage percentage trend."
+  ],
+  "schema_tables": {
+    "fact_tables": [
+      "MART_REVENUE_LEAKAGE"
+    ],
+    "dimension_tables": [
+      "Date Dimension"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "Date → Quarter → Year",
+    "aggregations": "agg_yearly_revenue",
+    "snapshots": "snap_claims_yearly"
+  },
+  "sql_answer": "SELECT\n    YEAR(SUBMITTED_DATE) AS CLAIM_YEAR,\n    SUM(CLAIM_AMOUNT) AS TOTAL_CLAIMS,\n    SUM(REVENUE_LOSS_AMOUNT) AS TOTAL_LEAKAGE,\n    ROUND(SUM(REVENUE_LOSS_AMOUNT)/SUM(CLAIM_AMOUNT)*100,2) AS LEAKAGE_PCT\nFROM CONVERSA_DEMO.HEALTHCARE.MART_REVENUE_LEAKAGE\nGROUP BY 1\nORDER BY 1;",
+  "status": "pending"
+}
