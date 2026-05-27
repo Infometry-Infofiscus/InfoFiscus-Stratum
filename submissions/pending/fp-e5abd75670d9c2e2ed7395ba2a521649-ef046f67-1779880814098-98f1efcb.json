@@ -1,0 +1,39 @@
+{
+  "submission_id": "ef046f67-beff-493f-9d2e-250f054da476",
+  "created_at": "2026-05-27T11:20:14.095Z",
+  "difficulty": "Medium",
+  "db_type": "Snowflake",
+  "domain": "Healthcare",
+  "business_question": "Which payers are contributing the highest revenue leakage?",
+  "business_context": "Revenue cycle leadership wants to prioritize payer negotiations and denial prevention strategies.",
+  "metrics": {
+    "kpis": [
+      "Leakage by Payer",
+      "Denied Claims"
+    ],
+    "aggregation_logic": {
+      "Leakage by Payer": "SUM(revenue_loss_amount) grouped by payer",
+      "Denied Claims": "COUNT claims where is_denied = true"
+    }
+  },
+  "chain_of_thought": [
+    "Step 1: Aggregate leakage by payer.",
+    "Step 2: Compare denial-heavy payers.",
+    "Step 3: Rank highest financial exposure."
+  ],
+  "schema_tables": {
+    "fact_tables": [
+      "MART_REVENUE_LEAKAGE"
+    ],
+    "dimension_tables": [
+      "Payer Dimension"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "Payer → Payer Strictness",
+    "aggregations": "agg_payer_leakage",
+    "snapshots": "snap_payer_monthly"
+  },
+  "sql_answer": "SELECT\n    PAYER_NAME,\n    SUM(REVENUE_LOSS_AMOUNT) AS TOTAL_LEAKAGE,\n    COUNT_IF(IS_DENIED = TRUE) AS DENIED_CLAIMS\nFROM CONVERSA_DEMO.HEALTHCARE.MART_REVENUE_LEAKAGE\nGROUP BY 1\nORDER BY TOTAL_LEAKAGE DESC;",
+  "status": "pending"
+}
