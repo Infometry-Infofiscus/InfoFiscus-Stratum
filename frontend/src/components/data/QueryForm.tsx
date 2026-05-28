@@ -179,16 +179,39 @@ export default function QueryForm({ onSaved }: Props) {
     return Object.keys(e).length === 0;
   };
 
+  // ── Clear / Reset ─────────────────────────────────────
+  // Declared before handleSubmit so the stable ref is available at call-site.
+  // useCallback with no deps because all setters from useState are stable.
+  const clearForm = useCallback(() => {
+    setDifficulty("");
+    setDbType("");
+    setDbTypeOther("");
+    setDomain("");
+    setDomainOther("");
+    setInstruction("");
+    setContext("");
+    setAggrRows([{ metric: "", logic: "" }]);
+    setCot([""]);
+    setFacts([]);
+    setDims([]);
+    setHierarchies("");
+    setAggrs("");
+    setSnapshots("");
+    setSql("");
+    setErrors({});
+    // Flush stale DOM refs so focus-after-add logic stays clean
+    factInputRefs.current = [];
+    dimInputRefs.current  = [];
+  }, []);
+
   // ── Submit ────────────────────────────────────────────
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
+    // Re-entry guard — ignore rapid double-clicks while already submitting
+    if (loading) return;
     if (!validate()) { toast.error("Please fill all required fields."); return; }
     const payload = buildObj() as DatasetPayload;
     const serverValidate = validateDatasetPayload(payload);
-    if (serverValidate) {
-      toast.error(serverValidate);
-      return;
-    }
+    if (serverValidate) { toast.error(serverValidate); return; }
     setLoading(true);
     try {
       if (isGitHubSubmitConfigured()) {
@@ -202,27 +225,22 @@ export default function QueryForm({ onSaved }: Props) {
           : `Submitted to GitHub: ${result.path}`;
         toast.success(msg);
         onSaved();
-        clearForm();
+        clearForm(); // ← only runs on SUCCESS; catch block does NOT call this
       } else {
         await api.data.create(payload);
         toast.success(
           "Entry saved locally. Set NEXT_PUBLIC_GITHUB_OWNER / REPO and TOKEN or SUBMIT_PROXY to push to the repository.",
         );
         onSaved();
-        clearForm();
+        clearForm(); // ← only runs on SUCCESS
       }
     } catch (err: unknown) {
+      // Failure path — form is intentionally NOT cleared so the user
+      // can correct their input and retry without re-entering everything.
       toast.error(formatSubmitError(err));
-    } finally { setLoading(false); }
-  };
-
-  const clearForm = () => {
-    setDifficulty(""); setDbType(""); setDbTypeOther(""); setDomain(""); setDomainOther("");
-    setInstruction(""); setContext("");
-    setAggrRows([{metric:"",logic:""}]); setCot([""]);
-    // FIX 5 — clear back to empty arrays
-    setFacts([]); setDims([]);
-    setHierarchies(""); setAggrs(""); setSnapshots(""); setSql(""); setErrors({});
+    } finally {
+      setLoading(false);
+    }
   };
 
   // FIX 2 — copy JSON to clipboard
@@ -265,7 +283,9 @@ export default function QueryForm({ onSaved }: Props) {
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} noValidate>
+      {/* Footer is rendered outside <form>, so onSubmit is intentionally omitted.
+          Submission is driven by the explicit onClick on the Submit button below. */}
+      <form noValidate>
         <div className={`form-grid${jsonOpen ? " drawer-open" : ""}`}>
 
           {/* ════════ LEFT COLUMN ════════ */}
@@ -515,7 +535,14 @@ export default function QueryForm({ onSaved }: Props) {
           <button type="button" className="btn btn-ghost" onClick={clearForm}>
             <RotateIcon /> Clear
           </button>
-          <button type="submit" className="btn btn-primary" disabled={loading} onClick={handleSubmit}>
+          {/* type="button" — footer lives outside <form> so type="submit" has no effect.
+              onClick is the sole submission path; loading guard prevents double-triggers. */}
+          <button
+            type="button"
+            className="btn btn-primary"
+            disabled={loading}
+            onClick={handleSubmit}
+          >
             {loading ? <><span className="spinner" /> Saving…</> : <><SendIcon /> Submit Entry</>}
           </button>
         </div>
