@@ -70,7 +70,7 @@ export default function Navbar({ dataCount, theme, onToggleTheme }: Props) {
       </div>
 
       <div className="navbar-right">
-        <span style={{ fontSize: 11, color: "var(--text-muted)", fontVariantNumeric: "tabular-nums" }}>
+        <span style={{ fontSize: 11, color: "var(--text-primary)", fontVariantNumeric: "tabular-nums" }}>
           {dataCount} {dataCount === 1 ? "entry" : "entries"} saved
         </span>
 
