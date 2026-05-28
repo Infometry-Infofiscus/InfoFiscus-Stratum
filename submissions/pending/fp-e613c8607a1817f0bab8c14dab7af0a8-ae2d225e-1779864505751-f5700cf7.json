@@ -1,0 +1,40 @@
+{
+  "submission_id": "ae2d225e-bdbd-4d19-bdf1-d05c54d13583",
+  "created_at": "2026-05-27T06:48:25.745Z",
+  "difficulty": "Medium",
+  "db_type": "Snowflake",
+  "domain": "Retail",
+  "business_question": "What is the total monthly revenue by customer subscription plan?",
+  "business_context": "The Finance team wants to track monthly recurring revenue growth across different subscription plans to identify high-performing plans.",
+  "metrics": {
+    "kpis": [
+      "Monthly Revenue by Plan",
+      "Total Active Customers"
+    ],
+    "aggregation_logic": {
+      "Monthly Revenue by Plan": "SUM(revenue_usd) grouped by subscription_plan",
+      "Total Active Customers": "COUNT(DISTINCT customer_id)"
+    }
+  },
+  "chain_of_thought": [
+    "Step 1: Identify subscription revenue transactions.",
+    "Step 2: Group customers based on subscription plans.",
+    "Step 3: Aggregate total revenue monthly."
+  ],
+  "schema_tables": {
+    "fact_tables": [
+      "fact_subscriptions"
+    ],
+    "dimension_tables": [
+      "dim_plan",
+      "dim_customer"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "Date > Month > Quarter > Year",
+    "aggregations": "agg_monthly_revenue",
+    "snapshots": "snap_subscription_daily"
+  },
+  "sql_answer": "SELECT \n    p.subscription_plan,\n    d.month_name,\n    SUM(f.revenue_usd) AS total_revenue\nFROM fact_payments f\nJOIN dim_plan p\n    ON f.plan_id = p.plan_id\nJOIN dim_date d\n    ON f.date_id = d.date_id\nGROUP BY 1,2\nORDER BY 3 DESC;",
+  "status": "pending"
+}

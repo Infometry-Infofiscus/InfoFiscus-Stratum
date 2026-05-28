@@ -1,0 +1,35 @@
+{
+  "submission_id": "ca432eaa-f519-4730-80e3-de73f5701eea",
+  "created_at": "2026-05-28T05:10:41.581Z",
+  "difficulty": "Medium",
+  "db_type": "Snowflake",
+  "domain": "Healthcare",
+  "business_question": "What is the average denial resolution time by denial reason?",
+  "business_context": "Revenue cycle managers want to identify denial categories taking the longest to resolve and delaying reimbursement recovery.",
+  "metrics": {
+    "kpis": [
+      "Average Resolution Time"
+    ],
+    "aggregation_logic": {
+      "Average Resolution Time": "AVG(denial_resolution_days) grouped by denial reason"
+    }
+  },
+  "chain_of_thought": [
+    "Step 1: Filter denied claims."
+  ],
+  "schema_tables": {
+    "fact_tables": [
+      "MART_REVENUE_LEAKAGE"
+    ],
+    "dimension_tables": [
+      "DIM_DENIAL_REASON"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "Root Cause → Denial Reason",
+    "aggregations": "agg_denial_resolution_summary",
+    "snapshots": "snap_denial_resolution_monthly"
+  },
+  "sql_answer": "SELECT\n    DENIAL_REASON,\n    COUNT(*) AS DENIAL_COUNT,\n    AVG(DENIAL_RESOLUTION_DAYS) AS AVG_RESOLUTION_DAYS\nFROM CONVERSA_DEMO.HEALTHCARE.MART_REVENUE_LEAKAGE\nWHERE IS_DENIED = TRUE\nGROUP BY 1\nORDER BY AVG_RESOLUTION_DAYS DESC;\n",
+  "status": "pending"
+}

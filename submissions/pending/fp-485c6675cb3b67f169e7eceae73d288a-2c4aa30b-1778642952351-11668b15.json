@@ -1,0 +1,42 @@
+{
+  "submission_id": "2c4aa30b-805b-4622-b380-b93000d3adaf",
+  "created_at": "2026-05-13T03:29:12.341Z",
+  "difficulty": "Medium",
+  "db_type": "Snowflake",
+  "domain": "Retail",
+  "business_question": "Which brands have the highest total web net profit in 2002 quarter Q3 (top 16)?",
+  "business_context": "The finance and merchandising teams want to identify the brands driving profitability so they can prioritize vendor negotiations and inventory investment.",
+  "metrics": {
+    "kpis": [
+      "Total Net Profit by Brand",
+      "Ranked Top Brands"
+    ],
+    "aggregation_logic": {
+      "Total Net Profit by Brand": "Total Net Profit by Brand\": \"SUM(CAST(ws.ws_net_profit AS DECIMAL)) grouped by i_brand, filtered to year and quarter",
+      "Ranked Top Brands": "Ranked Top Brands\": \"RANK() over ORDER BY total_profit DESC and keep ranks within TOP N"
+    }
+  },
+  "chain_of_thought": [
+    "Step 1: Join the selected channel sales fact to `item` to access brand attributes.",
+    "Step 2: Join to `date_dim` and filter to the target year and quarter.",
+    "Step 3: Cast `net_profit` to DECIMAL and compute total profit via SUM grouped by brand.",
+    "Step 4: Rank brands by total profit using a window RANK().",
+    "Step 5: Return only the top N ranked brands."
+  ],
+  "schema_tables": {
+    "fact_tables": [
+      "web_sales"
+    ],
+    "dimension_tables": [
+      "item",
+      "date_dim"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "Date > Quarter > Year, Product > Brand",
+    "aggregations": "",
+    "snapshots": ""
+  },
+  "sql_answer": "WITH brand_profit AS (\\n  SELECT\\n    i.i_brand AS brand,\\n    SUM(CAST(ws.ws_net_profit AS DECIMAL(15,2)) ) AS total_net_profit\\n  FROM web_sales ws\\n  JOIN date_dim d ON ws.ws_sold_date_sk = d.d_date_sk\\n  JOIN item i ON ws.ws_item_sk = i.i_item_sk\\n  WHERE d.d_year = 2002 AND d.d_quarter_seq = 3\\n  GROUP BY i.i_brand\\n),\\nranked AS (\\n  SELECT\\n    brand,\\n    total_net_profit,\\n    RANK() OVER (ORDER BY total_net_profit DESC) AS profit_rank\\n  FROM brand_profit\\n)\\nSELECT brand, total_net_profit, profit_rank\\nFROM ranked\\nWHERE profit_rank <= 16\\nORDER BY profit_rank ASC;",
+  "status": "pending"
+}

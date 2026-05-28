@@ -2,7 +2,7 @@
 
 > A collaborative platform for building high-quality Text-to-SQL fine-tuning datasets — structured, exportable, and ready for model training.
 
-🔗 **Live App:** [https://infometry-infofiscus.github.io/text2sql_data_collection_platform/](https://infometry-infofiscus.github.io/text2sql_data_collection_platform/)
+🔗 **Live App:** [https://infometry-infofiscus.github.io/text2sql_data_collection_platform/](https://infometry-infofiscus.github.io/UI/)
 
 ---
 
