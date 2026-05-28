@@ -36,17 +36,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           position="bottom-right"
           toastOptions={{
             style: {
-              background: "#18181B",
-              color: "#FAFAFA",
+              background: "#131D2E",
+              color: "#F0F4FC",
               fontSize: "12px",
               fontWeight: 500,
               borderRadius: "8px",
               padding: "10px 16px",
-              border: "1px solid #3F3F46",
+              border: "1px solid #2D3B55",
               fontFamily: "'Inter', sans-serif",
             },
-            success: { iconTheme: { primary: "#22C55E", secondary: "#fff" } },
-            error:   { iconTheme: { primary: "#EF4444", secondary: "#fff" } },
+            success: { iconTheme: { primary: "#22C55E", secondary: "#F0F4FC" } },
+            error:   { iconTheme: { primary: "#EF4444", secondary: "#F0F4FC" } },
             duration: 3500,
           }}
         />
