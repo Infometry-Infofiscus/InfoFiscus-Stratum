@@ -29,7 +29,7 @@ export class GitHubApiError extends Error {
 }
 
 const USER_AGENT =
-  "text2sql-data-collection/1.0 (+https://github.com/Infometry-Infofiscus/UI; GitHub submit form)";
+  "text2sql-data-collection/1.0 (+https://github.com/Infometry-Infofiscus/InfoFiscus-Stratum; GitHub submit form)";
 
 function authHeaders(cfg: GitHubSubmitConfig, token: string): HeadersInit {
   return {

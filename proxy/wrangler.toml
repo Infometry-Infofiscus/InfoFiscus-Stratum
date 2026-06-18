@@ -3,7 +3,7 @@ main = "cloudflare-worker.js"
 compatibility_date = "2024-01-01"
 
 [vars]
-# Origin has no path — project Pages uses /UI/ in URL but Origin stays github.io only
+# Origin has no path — project Pages uses /InfoFiscus-Stratum/ in URL but Origin stays github.io only
 ALLOWED_ORIGINS = "https://infometry-infofiscus.github.io,http://localhost:3000"
 
 # Set secret: wrangler secret put GITHUB_TOKEN

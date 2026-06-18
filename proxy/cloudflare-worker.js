@@ -48,7 +48,7 @@ async function githubFetch(token, url, init = {}) {
     Accept: "application/vnd.github+json",
     "X-GitHub-Api-Version": API_VER,
     // GitHub REST API rejects requests without a proper User-Agent (403).
-    "User-Agent": "text2sql-github-submit-proxy/1.0 (+https://github.com/Infometry-Infofiscus/UI)",
+    "User-Agent": "text2sql-github-submit-proxy/1.0 (+https://github.com/Infometry-Infofiscus/InfoFiscus-Stratum)",
     ...(init.headers || {}),
   };
   return fetch(url, { ...init, headers });
