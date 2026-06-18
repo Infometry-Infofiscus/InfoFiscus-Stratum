@@ -1,0 +1,28 @@
+{
+  "domain": "Retail",
+  "difficulty": "Easy",
+  "db_type": "Snowflake",
+  "instruction": "What is the total web revenue by product category in Q1 of 2000?",
+  "context": "The digital commerce team needs quarterly product category-level web revenue breakdown to plan seasonal content and promotional campaigns.",
+  "required_metrics_kpis": [
+    "Quarterly Web Revenue by Item Attribute"
+  ],
+  "aggregation_logic": {
+    "Quarterly Web Revenue by Item Attribute": "SUM(CAST(ws_net_paid AS DECIMAL)) grouped by product category, filtered to year=2000 quarter=1"
+  },
+  "chain_of_thought": [
+    "Use web_sales as the fact table for online channel revenue.",
+    "Join to item to access the product category product hierarchy.",
+    "Join to date_dim and filter WHERE d_year = 2000 AND d_qoy = 1.",
+    "Aggregate web revenue with SUM after casting to DECIMAL.",
+    "Group by product category and order by total revenue descending."
+  ],
+  "data_model": {
+    "facts": "web_sales",
+    "dims": "item, date_dim",
+    "hierarchies": "Date > Quarter > Year, Product > Product Category",
+    "aggrs": "",
+    "snapshots": ""
+  },
+  "sql": "SELECT\n  i.i_category AS i_category,\n  SUM(CAST(ws.ws_net_paid AS DECIMAL(15,2))) AS total_web_revenue\nFROM web_sales ws\nJOIN date_dim d ON ws.ws_sold_date_sk = d.d_date_sk\nJOIN item i ON ws.ws_item_sk = i.i_item_sk\nWHERE d.d_year = 2000 AND d.d_qoy = 1\nGROUP BY i_category\nORDER BY total_web_revenue DESC;"
+}
