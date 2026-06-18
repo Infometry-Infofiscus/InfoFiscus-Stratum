@@ -1,0 +1,28 @@
+{
+  "domain": "Retail",
+  "difficulty": "Easy",
+  "db_type": "Snowflake",
+  "instruction": "What is the total inventory on hand per warehouse as of Q2 of 2002?",
+  "context": "Supply chain planners need a snapshot of total inventory on hand per warehouse for Q2 of 2002 to identify stocking imbalances.",
+  "required_metrics_kpis": [
+    "Total Inventory On Hand by Warehouse"
+  ],
+  "aggregation_logic": {
+    "Total Inventory On Hand by Warehouse": "SUM(inv_quantity_on_hand) grouped by warehouse for year Q2 of 2002"
+  },
+  "chain_of_thought": [
+    "Use inventory as the fact table which holds periodic on-hand snapshots.",
+    "Join to date_dim and filter WHERE d_year and d_qoy = Q2 of 2002 to scope to that period.",
+    "Join to warehouse dimension for human-readable warehouse name and state.",
+    "Aggregate inv_quantity_on_hand with SUM per warehouse.",
+    "Order by total on hand descending to identify the most stocked facilities."
+  ],
+  "data_model": {
+    "facts": "inventory",
+    "dims": "warehouse, date_dim",
+    "hierarchies": "Date > Quarter > Year, Warehouse",
+    "aggrs": "",
+    "snapshots": "Inventory on-hand"
+  },
+  "sql": "SELECT\n  w.w_warehouse_name AS warehouse_name,\n  w.w_state AS warehouse_state,\n  SUM(inv.inv_quantity_on_hand) AS total_on_hand\nFROM inventory inv\nJOIN date_dim d ON inv.inv_date_sk = d.d_date_sk\nJOIN warehouse w ON inv.inv_warehouse_sk = w.w_warehouse_sk\nWHERE d.d_year = 2002 AND d.d_qoy = 2\nGROUP BY w.w_warehouse_name, w.w_state\nORDER BY total_on_hand DESC;"
+}

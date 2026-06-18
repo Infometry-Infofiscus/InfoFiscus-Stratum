@@ -1,0 +1,27 @@
+{
+  "domain": "Retail",
+  "difficulty": "Easy",
+  "db_type": "Snowflake",
+  "instruction": "How many distinct customers made purchases through the Web channel in each quarter of 2003?",
+  "context": "The web channel team needs quarterly active customer counts to evaluate campaign reach and seasonal engagement.",
+  "required_metrics_kpis": [
+    "Distinct Web Customers per Quarter"
+  ],
+  "aggregation_logic": {
+    "Distinct Web Customers per Quarter": "COUNT(DISTINCT customer_sk) grouped by d_qoy for year 2003"
+  },
+  "chain_of_thought": [
+    "Use web_sales to access web channel customer transactions.",
+    "Join to date_dim and filter to d_year = 2003.",
+    "Group by d_qoy (quarter of year) and apply COUNT DISTINCT on customer key.",
+    "Order by quarter to show seasonal customer engagement trend."
+  ],
+  "data_model": {
+    "facts": "web_sales",
+    "dims": "date_dim",
+    "hierarchies": "Date > Quarter > Year",
+    "aggrs": "",
+    "snapshots": ""
+  },
+  "sql": "SELECT\n  d.d_qoy AS quarter,\n  COUNT(DISTINCT ws.ws_bill_customer_sk) AS distinct_customers\nFROM web_sales ws\nJOIN date_dim d ON ws.ws_sold_date_sk = d.d_date_sk\nWHERE d.d_year = 2003\nGROUP BY d.d_qoy\nORDER BY d.d_qoy;"
+}

@@ -1,0 +1,29 @@
+{
+  "domain": "Retail",
+  "difficulty": "Easy",
+  "db_type": "Snowflake",
+  "instruction": "Which are the top 5 product categorys by total catalog sales revenue in Q3 of 2001?",
+  "context": "The catalog merchandising team wants to identify which product category drive the most catalog revenue to prioritize print placements and catalog page allocation.",
+  "required_metrics_kpis": [
+    "Total Catalog Revenue"
+  ],
+  "aggregation_logic": {
+    "Total Catalog Revenue": "SUM(CAST(cs_net_paid AS DECIMAL)) grouped by product category for year Q3 of 2001"
+  },
+  "chain_of_thought": [
+    "Identify catalog_sales as the fact table for catalog channel transactions.",
+    "Join to item dimension to access the product category attribute.",
+    "Join to date_dim and filter to d_year and d_qoy = Q3 of 2001.",
+    "Cast cs_net_paid from VARCHAR to DECIMAL(15,2) for numeric aggregation.",
+    "Aggregate with SUM grouped by product category and order descending by revenue.",
+    "Return the top 5 rows using LIMIT."
+  ],
+  "data_model": {
+    "facts": "catalog_sales",
+    "dims": "item, date_dim",
+    "hierarchies": "Date > Quarter > Year, Product > Product Category",
+    "aggrs": "",
+    "snapshots": ""
+  },
+  "sql": "SELECT\n  i.i_category AS i_category,\n  SUM(CAST(cs.cs_net_paid AS DECIMAL(15,2))) AS total_catalog_revenue\nFROM catalog_sales cs\nJOIN date_dim d ON cs.cs_sold_date_sk = d.d_date_sk\nJOIN item i ON cs.cs_item_sk = i.i_item_sk\nWHERE d.d_year = 2001 AND d.d_qoy = 3\nGROUP BY i_category\nORDER BY total_catalog_revenue DESC\nLIMIT 5;"
+}
