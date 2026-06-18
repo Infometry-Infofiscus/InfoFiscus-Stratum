@@ -1,0 +1,28 @@
+{
+  "domain": "Retail",
+  "difficulty": "Easy",
+  "db_type": "Snowflake",
+  "instruction": "What is the total number of units sold per product category through store channel in Q4 of 2001?",
+  "context": "The supply chain planning team needs unit volume data by product category to forecast replenishment and negotiate vendor quantities.",
+  "required_metrics_kpis": [
+    "Total Store Units Sold"
+  ],
+  "aggregation_logic": {
+    "Total Store Units Sold": "SUM(ss_quantity) grouped by product category for year Q4 of 2001"
+  },
+  "chain_of_thought": [
+    "Access store_sales for physical store transaction volume data.",
+    "Join to item dimension to obtain the product category attribute per transaction line.",
+    "Filter to calendar year Q4 of 2001 via date_dim join on ss_sold_date_sk.",
+    "Aggregate ss_quantity with SUM grouped by product category.",
+    "Sort by units sold descending to identify highest-volume segments."
+  ],
+  "data_model": {
+    "facts": "store_sales",
+    "dims": "item, date_dim",
+    "hierarchies": "Product > Product Category",
+    "aggrs": "",
+    "snapshots": ""
+  },
+  "sql": "SELECT\n  i.i_category AS i_category,\n  SUM(ss.ss_quantity) AS total_units_sold\nFROM store_sales ss\nJOIN date_dim d ON ss.ss_sold_date_sk = d.d_date_sk\nJOIN item i ON ss.ss_item_sk = i.i_item_sk\nWHERE d.d_year = 2001 AND d.d_qoy = 4\nGROUP BY i_category\nORDER BY total_units_sold DESC;"
+}
