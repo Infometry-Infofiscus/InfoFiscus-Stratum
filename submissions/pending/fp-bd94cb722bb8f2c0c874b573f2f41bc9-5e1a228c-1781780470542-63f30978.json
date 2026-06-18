@@ -1,0 +1,39 @@
+{
+  "submission_id": "5e1a228c-3df9-4abf-8a28-1cfc5e70dfbf",
+  "created_at": "2026-06-18T11:01:10.540Z",
+  "difficulty": "Medium",
+  "db_type": "Snowflake",
+  "domain": "Healthcare",
+  "business_question": "What are the top denial reasons impacting reimbursement?",
+  "business_context": "The denial management team needs to identify the biggest operational and financial drivers behind claim denials so they can prioritize remediation efforts and reduce preventable revenue leakage.",
+  "metrics": {
+    "kpis": [
+      "Denial Impact",
+      "Leakage Percentage"
+    ],
+    "aggregation_logic": {
+      "Denial Impact": "SUM(revenue_loss_amount) grouped by denial reason",
+      "Leakage Percentage": "revenue leakage divided by total claim amount"
+    }
+  },
+  "chain_of_thought": [
+    "Step 1: Calculate total leakage amount for each denial category."
+  ],
+  "schema_tables": {
+    "fact_tables": [
+      "MART_REVENUE_LEAKAGE"
+    ],
+    "dimension_tables": [
+      "DIM_DENIAL_REASON",
+      "DIM_PAYER",
+      "DIM_DATE"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "",
+    "aggregations": "",
+    "snapshots": ""
+  },
+  "sql_answer": "SELECT\n    DENIAL_REASON,\n    COUNT(*) AS DENIAL_COUNT,\n    SUM(REVENUE_LOSS_AMOUNT) AS DENIAL_IMPACT,\n    ROUND(SUM(REVENUE_LOSS_AMOUNT)/SUM(CLAIM_AMOUNT)*100,2) AS LEAKAGE_PCT\nFROM CONVERSA_DEMO.HEALTHCARE.MART_REVENUE_LEAKAGE\nWHERE IS_DENIED = TRUE\nGROUP BY 1\nORDER BY DENIAL_IMPACT DESC;",
+  "status": "pending"
+}
