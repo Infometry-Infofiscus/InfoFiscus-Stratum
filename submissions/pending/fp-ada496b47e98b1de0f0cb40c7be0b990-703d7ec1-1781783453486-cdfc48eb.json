@@ -1,0 +1,40 @@
+{
+  "submission_id": "703d7ec1-4f37-4973-871c-adc8f133fa77",
+  "created_at": "2026-06-18T11:50:53.483Z",
+  "difficulty": "Medium",
+  "db_type": "Snowflake",
+  "domain": "Healthcare",
+  "business_question": "What are the top 10 procedures with the highest underpayment amounts?",
+  "business_context": "Contract management teams need to identify procedures where payer reimbursements are significantly below expected amounts.",
+  "metrics": {
+    "kpis": [
+      "Expected Reimbursement",
+      "Approved Amount",
+      "Underpayment Amount"
+    ],
+    "aggregation_logic": {
+      "Expected Reimbursement": "SUM(expected_amount)",
+      "Approved Amount": "SUM(approved_amount)",
+      "Underpayment Amount": "Expected Reimbursement - Approved Amount"
+    }
+  },
+  "chain_of_thought": [],
+  "schema_tables": {
+    "fact_tables": [
+      "fact_claims"
+    ],
+    "dimension_tables": [
+      "dim_procedure",
+      "dim_payer",
+      "dim_date",
+      "dim_facility"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "",
+    "aggregations": "",
+    "snapshots": ""
+  },
+  "sql_answer": "SELECT\n    procedure_name,\n    SUM(expected_amount) AS expected_reimbursement,\n    SUM(approved_amount) AS approved_reimbursement,\n    SUM(expected_amount - approved_amount)\n        AS underpayment_amount\nFROM fact_claims\nGROUP BY procedure_name\nORDER BY underpayment_amount DESC\nLIMIT 10;",
+  "status": "pending"
+}
