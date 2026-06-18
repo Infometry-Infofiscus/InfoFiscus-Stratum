@@ -1,0 +1,39 @@
+{
+  "submission_id": "aeb81a29-e0f4-4222-b3d8-4f1ee3c41f48",
+  "created_at": "2026-06-18T11:04:45.314Z",
+  "difficulty": "Medium",
+  "db_type": "Snowflake",
+  "domain": "Healthcare",
+  "business_question": "Which patient age groups generate the highest claim denial rates over the last 2 years?",
+  "business_context": "Revenue cycle leaders want to understand whether certain patient populations are more prone to claim denials.",
+  "metrics": {
+    "kpis": [
+      "Total Claims",
+      "Denied Claims",
+      "Denial Rate"
+    ],
+    "aggregation_logic": {
+      "Total Claims": "COUNT(claim_id)",
+      "Denied Claims": "COUNT(CASE WHEN is_denied=TRUE THEN claim_id END)",
+      "Denial Rate": "Denied Claims / Total Claims"
+    }
+  },
+  "chain_of_thought": [],
+  "schema_tables": {
+    "fact_tables": [
+      "fact_claims"
+    ],
+    "dimension_tables": [
+      "dim_patient",
+      "dim_age_group",
+      "dim_date"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "",
+    "aggregations": "",
+    "snapshots": ""
+  },
+  "sql_answer": "SELECT\n    p.age_group,\n    COUNT(c.claim_id) AS total_claims,\n    SUM(CASE WHEN c.is_denied = TRUE THEN 1 ELSE 0 END) AS denied_claims,\n    ROUND(\n        SUM(CASE WHEN c.is_denied = TRUE THEN 1 ELSE 0 END) * 100.0\n        / COUNT(c.claim_id), 2\n    ) AS denial_rate_pct\nFROM fact_claims c\nJOIN dim_patient p\n    ON c.patient_id = p.patient_id\nWHERE c.submitted_date >= DATEADD(YEAR, -2, CURRENT_DATE)\nGROUP BY p.age_group\nORDER BY denial_rate_pct DESC;",
+  "status": "pending"
+}
