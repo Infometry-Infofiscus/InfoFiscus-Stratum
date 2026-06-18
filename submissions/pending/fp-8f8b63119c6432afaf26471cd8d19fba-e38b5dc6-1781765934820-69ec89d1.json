@@ -1,0 +1,36 @@
+{
+  "submission_id": "e38b5dc6-fbbc-47c7-8b4a-4c2083c489e9",
+  "created_at": "2026-06-18T06:58:54.808Z",
+  "difficulty": "Easy",
+  "db_type": "BigQuery",
+  "domain": "Retail",
+  "business_question": "How many orders were placed in each store last month?",
+  "business_context": "Store managers want to compare store performance based on the number of customer orders received during the previous month.",
+  "metrics": {
+    "kpis": [
+      "Total Orders"
+    ],
+    "aggregation_logic": {
+      "Total Orders": "COUNT(order_id)"
+    }
+  },
+  "chain_of_thought": [
+    "Step 1: Filter orders from last month.",
+    "Step 2: Group records by store."
+  ],
+  "schema_tables": {
+    "fact_tables": [
+      "fact_orders"
+    ],
+    "dimension_tables": [
+      "dim_store"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "Store > City > State",
+    "aggregations": "agg_store_orders",
+    "snapshots": "snap_orders_daily"
+  },
+  "sql_answer": "SELECT\n    s.store_name,\n    COUNT(o.order_id) AS total_orders\nFROM `retail_dw.fact_orders` o\nJOIN `retail_dw.dim_store` s\n    ON o.store_id = s.store_id\nWHERE DATE_TRUNC(o.order_date, MONTH) =\n      DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH), MONTH)\nGROUP BY s.store_name\nORDER BY total_orders DESC;",
+  "status": "pending"
+}
