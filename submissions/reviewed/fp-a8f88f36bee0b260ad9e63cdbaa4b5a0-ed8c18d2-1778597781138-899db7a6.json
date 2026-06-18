@@ -1,0 +1,36 @@
+{
+  "submission_id": "ed8c18d2-04e2-44a4-aef8-2260ec32270b",
+  "created_at": "2026-05-12T14:56:21.135Z",
+  "difficulty": "Easy",
+  "db_type": "Snowflake",
+  "domain": "Retail",
+  "business_question": "Which are the top 5 product class by total store revenue in 2000?",
+  "business_context": "The merchandising team wants to prioritize assortment and shelf space based on where physical stores generate the most revenue.",
+  "metrics": {
+    "kpis": [
+      "Total Store Revenue by Dimension"
+    ],
+    "aggregation_logic": {
+      "Total Store Revenue by Dimension": "Total Store Revenue by Dimension\": \"SUM(CAST(ss_net_paid AS DECIMAL)) grouped by Product Class"
+    }
+  },
+  "chain_of_thought": [
+    "Step 1: Cast `ss_net_paid` from VARCHAR to DECIMAL to ensure numeric aggregation."
+  ],
+  "schema_tables": {
+    "fact_tables": [
+      "store_sales"
+    ],
+    "dimension_tables": [
+      "item",
+      "date_dim"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "Date > Year, Product > Product Class",
+    "aggregations": "",
+    "snapshots": ""
+  },
+  "sql_answer": "SELECT\\n  i.i_class AS i_class,\\n  SUM(CAST(ss.ss_net_paid AS DECIMAL(15,2))) AS total_store_revenue\\nFROM store_sales ss\\nJOIN date_dim d ON ss.ss_sold_date_sk = d.d_date_sk\\nJOIN item i ON ss.ss_item_sk = i.i_item_sk\\nWHERE d.d_year = 2000\\nGROUP BY i_class\\nORDER BY total_store_revenue DESC\\nLIMIT 5;",
+  "status": "pending"
+}
