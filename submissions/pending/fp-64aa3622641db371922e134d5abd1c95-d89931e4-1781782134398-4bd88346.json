@@ -1,0 +1,40 @@
+{
+  "submission_id": "d89931e4-c46f-436f-8ebb-a311bc389b92",
+  "created_at": "2026-06-18T11:28:54.394Z",
+  "difficulty": "Medium",
+  "db_type": "Snowflake",
+  "domain": "Healthcare",
+  "business_question": "How does reimbursement performance vary across inpatient, outpatient, and emergency services?",
+  "business_context": "Finance teams need visibility into service-line profitability.",
+  "metrics": {
+    "kpis": [
+      "Claim Amount",
+      "Approved Amount",
+      "Reimbursement Rate"
+    ],
+    "aggregation_logic": {
+      "Claim Amount": "SUM(claim_amount)",
+      "Approved Amount": "SUM(approved_amount)",
+      "Reimbursement Rate": "Approved Amount / Claim Amount"
+    }
+  },
+  "chain_of_thought": [],
+  "schema_tables": {
+    "fact_tables": [
+      "fact_claims"
+    ],
+    "dimension_tables": [
+      "dim_service_type",
+      "dim_date",
+      "dim_facility",
+      "dim_payer"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "",
+    "aggregations": "",
+    "snapshots": ""
+  },
+  "sql_answer": "SELECT\n    service_type,\n    SUM(claim_amount) AS total_claim_amount,\n    SUM(approved_amount) AS approved_amount,\n    ROUND(\n        SUM(approved_amount) * 100.0 /\n        SUM(claim_amount), 2\n    ) AS reimbursement_rate_pct\nFROM fact_claims\nGROUP BY service_type\nORDER BY reimbursement_rate_pct DESC;",
+  "status": "pending"
+}
