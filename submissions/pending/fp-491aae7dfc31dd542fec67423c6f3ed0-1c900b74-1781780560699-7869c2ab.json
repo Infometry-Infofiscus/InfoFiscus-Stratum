@@ -1,0 +1,35 @@
+{
+  "submission_id": "1c900b74-3a95-45a9-81a3-33b9542630dd",
+  "created_at": "2026-06-18T11:02:40.696Z",
+  "difficulty": "Hard",
+  "db_type": "Snowflake",
+  "domain": "Healthcare",
+  "business_question": "How did denial trends change after Q3 2024?",
+  "business_context": "Revenue cycle leadership suspects stricter payer policies introduced in late 2024 caused a spike in denials and wants to measure the operational and financial impact over time.",
+  "metrics": {
+    "kpis": [
+      "Quarterly Leakage"
+    ],
+    "aggregation_logic": {
+      "Quarterly Leakage": "SUM(revenue_loss_amount) grouped by quarter"
+    }
+  },
+  "chain_of_thought": [],
+  "schema_tables": {
+    "fact_tables": [
+      "MART_REVENUE_LEAKAGE"
+    ],
+    "dimension_tables": [
+      "DIM_DATE",
+      "DIM_PAYER",
+      "DIM_DEPARTMENT"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "",
+    "aggregations": "",
+    "snapshots": ""
+  },
+  "sql_answer": "SELECT\n    DATE_TRUNC('QUARTER', SUBMITTED_DATE) AS CLAIM_QUARTER,\n    COUNT_IF(IS_DENIED = TRUE) AS DENIED_CLAIMS,\n    COUNT(*) AS TOTAL_CLAIMS,\n    SUM(REVENUE_LOSS_AMOUNT) AS LEAKAGE,\n    ROUND(COUNT_IF(IS_DENIED = TRUE)/COUNT(*)*100,2) AS DENIAL_RATE_PCT\nFROM CONVERSA_DEMO.HEALTHCARE.MART_REVENUE_LEAKAGE\nGROUP BY 1\nORDER BY 1;",
+  "status": "pending"
+}
