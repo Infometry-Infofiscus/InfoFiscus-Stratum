@@ -5,7 +5,7 @@ import { Toaster } from "react-hot-toast";
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 export const metadata: Metadata = {
-  title: "InfoFiscus Semantic Repository — Training Data Collection Platform",
+  title: "InfoFiscus Stratum — Training Data Collection Platform",
   description: "Infometry's tool to collect structured NL→SQL training data for fine-tuning AI models.",
   icons: { icon: `${basePath}/favicon.svg`, shortcut: `${basePath}/favicon.svg` },
 };

@@ -60,7 +60,7 @@ export default function Navbar({ dataCount, theme, onToggleTheme }: Props) {
           style={{ objectFit: "contain", objectPosition: "left center" }}
           priority
         />
-        <span className="navbar-brand-text">InfoFiscus Semantic Repository</span>
+        <span className="navbar-brand-text">InfoFiscus Stratum</span>
       </div>
 
       {/* FIX 1 — centered page title in navbar */}
