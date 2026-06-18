@@ -1,0 +1,37 @@
+{
+  "submission_id": "b9c1f9fa-e132-4349-8a5b-f3e7fd540eb1",
+  "created_at": "2026-06-18T11:06:29.561Z",
+  "difficulty": "Hard",
+  "db_type": "Snowflake",
+  "domain": "Healthcare",
+  "business_question": "Which procedures are generating the largest financial leakage?",
+  "business_context": "Clinical finance and reimbursement teams want to identify high-cost procedures that are creating the greatest reimbursement exposure and denial risk.",
+  "metrics": {
+    "kpis": [
+      "Procedure Leakage"
+    ],
+    "aggregation_logic": {
+      "Procedure Leakage": "SUM(revenue_loss_amount) grouped by procedure"
+    }
+  },
+  "chain_of_thought": [
+    "Step 1: Identify financially risky procedures needing intervention."
+  ],
+  "schema_tables": {
+    "fact_tables": [
+      "MART_REVENUE_LEAKAGE"
+    ],
+    "dimension_tables": [
+      "DIM_PROCEDURE",
+      "DIM_DEPARTMENT",
+      "DIM_DATE"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "",
+    "aggregations": "",
+    "snapshots": ""
+  },
+  "sql_answer": "SELECT\n    PROCEDURE_NAME,\n    COUNT(*) AS TOTAL_CLAIMS,\n    SUM(REVENUE_LOSS_AMOUNT) AS TOTAL_LEAKAGE,\n    ROUND(SUM(REVENUE_LOSS_AMOUNT)/COUNT(*),2) AS AVG_LEAKAGE_PER_CLAIM\nFROM CONVERSA_DEMO.HEALTHCARE.MART_REVENUE_LEAKAGE\nGROUP BY 1\nORDER BY TOTAL_LEAKAGE DESC;",
+  "status": "pending"
+}
