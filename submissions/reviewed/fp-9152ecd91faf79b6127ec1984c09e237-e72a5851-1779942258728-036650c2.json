@@ -1,0 +1,40 @@
+{
+  "submission_id": "e72a5851-dbb3-4828-bada-45fbb3e25778",
+  "created_at": "2026-05-28T04:24:18.725Z",
+  "difficulty": "Hard",
+  "db_type": "Snowflake",
+  "domain": "Finance",
+  "business_question": "What is the average employee tenure by department and what is the monthly attrition rate?",
+  "business_context": "The CHRO needs to understand workforce stability across departments to prioritize retention programs for Q3 planning.",
+  "metrics": {
+    "kpis": [
+      "Avg Tenure (months) & Monthly Attrition Rate"
+    ],
+    "aggregation_logic": {
+      "Avg Tenure (months) & Monthly Attrition Rate": "AVG(tenure_months) and COUNT(exits)/COUNT(total_employees) grouped by department"
+    }
+  },
+  "chain_of_thought": [
+    "Step 1: Calculate tenure for each active employee.",
+    "Step 2: Count exits in the current month per department.",
+    "Step 3: Divide exits by headcount to get attrition rate.",
+    "Step 4: Join both metrics by department."
+  ],
+  "schema_tables": {
+    "fact_tables": [
+      "fact_employee_events"
+    ],
+    "dimension_tables": [
+      "dim_employees",
+      "dim_departments",
+      "dim_date"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "Company > Division > Department > Team",
+    "aggregations": "agg_monthly_headcount",
+    "snapshots": "snap_headcount_monthly"
+  },
+  "sql_answer": "SELECT d.department_name, AVG(e.tenure_months) AS avg_tenure, COUNT(CASE WHEN ee.event_type = 'exit' AND DATE_TRUNC('month', ee.event_date) = DATE_TRUNC('month', CURRENT_DATE) THEN 1 END) * 1.0 / COUNT(DISTINCT e.employee_id) AS attrition_rate FROM fact_employee_events ee JOIN dim_employees e ON ee.employee_id = e.employee_id JOIN dim_departments d ON e.department_id = d.department_id GROUP BY d.department_name ORDER BY attrition_rate DESC;",
+  "status": "pending"
+}

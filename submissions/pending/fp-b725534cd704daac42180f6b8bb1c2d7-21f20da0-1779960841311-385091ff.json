@@ -1,0 +1,35 @@
+{
+  "submission_id": "21f20da0-02ba-4154-ba10-da14356b5e1b",
+  "created_at": "2026-05-28T09:34:01.297Z",
+  "difficulty": "Easy",
+  "db_type": "Snowflake",
+  "domain": "Finance",
+  "business_question": "What is the total monthly revenue by region?",
+  "business_context": "Finance team wants monthly revenue insights for reporting.",
+  "metrics": {
+    "kpis": [
+      "Total Revenue"
+    ],
+    "aggregation_logic": {
+      "Total Revenue": "SUM(revenue_amount)"
+    }
+  },
+  "chain_of_thought": [
+    "Step 1: Identify the required KPI and business goal."
+  ],
+  "schema_tables": {
+    "fact_tables": [
+      "fact_sales"
+    ],
+    "dimension_tables": [
+      "dim_customer"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "Date > Month > Year",
+    "aggregations": "agg_monthly_sales",
+    "snapshots": "snap_orders_daily"
+  },
+  "sql_answer": "SELECT region,\n       SUM(revenue_amount) AS total_revenue\nFROM fact_sales\nGROUP BY region\nORDER BY total_revenue DESC",
+  "status": "pending"
+}
