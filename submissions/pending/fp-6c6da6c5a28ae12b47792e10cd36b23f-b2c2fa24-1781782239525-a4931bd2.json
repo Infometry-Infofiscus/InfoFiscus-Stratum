@@ -1,0 +1,37 @@
+{
+  "submission_id": "b2c2fa24-3db5-4277-a474-7776e071fd5a",
+  "created_at": "2026-06-18T11:30:39.522Z",
+  "difficulty": "Medium",
+  "db_type": "Snowflake",
+  "domain": "Healthcare",
+  "business_question": "Which facilities have shown the largest improvement in reimbursement rates year over year?",
+  "business_context": "Executives want to identify facilities with improving reimbursement performance and replicate successful operational practices.",
+  "metrics": {
+    "kpis": [
+      "Reimbursement Rate",
+      "YoY Growth"
+    ],
+    "aggregation_logic": {
+      "Reimbursement Rate": "SUM(approved_amount)/SUM(claim_amount)",
+      "YoY Growth": "Current Year Rate - Previous Year Rate"
+    }
+  },
+  "chain_of_thought": [],
+  "schema_tables": {
+    "fact_tables": [
+      "fact_claims"
+    ],
+    "dimension_tables": [
+      "dim_facility",
+      "dim_date",
+      "dim_payer"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "",
+    "aggregations": "",
+    "snapshots": ""
+  },
+  "sql_answer": "WITH yearly_rates AS (\n    SELECT\n        facility_id,\n        YEAR(submitted_date) AS claim_year,\n        SUM(approved_amount) /\n        NULLIF(SUM(claim_amount),0) AS reimbursement_rate\n    FROM fact_claims\n    GROUP BY facility_id,\n             YEAR(submitted_date)\n)\n\nSELECT\n    facility_id,\n    claim_year,\n    ROUND(reimbursement_rate * 100,2) AS reimbursement_rate_pct,\n    ROUND(\n        (\n            reimbursement_rate -\n            LAG(reimbursement_rate)\n            OVER(\n                PARTITION BY facility_id\n                ORDER BY claim_year\n            )\n        ) * 100,\n        2\n    ) AS yoy_growth_pct\nFROM yearly_rates\nQUALIFY yoy_growth_pct IS NOT NULL\nORDER BY yoy_growth_pct DESC;",
+  "status": "pending"
+}
