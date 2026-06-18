@@ -1,14 +1,18 @@
 {
-  "domain": "Retail",
+  "submission_id": "1c2a2a710000-4000-8000-7f5d41d5bcd5",
+  "created_at": "2026-06-18T06:47:25.729Z",
   "difficulty": "Easy",
   "db_type": "Snowflake",
-  "instruction": "What are the top 5 states by total store revenue in Q2 of 2000?",
-  "context": "The retail operations team needs to understand revenue distribution across state to allocate field sales support and regional promotions.",
-  "required_metrics_kpis": [
-    "Total Store Revenue by Geography"
-  ],
-  "aggregation_logic": {
-    "Total Store Revenue by Geography": "SUM(CAST(ss_net_paid AS DECIMAL)) grouped by state"
+  "domain": "Retail",
+  "business_question": "What are the top 5 states by total store revenue in Q2 of 2000?",
+  "business_context": "The retail operations team needs to understand revenue distribution across state to allocate field sales support and regional promotions.",
+  "metrics": {
+    "kpis": [
+      "Total Store Revenue by Geography"
+    ],
+    "aggregation_logic": {
+      "Total Store Revenue by Geography": "SUM(CAST(ss_net_paid AS DECIMAL)) grouped by state"
+    }
   },
   "chain_of_thought": [
     "Use store_sales as the primary fact table for physical store transactions.",
@@ -17,12 +21,20 @@
     "Cast ss_net_paid from VARCHAR to DECIMAL(15,2) before summing.",
     "Group by s_state, order by total revenue descending, return top 5."
   ],
-  "data_model": {
-    "facts": "store_sales",
-    "dims": "store, date_dim",
+  "schema_tables": {
+    "fact_tables": [
+      "store_sales"
+    ],
+    "dimension_tables": [
+      "store",
+      "date_dim"
+    ]
+  },
+  "data_model_layers": {
     "hierarchies": "Date > Quarter > Year, Store > State",
-    "aggrs": "",
+    "aggregations": "",
     "snapshots": ""
   },
-  "sql": "SELECT\n  s.s_state AS s_state,\n  SUM(CAST(ss.ss_net_paid AS DECIMAL(15,2))) AS total_store_revenue\nFROM store_sales ss\nJOIN date_dim d ON ss.ss_sold_date_sk = d.d_date_sk\nJOIN store s ON ss.ss_store_sk = s.s_store_sk\nWHERE d.d_year = 2000 AND d.d_qoy = 2\nGROUP BY s_state\nORDER BY total_store_revenue DESC\nLIMIT 5;"
+  "sql_answer": "SELECT\n  s.s_state AS s_state,\n  SUM(CAST(ss.ss_net_paid AS DECIMAL(15,2))) AS total_store_revenue\nFROM store_sales ss\nJOIN date_dim d ON ss.ss_sold_date_sk = d.d_date_sk\nJOIN store s ON ss.ss_store_sk = s.s_store_sk\nWHERE d.d_year = 2000 AND d.d_qoy = 2\nGROUP BY s_state\nORDER BY total_store_revenue DESC\nLIMIT 5;",
+  "status": "pending"
 }

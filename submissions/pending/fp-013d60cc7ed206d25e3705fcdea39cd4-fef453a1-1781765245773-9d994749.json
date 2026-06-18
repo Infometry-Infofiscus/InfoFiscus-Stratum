@@ -1,14 +1,18 @@
 {
-  "domain": "Retail",
+  "submission_id": "fef453a10000-4000-8000-f63c9c80fcec",
+  "created_at": "2026-06-18T06:47:25.773Z",
   "difficulty": "Easy",
   "db_type": "Snowflake",
-  "instruction": "How many catalog units were sold per product category during Q1 of 2000?",
-  "context": "The catalog operations team tracks unit velocity by product category to manage reorder points and plan catalog page depth.",
-  "required_metrics_kpis": [
-    "Total Catalog Units Sold"
-  ],
-  "aggregation_logic": {
-    "Total Catalog Units Sold": "SUM(cs_quantity) grouped by product category for year Q1 of 2000"
+  "domain": "Retail",
+  "business_question": "How many catalog units were sold per product category during Q1 of 2000?",
+  "business_context": "The catalog operations team tracks unit velocity by product category to manage reorder points and plan catalog page depth.",
+  "metrics": {
+    "kpis": [
+      "Total Catalog Units Sold"
+    ],
+    "aggregation_logic": {
+      "Total Catalog Units Sold": "SUM(cs_quantity) grouped by product category for year Q1 of 2000"
+    }
   },
   "chain_of_thought": [
     "Use catalog_sales as the fact table for catalog channel unit data.",
@@ -17,12 +21,20 @@
     "Sum cs_quantity per group to get total units shipped in catalog channel.",
     "Order descending to surface highest-volume product attributes."
   ],
-  "data_model": {
-    "facts": "catalog_sales",
-    "dims": "item, date_dim",
+  "schema_tables": {
+    "fact_tables": [
+      "catalog_sales"
+    ],
+    "dimension_tables": [
+      "item",
+      "date_dim"
+    ]
+  },
+  "data_model_layers": {
     "hierarchies": "Product > Product Category",
-    "aggrs": "",
+    "aggregations": "",
     "snapshots": ""
   },
-  "sql": "SELECT\n  i.i_category AS i_category,\n  SUM(cs.cs_quantity) AS total_catalog_units\nFROM catalog_sales cs\nJOIN date_dim d ON cs.cs_sold_date_sk = d.d_date_sk\nJOIN item i ON cs.cs_item_sk = i.i_item_sk\nWHERE d.d_year = 2000 AND d.d_qoy = 1\nGROUP BY i_category\nORDER BY total_catalog_units DESC;"
+  "sql_answer": "SELECT\n  i.i_category AS i_category,\n  SUM(cs.cs_quantity) AS total_catalog_units\nFROM catalog_sales cs\nJOIN date_dim d ON cs.cs_sold_date_sk = d.d_date_sk\nJOIN item i ON cs.cs_item_sk = i.i_item_sk\nWHERE d.d_year = 2000 AND d.d_qoy = 1\nGROUP BY i_category\nORDER BY total_catalog_units DESC;",
+  "status": "pending"
 }

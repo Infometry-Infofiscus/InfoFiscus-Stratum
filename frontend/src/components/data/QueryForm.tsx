@@ -157,6 +157,16 @@ export default function QueryForm({ onSaved }: Props) {
     sql,
   }), [resolvedDomain, resolvedDb, difficulty, instruction, context, aggrRows, cot, facts, dims, hierarchies, aggrs, snapshots, sql]);
 
+  /** Preview of the JSON actually written to submissions/pending/ on Submit Entry. */
+  const buildSubmissionPreview = useCallback(() => {
+    const payload = buildObj() as DatasetPayload;
+    return buildSubmissionRecordFromDataset(
+      payload,
+      "00000000-0000-4000-8000-000000000001",
+      new Date().toISOString(),
+    );
+  }, [buildObj]);
+
   // ── Progress ──────────────────────────────────────────
   const filledCount = [
     difficulty, resolvedDb, resolvedDomain,
@@ -246,8 +256,8 @@ export default function QueryForm({ onSaved }: Props) {
 
   // FIX 2 — copy JSON to clipboard
   const copyJson = () => {
-    navigator.clipboard.writeText(JSON.stringify(buildObj(), null, 2))
-      .then(() => toast.success("JSON copied!"))
+    navigator.clipboard.writeText(JSON.stringify(buildSubmissionPreview(), null, 2))
+      .then(() => toast.success("Submission JSON copied!"))
       .catch(() => toast.error("Copy failed"));
   };
 
@@ -259,7 +269,7 @@ export default function QueryForm({ onSaved }: Props) {
         <div className="json-drawer-header">
           <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
             <span className="json-pulse-dot" />
-            <span style={{ fontSize: 12, fontWeight: 600, color: "var(--text-secondary)" }}>Live JSON</span>
+            <span style={{ fontSize: 12, fontWeight: 600, color: "var(--text-secondary)" }}>Submission JSON</span>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
             <button
@@ -280,7 +290,7 @@ export default function QueryForm({ onSaved }: Props) {
           </div>
         </div>
         <div className="json-drawer-content">
-          {JSON.stringify(buildObj(), null, 2)}
+          {JSON.stringify(buildSubmissionPreview(), null, 2)}
         </div>
       </div>
 

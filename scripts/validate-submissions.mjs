@@ -35,7 +35,18 @@ async function validateFile(filePath) {
     fail(`${filePath}: invalid JSON (${e.message})`);
   }
   for (const k of REQUIRED) {
-    if (!(k in data)) fail(`${filePath}: missing "${k}"`);
+    if (!(k in data)) {
+      if (
+        k === "submission_id" &&
+        ("instruction" in data || "sql" in data || "required_metrics_kpis" in data)
+      ) {
+        fail(
+          `${filePath}: missing "${k}" — file uses form preview JSON (instruction/sql fields). ` +
+            "Use Submit Entry in the app, or run: node scripts/normalize-submissions.mjs --write",
+        );
+      }
+      fail(`${filePath}: missing "${k}"`);
+    }
   }
   const diff = data.difficulty;
   if (!["Easy", "Medium", "Hard", "Expert"].includes(diff)) {
