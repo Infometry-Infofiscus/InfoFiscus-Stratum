@@ -1,0 +1,38 @@
+{
+  "submission_id": "f4c2f87a-39c1-4349-8f18-278aa4334bc8",
+  "created_at": "2026-06-18T11:07:13.986Z",
+  "difficulty": "Medium",
+  "db_type": "Snowflake",
+  "domain": "Healthcare",
+  "business_question": "Which providers have the highest average reimbursement per procedure?",
+  "business_context": "Hospital administrators want to benchmark provider reimbursement performance.",
+  "metrics": {
+    "kpis": [
+      "Total Approved Amount",
+      "Procedure Count",
+      "Avg Reimbursement"
+    ],
+    "aggregation_logic": {
+      "Total Approved Amount": "SUM(approved_amount)",
+      "Procedure Count": "COUNT(procedure_id)",
+      "Avg Reimbursement": "Approved Amount / Procedure Count"
+    }
+  },
+  "chain_of_thought": [],
+  "schema_tables": {
+    "fact_tables": [
+      "fact_claims"
+    ],
+    "dimension_tables": [
+      "dim_provider",
+      "dim_procedure"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "",
+    "aggregations": "",
+    "snapshots": ""
+  },
+  "sql_answer": "SELECT\n    pr.provider_name,\n    COUNT(c.procedure_id) AS procedure_count,\n    SUM(c.approved_amount) AS total_reimbursement,\n    ROUND(\n        SUM(c.approved_amount) / COUNT(c.procedure_id), 2\n    ) AS avg_reimbursement_per_procedure\nFROM fact_claims c\nJOIN dim_provider pr\n    ON c.provider_id = pr.provider_id\nGROUP BY pr.provider_name\nORDER BY avg_reimbursement_per_procedure DESC;",
+  "status": "pending"
+}
