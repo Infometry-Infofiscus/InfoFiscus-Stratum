@@ -1,0 +1,42 @@
+{
+  "submission_id": "9168cb6a-cc3d-46e2-a96c-b0f1975ca99c",
+  "created_at": "2026-06-18T10:58:07.368Z",
+  "difficulty": "Medium",
+  "db_type": "Snowflake",
+  "domain": "Healthcare",
+  "business_question": "Which departments have the highest denial-related leakage?",
+  "business_context": "Operations teams want to identify departments needing workflow improvements and denial prevention strategies. Leadership wants to understand whether denial leakage is concentrated in specific clinical areas such as Radiology, Cardiology, or Emergency services.",
+  "metrics": {
+    "kpis": [
+      "Denial Leakage",
+      "Denial Count",
+      "Average Leakage per Denial"
+    ],
+    "aggregation_logic": {
+      "Denial Leakage": "SUM(revenue_loss_amount) where is_denied = true",
+      "Denial Count": "COUNT denied claims",
+      "Average Leakage per Denial": "revenue leakage divided by denied claim count"
+    }
+  },
+  "chain_of_thought": [
+    "Step 1: Filter claims where the claim status is denied.",
+    "Step 2: Group denied claims by department."
+  ],
+  "schema_tables": {
+    "fact_tables": [
+      "MART_REVENUE_LEAKAGE"
+    ],
+    "dimension_tables": [
+      "DIM_DEPARTMENT",
+      "DIM_DATE",
+      "DIM_PAYER"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "",
+    "aggregations": "",
+    "snapshots": ""
+  },
+  "sql_answer": "SELECT\n    DEPARTMENT_NAME,\n    COUNT(*) AS DENIAL_COUNT,\n    SUM(REVENUE_LOSS_AMOUNT) AS DENIAL_IMPACT,\n    ROUND(SUM(REVENUE_LOSS_AMOUNT)/COUNT(*),2) AS AVG_LEAKAGE_PER_DENIAL\nFROM CONVERSA_DEMO.HEALTHCARE.MART_REVENUE_LEAKAGE\nWHERE IS_DENIED = TRUE\nGROUP BY 1\nORDER BY DENIAL_IMPACT DESC;",
+  "status": "pending"
+}
