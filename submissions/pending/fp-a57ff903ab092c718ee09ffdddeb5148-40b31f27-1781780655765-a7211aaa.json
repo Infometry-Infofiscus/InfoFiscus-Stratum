@@ -1,0 +1,37 @@
+{
+  "submission_id": "40b31f27-246b-414a-9d52-fdeb96695125",
+  "created_at": "2026-06-18T11:04:15.763Z",
+  "difficulty": "Medium",
+  "db_type": "Snowflake",
+  "domain": "Healthcare",
+  "business_question": "Which facilities have the highest operational leakage?",
+  "business_context": "Hospital executives want to compare operational efficiency across facilities and identify locations with the greatest preventable reimbursement loss.",
+  "metrics": {
+    "kpis": [
+      "Operational Denials"
+    ],
+    "aggregation_logic": {
+      "Operational Denials": "COUNT operationally denied claims"
+    }
+  },
+  "chain_of_thought": [
+    "Step 1: Rank facilities by financial impact."
+  ],
+  "schema_tables": {
+    "fact_tables": [
+      "MART_REVENUE_LEAKAGE"
+    ],
+    "dimension_tables": [
+      "DIM_FACILITY",
+      "DIM_DATE",
+      "DIM_ROOT_CAUSE"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "",
+    "aggregations": "",
+    "snapshots": ""
+  },
+  "sql_answer": "SELECT\n    FACILITY_ID,\n    COUNT(*) AS OPERATIONAL_DENIALS,\n    SUM(REVENUE_LOSS_AMOUNT) AS OPERATIONAL_LEAKAGE\nFROM CONVERSA_DEMO.HEALTHCARE.MART_REVENUE_LEAKAGE\nWHERE ROOT_CAUSE_CATEGORY = 'Operational'\nGROUP BY 1\nORDER BY 3 DESC;",
+  "status": "pending"
+}
