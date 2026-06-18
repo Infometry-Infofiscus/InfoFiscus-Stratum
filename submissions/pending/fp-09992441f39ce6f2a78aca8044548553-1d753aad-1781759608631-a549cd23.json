@@ -1,0 +1,42 @@
+{
+  "submission_id": "1d753aad-cd87-4649-a7fb-97c598701601",
+  "created_at": "2026-06-18T05:13:28.622Z",
+  "difficulty": "Medium",
+  "db_type": "BigQuery",
+  "domain": "Retail",
+  "business_question": "What are the top 10 products by total sales revenue in the last 30 days across all stores?",
+  "business_context": "Retail managers want to identify the best-performing products over the last month to optimize inventory planning, promotions, and supplier negotiations.",
+  "metrics": {
+    "kpis": [
+      "Total Revenue",
+      "Average Selling Price"
+    ],
+    "aggregation_logic": {
+      "Total Revenue": "SUM(sales_amount)",
+      "Average Selling Price": "AVG(unit_price)"
+    }
+  },
+  "chain_of_thought": [
+    "Step 1: Identify all sales transactions from the last 30 days.",
+    "Step 2: Join sales fact data with product dimension data.",
+    "Step 3: Calculate total revenue and quantity sold for each product.",
+    "Step 4: Rank products by revenue in descending order."
+  ],
+  "schema_tables": {
+    "fact_tables": [
+      "fact_sales"
+    ],
+    "dimension_tables": [
+      "dim_product",
+      "dim_store",
+      "dim_date"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "Date > Month > Quarter > Year",
+    "aggregations": "agg_daily_sales, agg_monthly_sales",
+    "snapshots": "snap_inventory_daily"
+  },
+  "sql_answer": "SELECT\n    p.product_name,\n    SUM(s.sales_amount) AS total_revenue,\n    SUM(s.quantity_sold) AS total_units_sold\nFROM `retail_dw.fact_sales` s\nJOIN `retail_dw.dim_product` p\n    ON s.product_id = p.product_id\nWHERE s.sale_date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)\nGROUP BY p.product_name\nORDER BY total_revenue DESC\nLIMIT 10;",
+  "status": "pending"
+}
