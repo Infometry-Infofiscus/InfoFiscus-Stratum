@@ -1,0 +1,33 @@
+{
+  "submission_id": "ee642f9f-1542-4b95-8887-a23a93f78fd9",
+  "created_at": "2026-06-19T11:27:53.666Z",
+  "difficulty": "Medium",
+  "db_type": "Snowflake",
+  "domain": "Retail",
+  "business_question": "How do online and offline sales channels compare in terms of units sold?",
+  "business_context": "Leadership wants to understand channel performance and customer buying preferences.",
+  "metrics": {
+    "kpis": [
+      "Units Sold"
+    ],
+    "aggregation_logic": {
+      "Units Sold": "SUM(UNITS_SOLD)"
+    }
+  },
+  "chain_of_thought": [],
+  "schema_tables": {
+    "fact_tables": [
+      "FACT_SALES"
+    ],
+    "dimension_tables": [
+      "DIM_CHANNEL"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "",
+    "aggregations": "",
+    "snapshots": ""
+  },
+  "sql_answer": "SELECT\n    c.CHANNEL_NAME,\n    SUM(s.UNITS_SOLD) AS TOTAL_UNITS_SOLD\nFROM FACT_SALES s\nJOIN DIM_CHANNEL c\n    ON s.CHANNEL_KEY = c.CHANNEL_KEY\nGROUP BY c.CHANNEL_NAME\nORDER BY TOTAL_UNITS_SOLD DESC;",
+  "status": "pending"
+}
