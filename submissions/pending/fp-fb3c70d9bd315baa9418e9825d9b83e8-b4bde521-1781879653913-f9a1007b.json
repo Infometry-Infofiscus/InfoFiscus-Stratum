@@ -1,0 +1,37 @@
+{
+  "submission_id": "b4bde521-f88e-4718-b67e-c6062c37c54e",
+  "created_at": "2026-06-19T14:34:13.911Z",
+  "difficulty": "Medium",
+  "db_type": "Snowflake",
+  "domain": "Retail",
+  "business_question": "Which promotions generated the highest incremental sales?",
+  "business_context": "Marketing teams want to understand promotion effectiveness and maximize ROI.",
+  "metrics": {
+    "kpis": [
+      "Promotion ROI"
+    ],
+    "aggregation_logic": {
+      "Promotion ROI": "incremental sales divided by promotion spend"
+    }
+  },
+  "chain_of_thought": [
+    "Step 1: Compare campaigns."
+  ],
+  "schema_tables": {
+    "fact_tables": [
+      "FACT_PROMOTION_PERFORMANCE"
+    ],
+    "dimension_tables": [
+      "DIM_PROMOTION",
+      "DIM_PRODUCT",
+      "DIM_DATE"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "",
+    "aggregations": "",
+    "snapshots": ""
+  },
+  "sql_answer": "SELECT\n    PROMOTION_ID,\n    SUM(INCREMENTAL_SALES_AMOUNT) AS INCREMENTAL_SALES,\n    ROUND(SUM(INCREMENTAL_SALES_AMOUNT)/SUM(PROMOTION_COST),2) AS ROI\nFROM CONVERSA_DEMO.CLOTHING_RETAIL.FACT_PROMOTION_PERFORMANCE\nGROUP BY 1\nORDER BY INCREMENTAL_SALES DESC;",
+  "status": "pending"
+}
