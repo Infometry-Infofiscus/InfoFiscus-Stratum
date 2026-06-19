@@ -1,0 +1,38 @@
+{
+  "submission_id": "c89f047d-cf29-4a60-9b31-d91bac0fc04f",
+  "created_at": "2026-06-19T11:26:07.026Z",
+  "difficulty": "Medium",
+  "db_type": "Snowflake",
+  "domain": "Retail",
+  "business_question": "Which stores have the highest product return rates?",
+  "business_context": "Store operations teams need to identify stores with abnormal return behavior.",
+  "metrics": {
+    "kpis": [
+      "Returned Units",
+      "Sold Units",
+      "Return Rate"
+    ],
+    "aggregation_logic": {
+      "Returned Units": "SUM(UNITS_RETURNED)",
+      "Sold Units": "SUM(UNITS_SOLD)",
+      "Return Rate": "Returned Units / Sold Units"
+    }
+  },
+  "chain_of_thought": [],
+  "schema_tables": {
+    "fact_tables": [
+      "FACT_RETURNS",
+      "FACT_SALES"
+    ],
+    "dimension_tables": [
+      "DIM_STORE"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "",
+    "aggregations": "",
+    "snapshots": ""
+  },
+  "sql_answer": "SELECT\n    st.STORE_NAME,\n    SUM(r.UNITS_RETURNED) AS RETURNED_UNITS,\n    SUM(s.UNITS_SOLD) AS SOLD_UNITS,\n    ROUND(\n        SUM(r.UNITS_RETURNED) * 100.0 /\n        NULLIF(SUM(s.UNITS_SOLD),0),2\n    ) AS RETURN_RATE_PCT\nFROM FACT_RETURNS r\nJOIN FACT_SALES s\n    ON r.STORE_KEY = s.STORE_KEY\nJOIN DIM_STORE st\n    ON st.STORE_KEY = r.STORE_KEY\nGROUP BY st.STORE_NAME\nORDER BY RETURN_RATE_PCT DESC;",
+  "status": "pending"
+}
