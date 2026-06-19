@@ -1,0 +1,37 @@
+{
+  "submission_id": "f7070949-2992-4b68-957a-2a1aa5d5bfba",
+  "created_at": "2026-06-19T14:39:36.053Z",
+  "difficulty": "Hard",
+  "db_type": "Snowflake",
+  "domain": "Retail",
+  "business_question": "Which products have the highest return rates?",
+  "business_context": "Quality and merchandising teams want to identify products causing customer dissatisfaction and excessive returns.",
+  "metrics": {
+    "kpis": [
+      "Return Rate"
+    ],
+    "aggregation_logic": {
+      "Return Rate": "return quantity divided by quantity sold"
+    }
+  },
+  "chain_of_thought": [
+    "Step 1: Identify quality issues."
+  ],
+  "schema_tables": {
+    "fact_tables": [
+      "FACT_RETURNS",
+      "FACT_SALES"
+    ],
+    "dimension_tables": [
+      "DIM_PRODUCT",
+      "DIM_DATE"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "",
+    "aggregations": "",
+    "snapshots": ""
+  },
+  "sql_answer": "SELECT\n    PRODUCT_ID,\n    SUM(RETURN_QTY) AS TOTAL_RETURNS,\n    SUM(RETURN_AMOUNT) AS RETURN_AMOUNT\nFROM CONVERSA_DEMO.CLOTHING_RETAIL.FACT_RETURNS\nGROUP BY 1\nORDER BY RETURN_AMOUNT DESC;",
+  "status": "pending"
+}
