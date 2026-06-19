@@ -1,0 +1,37 @@
+{
+  "submission_id": "6a66ed18-862d-4d78-94c0-d41671ff49b7",
+  "created_at": "2026-06-19T14:29:41.564Z",
+  "difficulty": "Medium",
+  "db_type": "Snowflake",
+  "domain": "Retail",
+  "business_question": "Which stores are experiencing the highest stockout events?",
+  "business_context": "Store operations teams want to reduce lost sales caused by inventory shortages.",
+  "metrics": {
+    "kpis": [
+      "Stockout Events"
+    ],
+    "aggregation_logic": {
+      "Stockout Events": "COUNT stockout events"
+    }
+  },
+  "chain_of_thought": [
+    "Step 1: Aggregate lost revenue by store."
+  ],
+  "schema_tables": {
+    "fact_tables": [
+      "FACT_STOCKOUT_EVENT"
+    ],
+    "dimension_tables": [
+      "DIM_STORE",
+      "DIM_DATE",
+      "DIM_PRODUCT"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "",
+    "aggregations": "",
+    "snapshots": ""
+  },
+  "sql_answer": "SELECT\n    STORE_ID,\n    COUNT(*) AS STOCKOUT_COUNT,\n    SUM(LOST_SALES_AMOUNT) AS LOST_REVENUE\nFROM CONVERSA_DEMO.CLOTHING_RETAIL.FACT_STOCKOUT_EVENT\nGROUP BY 1\nORDER BY LOST_REVENUE DESC;",
+  "status": "pending"
+}
