@@ -1,0 +1,36 @@
+{
+  "submission_id": "83298cb0-9c27-414a-97a3-dd4a1801be45",
+  "created_at": "2026-06-19T14:31:28.550Z",
+  "difficulty": "Hard",
+  "db_type": "Snowflake",
+  "domain": "Retail",
+  "business_question": "Which suppliers contribute most to late deliveries?",
+  "business_context": "Supply chain managers want to identify vendors causing fulfillment delays and impacting inventory availability.",
+  "metrics": {
+    "kpis": [
+      "Supplier OTIF Rate"
+    ],
+    "aggregation_logic": {
+      "Supplier OTIF Rate": "on-time deliveries divided by total deliveries"
+    }
+  },
+  "chain_of_thought": [
+    "Step 1: Calculate OTIF performance."
+  ],
+  "schema_tables": {
+    "fact_tables": [
+      "FACT_SUPPLIER_DELIVERY"
+    ],
+    "dimension_tables": [
+      "DIM_SUPPLIER",
+      "DIM_DATE"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "",
+    "aggregations": "",
+    "snapshots": ""
+  },
+  "sql_answer": "SELECT\n    SUPPLIER_ID,\n    COUNT(*) AS TOTAL_DELIVERIES,\n    AVG(DELAY_DAYS) AS AVG_DELAY_DAYS\nFROM CONVERSA_DEMO.CLOTHING_RETAIL.FACT_SUPPLIER_DELIVERY\nGROUP BY 1\nORDER BY AVG_DELAY_DAYS DESC;",
+  "status": "pending"
+}
