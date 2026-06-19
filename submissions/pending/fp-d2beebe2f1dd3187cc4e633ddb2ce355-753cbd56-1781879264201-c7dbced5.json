@@ -1,0 +1,36 @@
+{
+  "submission_id": "753cbd56-61ec-4d75-b3d5-9dd654ed2dac",
+  "created_at": "2026-06-19T14:27:44.195Z",
+  "difficulty": "Medium",
+  "db_type": "Snowflake",
+  "domain": "Retail",
+  "business_question": "Which product categories generated the highest sales revenue?",
+  "business_context": "Merchandising teams want to identify top-performing categories and prioritize assortment planning and inventory investments.",
+  "metrics": {
+    "kpis": [
+      "Units Sold"
+    ],
+    "aggregation_logic": {
+      "Units Sold": "SUM(quantity_sold) grouped by category"
+    }
+  },
+  "chain_of_thought": [
+    "Step 1: Aggregate sales by product category."
+  ],
+  "schema_tables": {
+    "fact_tables": [
+      "FACT_SALES"
+    ],
+    "dimension_tables": [
+      "DIM_PRODUCT",
+      "DIM_DATE"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "",
+    "aggregations": "",
+    "snapshots": ""
+  },
+  "sql_answer": "SELECT\n    CATEGORY,\n    SUM(NET_SALES_AMOUNT) AS TOTAL_REVENUE,\n    SUM(QUANTITY_SOLD) AS UNITS_SOLD,\n    ROUND(SUM(NET_SALES_AMOUNT)/NULLIF(SUM(QUANTITY_SOLD),0),2) AS AVG_SELL_PRICE\nFROM CONVERSA_DEMO.CLOTHING_RETAIL.FACT_SALES FS\nJOIN CONVERSA_DEMO.CLOTHING_RETAIL.DIM_PRODUCT DP\nON FS.PRODUCT_KEY=DP.PRODUCT_KEY\nGROUP BY 1\nORDER BY TOTAL_REVENUE DESC;",
+  "status": "pending"
+}
