@@ -1,0 +1,37 @@
+{
+  "submission_id": "372882a7-71e8-425f-a9ae-a3c89533dcb7",
+  "created_at": "2026-06-19T11:31:46.041Z",
+  "difficulty": "Hard",
+  "db_type": "Snowflake",
+  "domain": "Retail",
+  "business_question": "Which suppliers have the lowest on-time delivery performance?",
+  "business_context": "Procurement teams need to identify suppliers causing supply chain delays.",
+  "metrics": {
+    "kpis": [
+      "Deliveries",
+      "On-Time Deliveries",
+      "On-Time Rate"
+    ],
+    "aggregation_logic": {
+      "Deliveries": "COUNT(DELIVERY_KEY)",
+      "On-Time Deliveries": "SUM(IS_ON_TIME)",
+      "On-Time Rate": "On-Time Deliveries / Deliveries"
+    }
+  },
+  "chain_of_thought": [],
+  "schema_tables": {
+    "fact_tables": [
+      "FACT_SUPPLIER_DELIVERY"
+    ],
+    "dimension_tables": [
+      "DIM_SUPPLIER"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "",
+    "aggregations": "",
+    "snapshots": ""
+  },
+  "sql_answer": "SELECT\n    sp.SUPPLIER_NAME,\n    COUNT(sd.DELIVERY_KEY) AS TOTAL_DELIVERIES,\n    SUM(CASE WHEN sd.IS_ON_TIME = 1 THEN 1 ELSE 0 END) AS ON_TIME_DELIVERIES,\n    ROUND(\n        SUM(CASE WHEN sd.IS_ON_TIME = 1 THEN 1 ELSE 0 END) * 100.0 /\n        COUNT(sd.DELIVERY_KEY),\n        2\n    ) AS ON_TIME_RATE_PCT\nFROM FACT_SUPPLIER_DELIVERY sd\nJOIN DIM_SUPPLIER sp\n    ON sd.SUPPLIER_KEY = sp.SUPPLIER_KEY\nGROUP BY sp.SUPPLIER_NAME\nORDER BY ON_TIME_RATE_PCT ASC;",
+  "status": "pending"
+}
