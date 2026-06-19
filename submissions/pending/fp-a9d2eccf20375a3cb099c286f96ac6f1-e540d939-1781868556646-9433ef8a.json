@@ -1,0 +1,35 @@
+{
+  "submission_id": "e540d939-0e24-4b10-931d-d6b719ce5dd8",
+  "created_at": "2026-06-19T11:29:16.642Z",
+  "difficulty": "Hard",
+  "db_type": "Snowflake",
+  "domain": "Retail",
+  "business_question": "Which products experienced the highest number of stockout events?",
+  "business_context": "Inventory planners need to identify products frequently unavailable for customers.",
+  "metrics": {
+    "kpis": [
+      "Stockout Count",
+      "Lost Units"
+    ],
+    "aggregation_logic": {
+      "Stockout Count": "COUNT(STOCKOUT_KEY)",
+      "Lost Units": "SUM(LOST_UNITS_ESTIMATED)"
+    }
+  },
+  "chain_of_thought": [],
+  "schema_tables": {
+    "fact_tables": [
+      "FACT_STOCKOUT_EVENT"
+    ],
+    "dimension_tables": [
+      "DIM_PRODUCT"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "",
+    "aggregations": "",
+    "snapshots": ""
+  },
+  "sql_answer": "SELECT\n    p.PRODUCT_NAME,\n    COUNT(se.STOCKOUT_KEY) AS STOCKOUT_COUNT,\n    SUM(se.LOST_UNITS_ESTIMATED) AS LOST_UNITS\nFROM FACT_STOCKOUT_EVENT se\nJOIN DIM_PRODUCT p\n    ON se.PRODUCT_KEY = p.PRODUCT_KEY\nGROUP BY p.PRODUCT_NAME\nORDER BY LOST_UNITS DESC;",
+  "status": "pending"
+}
