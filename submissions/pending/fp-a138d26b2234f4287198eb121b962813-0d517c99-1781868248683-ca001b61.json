@@ -1,0 +1,36 @@
+{
+  "submission_id": "0d517c99-e07d-453c-acda-2514798ecbc0",
+  "created_at": "2026-06-19T11:24:08.675Z",
+  "difficulty": "Medium",
+  "db_type": "Snowflake",
+  "domain": "Retail",
+  "business_question": "Which product categories generated the highest sales revenue during the last fiscal quarter?",
+  "business_context": "Merchandising teams want to identify the strongest-performing categories to optimize inventory allocation and future purchasing decisions.",
+  "metrics": {
+    "kpis": [
+      "Sales Revenue",
+      "Units Sold"
+    ],
+    "aggregation_logic": {
+      "Sales Revenue": "SUM(net_sales_amount)",
+      "Units Sold": "SUM(units_sold)"
+    }
+  },
+  "chain_of_thought": [],
+  "schema_tables": {
+    "fact_tables": [
+      "FACT_SALES"
+    ],
+    "dimension_tables": [
+      "DIM_PRODUCT",
+      "DIM_DATE"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "",
+    "aggregations": "",
+    "snapshots": ""
+  },
+  "sql_answer": "SELECT\n    p.CATEGORY,\n    SUM(s.NET_UNITS_SOLD) AS TOTAL_NET_UNITS,\n    SUM(s.UNITS_SOLD) AS TOTAL_UNITS\nFROM FACT_SALES s\nJOIN DIM_PRODUCT p\n    ON s.PRODUCT_KEY = p.PRODUCT_KEY\nJOIN DIM_DATE d\n    ON s.DATE_KEY = d.DATE_KEY\nWHERE d.FISCAL_QUARTER = 'Q1'\nGROUP BY p.CATEGORY\nORDER BY TOTAL_NET_UNITS DESC;",
+  "status": "pending"
+}
