@@ -1,0 +1,18 @@
+{
+  "id": "wfq6a1ue",
+  "filename": "2026-06-20T21-00-36-488Z-wfq6a1ue.json",
+  "createdAt": "2026-06-20T21:00:36.488Z",
+  "status": "pending",
+  "author": {
+    "login": "Infometry-Infofiscus",
+    "name": "Infometry",
+    "avatar_url": "https://avatars.githubusercontent.com/u/276885830?v=4"
+  },
+  "domain": "Finance",
+  "businessQuestion": "oo",
+  "sqlAnswer": "oo",
+  "metrics": [],
+  "chainOfThought": [],
+  "schemaFact": [],
+  "schemaDimension": []
+}
