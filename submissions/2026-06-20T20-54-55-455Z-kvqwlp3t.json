@@ -1,0 +1,18 @@
+{
+  "id": "kvqwlp3t",
+  "filename": "2026-06-20T20-54-55-455Z-kvqwlp3t.json",
+  "createdAt": "2026-06-20T20:54:55.455Z",
+  "status": "pending",
+  "author": {
+    "login": "Infometry-Infofiscus",
+    "name": "Infometry",
+    "avatar_url": "https://avatars.githubusercontent.com/u/276885830?v=4"
+  },
+  "domain": "Medical",
+  "businessQuestion": "gsrgvfs",
+  "sqlAnswer": "efafeadva",
+  "metrics": [],
+  "chainOfThought": [],
+  "schemaFact": [],
+  "schemaDimension": []
+}
