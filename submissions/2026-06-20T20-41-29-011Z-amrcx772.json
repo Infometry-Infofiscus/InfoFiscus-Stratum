@@ -1,0 +1,18 @@
+{
+  "id": "amrcx772",
+  "filename": "2026-06-20T20-41-29-011Z-amrcx772.json",
+  "createdAt": "2026-06-20T20:41:29.011Z",
+  "status": "pending",
+  "author": {
+    "login": "Infometry-Infofiscus",
+    "name": "Infometry",
+    "avatar_url": "https://avatars.githubusercontent.com/u/276885830?v=4"
+  },
+  "domain": "Retail",
+  "businessQuestion": "vtv",
+  "sqlAnswer": "fhc",
+  "metrics": [],
+  "chainOfThought": [],
+  "schemaFact": [],
+  "schemaDimension": []
+}
