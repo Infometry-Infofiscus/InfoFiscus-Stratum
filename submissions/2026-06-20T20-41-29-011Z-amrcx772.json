@@ -2,7 +2,7 @@
   "id": "amrcx772",
   "filename": "2026-06-20T20-41-29-011Z-amrcx772.json",
   "createdAt": "2026-06-20T20:41:29.011Z",
-  "status": "rejected",
+  "status": "approved",
   "author": {
     "login": "Infometry-Infofiscus",
     "name": "Infometry",
@@ -15,5 +15,5 @@
   "chainOfThought": [],
   "schemaFact": [],
   "schemaDimension": [],
-  "reviewedAt": "2026-06-20T20:44:43.380Z"
+  "reviewedAt": "2026-06-20T20:44:46.307Z"
 }
