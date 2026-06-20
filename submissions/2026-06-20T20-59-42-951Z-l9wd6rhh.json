@@ -2,7 +2,7 @@
   "id": "l9wd6rhh",
   "filename": "2026-06-20T20-59-42-951Z-l9wd6rhh.json",
   "createdAt": "2026-06-20T20:59:42.951Z",
-  "status": "pending",
+  "status": "approved",
   "author": {
     "login": "Infometry-Infofiscus",
     "name": "Infometry",
@@ -14,5 +14,6 @@
   "metrics": [],
   "chainOfThought": [],
   "schemaFact": [],
-  "schemaDimension": []
+  "schemaDimension": [],
+  "reviewedAt": "2026-06-20T20:59:55.676Z"
 }
