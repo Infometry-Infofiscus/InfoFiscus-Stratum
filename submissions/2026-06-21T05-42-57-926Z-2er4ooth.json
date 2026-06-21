@@ -1,0 +1,18 @@
+{
+  "id": "2er4ooth",
+  "filename": "2026-06-21T05-42-57-926Z-2er4ooth.json",
+  "createdAt": "2026-06-21T05:42:57.926Z",
+  "status": "pending",
+  "author": {
+    "login": "Infometry-Infofiscus",
+    "name": "Infometry",
+    "avatar_url": "https://avatars.githubusercontent.com/u/276885830?v=4"
+  },
+  "domain": "Medical",
+  "businessQuestion": "vhjg",
+  "sqlAnswer": "v h",
+  "metrics": [],
+  "chainOfThought": [],
+  "schemaFact": [],
+  "schemaDimension": []
+}
