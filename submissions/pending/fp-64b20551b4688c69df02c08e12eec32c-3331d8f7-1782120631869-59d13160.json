@@ -1,0 +1,33 @@
+{
+  "submission_id": "3331d8f7-314e-46f0-a3ba-aaa4a2c72466",
+  "created_at": "2026-06-22T09:30:31.866Z",
+  "difficulty": "Hard",
+  "db_type": "Snowflake",
+  "domain": "Retail",
+  "business_question": "Which stores generate the highest sales within each region?",
+  "business_context": "Regional managers want to benchmark store performance and replicate successful practices.",
+  "metrics": {
+    "kpis": [
+      "Net Sales"
+    ],
+    "aggregation_logic": {
+      "Net Sales": "SUM(NET_UNITS_SOLD)"
+    }
+  },
+  "chain_of_thought": [],
+  "schema_tables": {
+    "fact_tables": [
+      "FACT_SALES"
+    ],
+    "dimension_tables": [
+      "DIM_STORE"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "",
+    "aggregations": "",
+    "snapshots": ""
+  },
+  "sql_answer": "WITH store_sales AS (\n    SELECT\n        st.REGION,\n        st.STORE_NAME,\n        SUM(s.NET_UNITS_SOLD) AS TOTAL_SALES\n    FROM FACT_SALES s\n    JOIN DIM_STORE st\n        ON s.STORE_KEY = st.STORE_KEY\n    GROUP BY st.REGION, st.STORE_NAME\n)\nSELECT *\nFROM (\n    SELECT\n        REGION,\n        STORE_NAME,\n        TOTAL_SALES,\n        RANK() OVER (\n            PARTITION BY REGION\n            ORDER BY TOTAL_SALES DESC\n        ) AS RNK\n    FROM store_sales\n)\nWHERE RNK = 1;",
+  "status": "pending"
+}
