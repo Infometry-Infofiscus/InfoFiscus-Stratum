@@ -1,0 +1,37 @@
+{
+  "submission_id": "5d406a43-f79a-48c4-98c0-31b776fdf6a1",
+  "created_at": "2026-06-22T09:26:22.794Z",
+  "difficulty": "Medium",
+  "db_type": "Snowflake",
+  "domain": "Retail",
+  "business_question": "Which promotions generated the greatest increase in sales volume?",
+  "business_context": "Marketing teams need to evaluate which campaigns create the strongest sales impact.",
+  "metrics": {
+    "kpis": [
+      "Promotional Units Sold",
+      "Baseline Units Sold",
+      "Sales Lift %"
+    ],
+    "aggregation_logic": {
+      "Promotional Units Sold": "SUM(PROMO_UNITS_SOLD)",
+      "Baseline Units Sold": "SUM(BASELINE_UNITS_SOLD)",
+      "Sales Lift %": "(Promo - Baseline)/Baseline"
+    }
+  },
+  "chain_of_thought": [],
+  "schema_tables": {
+    "fact_tables": [
+      "FACT_PROMOTION_PERFORMANCE"
+    ],
+    "dimension_tables": [
+      "DIM_PROMOTION"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "",
+    "aggregations": "",
+    "snapshots": ""
+  },
+  "sql_answer": "SELECT\n    p.PROMOTION_NAME,\n    SUM(f.PROMO_UNITS_SOLD) AS PROMO_UNITS,\n    SUM(f.BASELINE_UNITS_SOLD) AS BASELINE_UNITS,\n    ROUND(\n        (\n            SUM(f.PROMO_UNITS_SOLD) -\n            SUM(f.BASELINE_UNITS_SOLD)\n        ) * 100.0 /\n        NULLIF(SUM(f.BASELINE_UNITS_SOLD),0),\n        2\n    ) AS SALES_LIFT_PCT\nFROM FACT_PROMOTION_PERFORMANCE f\nJOIN DIM_PROMOTION p\n    ON f.PROMOTION_KEY = p.PROMOTION_KEY\nGROUP BY p.PROMOTION_NAME\nORDER BY SALES_LIFT_PCT DESC;",
+  "status": "pending"
+}
