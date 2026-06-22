@@ -1,0 +1,18 @@
+{
+  "id": "u9h9q5xn",
+  "filename": "2026-06-22T05-25-47-099Z-u9h9q5xn.json",
+  "createdAt": "2026-06-22T05:25:47.099Z",
+  "status": "pending",
+  "author": {
+    "login": "Infometry-Infofiscus",
+    "name": "Infometry",
+    "avatar_url": "https://avatars.githubusercontent.com/u/276885830?v=4"
+  },
+  "domain": "Retail",
+  "businessQuestion": "qq",
+  "sqlAnswer": "qq",
+  "metrics": [],
+  "chainOfThought": [],
+  "schemaFact": [],
+  "schemaDimension": []
+}
