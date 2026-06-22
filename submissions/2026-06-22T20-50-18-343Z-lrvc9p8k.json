@@ -1,0 +1,18 @@
+{
+  "id": "lrvc9p8k",
+  "filename": "2026-06-22T20-50-18-343Z-lrvc9p8k.json",
+  "createdAt": "2026-06-22T20:50:18.343Z",
+  "status": "pending",
+  "author": {
+    "login": "YuvSingh02",
+    "name": "YUVRAJ SINGH",
+    "avatar_url": "https://avatars.githubusercontent.com/u/156420315?v=4"
+  },
+  "domain": "Finance",
+  "businessQuestion": "Qqq",
+  "sqlAnswer": "Uiui",
+  "metrics": [],
+  "chainOfThought": [],
+  "schemaFact": [],
+  "schemaDimension": []
+}
