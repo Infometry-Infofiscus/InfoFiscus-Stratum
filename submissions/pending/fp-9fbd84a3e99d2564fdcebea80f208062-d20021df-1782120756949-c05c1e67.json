@@ -1,0 +1,35 @@
+{
+  "submission_id": "d20021df-1154-4257-b550-521748c60727",
+  "created_at": "2026-06-22T09:32:36.946Z",
+  "difficulty": "Medium",
+  "db_type": "Snowflake",
+  "domain": "Retail",
+  "business_question": "Which products generate the largest return volumes and return amounts?",
+  "business_context": "Product quality teams need to identify products driving return-related losses.",
+  "metrics": {
+    "kpis": [
+      "Return Units",
+      "Return Amount"
+    ],
+    "aggregation_logic": {
+      "Return Units": "SUM(UNITS_RETURNED)",
+      "Return Amount": "SUM(RETURN_AMOUNT)"
+    }
+  },
+  "chain_of_thought": [],
+  "schema_tables": {
+    "fact_tables": [
+      "FACT_RETURNS"
+    ],
+    "dimension_tables": [
+      "DIM_PRODUCT"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "",
+    "aggregations": "",
+    "snapshots": ""
+  },
+  "sql_answer": "SELECT\n    p.PRODUCT_NAME,\n    SUM(r.UNITS_RETURNED) AS TOTAL_RETURN_UNITS,\n    SUM(r.RETURN_AMOUNT) AS TOTAL_RETURN_AMOUNT\nFROM FACT_RETURNS r\nJOIN DIM_PRODUCT p\n    ON r.PRODUCT_KEY = p.PRODUCT_KEY\nGROUP BY p.PRODUCT_NAME\nORDER BY TOTAL_RETURN_AMOUNT DESC;",
+  "status": "pending"
+}
