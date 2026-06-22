@@ -1,0 +1,18 @@
+{
+  "id": "b70icyt5",
+  "filename": "2026-06-22T20-01-32-450Z-b70icyt5.json",
+  "createdAt": "2026-06-22T20:01:32.450Z",
+  "status": "pending",
+  "author": {
+    "login": "Infometry-Infofiscus",
+    "name": "Infometry",
+    "avatar_url": "https://avatars.githubusercontent.com/u/276885830?v=4"
+  },
+  "domain": "Retail",
+  "businessQuestion": "qjbq",
+  "sqlAnswer": "qgbqgjq",
+  "metrics": [],
+  "chainOfThought": [],
+  "schemaFact": [],
+  "schemaDimension": []
+}
