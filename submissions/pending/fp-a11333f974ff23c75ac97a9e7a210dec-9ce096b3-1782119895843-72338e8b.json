@@ -1,0 +1,38 @@
+{
+  "submission_id": "9ce096b3-68ac-435d-9ff1-b6115d8e1cba",
+  "created_at": "2026-06-22T09:18:15.835Z",
+  "difficulty": "Medium",
+  "db_type": "Snowflake",
+  "domain": "Retail",
+  "business_question": "Which product categories have the highest inventory turnover rates?",
+  "business_context": "Inventory managers want to identify categories that efficiently convert inventory into sales.",
+  "metrics": {
+    "kpis": [
+      "Units Sold",
+      "Average Inventory",
+      "Inventory Turnover"
+    ],
+    "aggregation_logic": {
+      "Units Sold": "SUM(UNITS_SOLD)",
+      "Average Inventory": "AVG(ON_HAND_UNITS)",
+      "Inventory Turnover": "Units Sold / Average Inventory"
+    }
+  },
+  "chain_of_thought": [],
+  "schema_tables": {
+    "fact_tables": [
+      "FACT_SALES",
+      "FACT_INVENTORY_SNAPSHOT"
+    ],
+    "dimension_tables": [
+      "DIM_PRODUCT"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "",
+    "aggregations": "",
+    "snapshots": ""
+  },
+  "sql_answer": "WITH inventory_avg AS (\n    SELECT\n        PRODUCT_KEY,\n        AVG(ON_HAND_UNITS) AS AVG_INVENTORY\n    FROM FACT_INVENTORY_SNAPSHOT\n    GROUP BY PRODUCT_KEY\n)\nSELECT\n    p.CATEGORY,\n    SUM(s.UNITS_SOLD) AS TOTAL_UNITS_SOLD,\n    AVG(i.AVG_INVENTORY) AS AVG_INVENTORY,\n    ROUND(\n        SUM(s.UNITS_SOLD) /\n        NULLIF(AVG(i.AVG_INVENTORY),0),\n        2\n    ) AS INVENTORY_TURNOVER\nFROM FACT_SALES s\nJOIN DIM_PRODUCT p\n    ON s.PRODUCT_KEY = p.PRODUCT_KEY\nJOIN inventory_avg i\n    ON s.PRODUCT_KEY = i.PRODUCT_KEY\nGROUP BY p.CATEGORY\nORDER BY INVENTORY_TURNOVER DESC;",
+  "status": "pending"
+}
