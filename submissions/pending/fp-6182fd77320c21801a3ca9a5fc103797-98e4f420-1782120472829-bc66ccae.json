@@ -1,0 +1,35 @@
+{
+  "submission_id": "98e4f420-c14f-489e-9ff3-7adf47c0a4cd",
+  "created_at": "2026-06-22T09:27:52.826Z",
+  "difficulty": "Hard",
+  "db_type": "Snowflake",
+  "domain": "Retail",
+  "business_question": "How has monthly sales performance changed compared to the previous month?",
+  "business_context": "Retail leadership monitors growth trends to identify emerging opportunities and risks.",
+  "metrics": {
+    "kpis": [
+      "Monthly Sales",
+      "Growth %"
+    ],
+    "aggregation_logic": {
+      "Monthly Sales": "SUM(NET_UNITS_SOLD)",
+      "Growth %": "Current Month vs Previous Month"
+    }
+  },
+  "chain_of_thought": [],
+  "schema_tables": {
+    "fact_tables": [
+      "FACT_SALES"
+    ],
+    "dimension_tables": [
+      "DIM_DATE"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "",
+    "aggregations": "",
+    "snapshots": ""
+  },
+  "sql_answer": "WITH monthly_sales AS (\n    SELECT\n        d.YEAR,\n        d.MONTH,\n        SUM(s.NET_UNITS_SOLD) AS SALES\n    FROM FACT_SALES s\n    JOIN DIM_DATE d\n        ON s.DATE_KEY = d.DATE_KEY\n    GROUP BY d.YEAR, d.MONTH\n)\nSELECT\n    YEAR,\n    MONTH,\n    SALES,\n    LAG(SALES) OVER (\n        ORDER BY YEAR, MONTH\n    ) AS PREVIOUS_MONTH_SALES,\n    ROUND(\n        (SALES -\n         LAG(SALES) OVER (ORDER BY YEAR, MONTH))\n         * 100.0 /\n         NULLIF(\n            LAG(SALES) OVER (ORDER BY YEAR, MONTH),\n            0\n         ),\n         2\n    ) AS MOM_GROWTH_PCT\nFROM monthly_sales\nORDER BY YEAR, MONTH;",
+  "status": "pending"
+}
