@@ -2,7 +2,7 @@
   "id": "b70icyt5",
   "filename": "2026-06-22T20-01-32-450Z-b70icyt5.json",
   "createdAt": "2026-06-22T20:01:32.450Z",
-  "status": "pending",
+  "status": "approved",
   "author": {
     "login": "Infometry-Infofiscus",
     "name": "Infometry",
@@ -14,5 +14,6 @@
   "metrics": [],
   "chainOfThought": [],
   "schemaFact": [],
-  "schemaDimension": []
+  "schemaDimension": [],
+  "reviewedAt": "2026-06-22T20:01:47.347Z"
 }
