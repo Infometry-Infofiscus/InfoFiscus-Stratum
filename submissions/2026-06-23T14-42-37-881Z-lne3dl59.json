@@ -1,0 +1,26 @@
+{
+  "id": "lne3dl59",
+  "filename": "2026-06-23T14-42-37-881Z-lne3dl59.json",
+  "createdAt": "2026-06-23T14:42:37.881Z",
+  "status": "pending",
+  "author": {
+    "login": "shreyasms1001",
+    "name": "shreyasms1001",
+    "avatar_url": "https://avatars.githubusercontent.com/u/142734229?v=4"
+  },
+  "domain": "Retail",
+  "businessQuestion": "Which channels generate the highest average order value?",
+  "sqlAnswer": "SELECT\n    DC.CHANNEL_NAME,\n    SUM(NET_SALES_AMT) AS TOTAL_REVENUE,\n    COUNT(DISTINCT ORDER_ID) AS TOTAL_ORDERS,\n    ROUND(\n        SUM(NET_SALES_AMT)/\n        COUNT(DISTINCT ORDER_ID),2\n    ) AS AVG_ORDER_VALUE\nFROM CONVERSA_DEMO.CLOTHING_RETAIL.FACT_SALES FS\nJOIN CONVERSA_DEMO.CLOTHING_RETAIL.DIM_CHANNEL DC\nON FS.CHANNEL_KEY=DC.CHANNEL_KEY\nGROUP BY 1\nORDER BY AVG_ORDER_VALUE DESC;",
+  "dbType": "Snowflake",
+  "difficulty": "Medium",
+  "businessContext": "Executives want to compare online and offline channel performance.",
+  "metrics": [],
+  "chainOfThought": [],
+  "schemaFact": [
+    "FACT_SALES"
+  ],
+  "schemaDimension": [
+    "DIM_CHANNEL",
+    "DIM_DATE"
+  ]
+}
