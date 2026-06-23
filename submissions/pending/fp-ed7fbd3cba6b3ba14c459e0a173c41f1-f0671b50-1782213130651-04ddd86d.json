@@ -1,0 +1,36 @@
+{
+  "submission_id": "f0671b50-aa8c-47e8-8e7d-b4d276c14ef2",
+  "created_at": "2026-06-23T11:12:10.647Z",
+  "difficulty": "Hard",
+  "db_type": "Snowflake",
+  "domain": "Retail",
+  "business_question": "Which regions are most vulnerable to inventory stockouts during peak demand periods?",
+  "business_context": "Supply chain teams need to proactively allocate inventory before high-demand periods.",
+  "metrics": {
+    "kpis": [
+      "Stockout Events",
+      "Lost Units"
+    ],
+    "aggregation_logic": {
+      "Stockout Events": "COUNT(STOCKOUT_KEY)",
+      "Lost Units": "SUM(LOST_UNITS_ESTIMATED)"
+    }
+  },
+  "chain_of_thought": [],
+  "schema_tables": {
+    "fact_tables": [
+      "FACT_STOCKOUT_EVENT"
+    ],
+    "dimension_tables": [
+      "DIM_STORE",
+      "DIM_DATE"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "",
+    "aggregations": "",
+    "snapshots": ""
+  },
+  "sql_answer": "SELECT\nst.REGION,\nCOUNT(se.STOCKOUT_KEY) AS STOCKOUT_EVENTS,\nSUM(se.LOST_UNITS_ESTIMATED) AS LOST_UNITS\nFROM FACT_STOCKOUT_EVENT se\nJOIN DIM_STORE st\nON se.STORE_KEY = st.STORE_KEY\nGROUP BY st.REGION\nORDER BY LOST_UNITS DESC;",
+  "status": "pending"
+}
