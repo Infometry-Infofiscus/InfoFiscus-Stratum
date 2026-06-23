@@ -1,0 +1,27 @@
+{
+  "id": "nlacn8la",
+  "filename": "2026-06-23T14-41-15-709Z-nlacn8la.json",
+  "createdAt": "2026-06-23T14:41:15.709Z",
+  "status": "pending",
+  "author": {
+    "login": "shreyasms1001",
+    "name": "shreyasms1001",
+    "avatar_url": "https://avatars.githubusercontent.com/u/142734229?v=4"
+  },
+  "domain": "Retail",
+  "businessQuestion": "Which stores have the lowest inventory turnover?",
+  "sqlAnswer": "SELECT\n    DS.STORE_NAME,\n    ROUND(\n        SUM(NET_SALES_AMT)/\n        NULLIF(AVG(INVENTORY_VALUE_COST),0),2\n    ) AS INVENTORY_TURNS\nFROM CONVERSA_DEMO.CLOTHING_RETAIL.FACT_INVENTORY FI\nJOIN CONVERSA_DEMO.CLOTHING_RETAIL.DIM_STORE DS\nON FI.STORE_KEY=DS.STORE_KEY\nJOIN CONVERSA_DEMO.CLOTHING_RETAIL.FACT_SALES FS\nON FI.STORE_KEY=FS.STORE_KEY\nGROUP BY 1\nORDER BY INVENTORY_TURNS;",
+  "dbType": "Snowflake",
+  "difficulty": "Hard",
+  "businessContext": "Supply chain teams want to detect stores holding excessive inventory.",
+  "metrics": [],
+  "chainOfThought": [],
+  "schemaFact": [
+    "FACT_SALES",
+    "FACT_INVENTORY"
+  ],
+  "schemaDimension": [
+    "DIM_PRODUCT",
+    "DIM_STORE"
+  ]
+}
