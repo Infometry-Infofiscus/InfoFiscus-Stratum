@@ -1,0 +1,34 @@
+{
+  "submission_id": "fdbc495b-fb10-4a22-bc60-347473352708",
+  "created_at": "2026-06-23T11:06:08.024Z",
+  "difficulty": "Hard",
+  "db_type": "Snowflake",
+  "domain": "Retail",
+  "business_question": "Which stores have consistently improved sales over the last three months?",
+  "business_context": "Regional leaders want to identify high-performing stores and replicate successful practices.",
+  "metrics": {
+    "kpis": [
+      "Monthly Sales"
+    ],
+    "aggregation_logic": {
+      "Monthly Sales": "SUM(NET_UNITS_SOLD)"
+    }
+  },
+  "chain_of_thought": [],
+  "schema_tables": {
+    "fact_tables": [
+      "FACT_SALES"
+    ],
+    "dimension_tables": [
+      "DIM_STORE",
+      "DIM_DATE"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "",
+    "aggregations": "",
+    "snapshots": ""
+  },
+  "sql_answer": "WITH monthly_sales AS (\nSELECT\nst.STORE_NAME,\nd.YEAR,\nd.MONTH,\nSUM(s.NET_UNITS_SOLD) AS SALES\nFROM FACT_SALES s\nJOIN DIM_STORE st\nON s.STORE_KEY = st.STORE_KEY\nJOIN DIM_DATE d\nON s.DATE_KEY = d.DATE_KEY\nGROUP BY st.STORE_NAME, d.YEAR, d.MONTH\n)\nSELECT\nSTORE_NAME,\nYEAR,\nMONTH,\nSALES,\nSALES -\nLAG(SALES) OVER (\nPARTITION BY STORE_NAME\nORDER BY YEAR, MONTH\n) AS SALES_CHANGE\nFROM monthly_sales;",
+  "status": "pending"
+}
