@@ -1,0 +1,33 @@
+{
+  "submission_id": "8247df10-9bdd-448d-a29d-bc6b7a952a9e",
+  "created_at": "2026-06-23T10:57:38.543Z",
+  "difficulty": "Medium",
+  "db_type": "Snowflake",
+  "domain": "Retail",
+  "business_question": "Which brands contribute the highest percentage of overall sales?",
+  "business_context": "Executives want to understand brand concentration and identify strategic revenue drivers.",
+  "metrics": {
+    "kpis": [
+      "Net Sales"
+    ],
+    "aggregation_logic": {
+      "Net Sales": "SUM(NET_UNITS_SOLD)"
+    }
+  },
+  "chain_of_thought": [],
+  "schema_tables": {
+    "fact_tables": [
+      "FACT_SALES"
+    ],
+    "dimension_tables": [
+      "DIM_PRODUCT"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "",
+    "aggregations": "",
+    "snapshots": ""
+  },
+  "sql_answer": "WITH brand_sales AS (\nSELECT\np.BRAND,\nSUM(s.NET_UNITS_SOLD) AS SALES\nFROM FACT_SALES s\nJOIN DIM_PRODUCT p\nON s.PRODUCT_KEY = p.PRODUCT_KEY\nGROUP BY p.BRAND\n)\nSELECT\nBRAND,\nSALES,\nROUND(\nSALES * 100.0 /\nSUM(SALES) OVER (),\n2\n) AS SALES_SHARE_PCT\nFROM brand_sales\nORDER BY SALES_SHARE_PCT DESC;",
+  "status": "pending"
+}
