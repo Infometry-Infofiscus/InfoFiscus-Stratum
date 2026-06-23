@@ -1,0 +1,26 @@
+{
+  "id": "zjmi90i0",
+  "filename": "2026-06-23T06-37-55-535Z-zjmi90i0.json",
+  "createdAt": "2026-06-23T06:37:55.535Z",
+  "status": "pending",
+  "author": {
+    "login": "shreyasms1001",
+    "name": "shreyasms1001",
+    "avatar_url": "https://avatars.githubusercontent.com/u/142734229?v=4"
+  },
+  "domain": "Retail",
+  "businessQuestion": "Which customer segments contribute the highest revenue?",
+  "sqlAnswer": "SELECT\n    CUSTOMER_SEGMENT,\n    SUM(NET_SALES_AMT) AS TOTAL_REVENUE,\n    COUNT(DISTINCT ORDER_ID) AS TOTAL_ORDERS,\n    ROUND(SUM(NET_SALES_AMT)/COUNT(DISTINCT ORDER_ID),2) AS AVG_BASKET_VALUE\nFROM CONVERSA_DEMO.CLOTHING_RETAIL.FACT_SALES FS\nJOIN CONVERSA_DEMO.CLOTHING_RETAIL.DIM_CUSTOMER DC\nON FS.CUSTOMER_KEY = DC.CUSTOMER_KEY\nGROUP BY 1\nORDER BY TOTAL_REVENUE DESC;",
+  "dbType": "Snowflake",
+  "difficulty": "Medium",
+  "businessContext": "Marketing and merchandising teams want to understand which customer groups generate the largest share of sales.",
+  "metrics": [],
+  "chainOfThought": [],
+  "schemaFact": [
+    "FACT_SALES"
+  ],
+  "schemaDimension": [
+    "DIM_CUSTOMER",
+    "DIM_DATE"
+  ]
+}
