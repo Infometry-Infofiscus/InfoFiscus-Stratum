@@ -1,0 +1,26 @@
+{
+  "id": "jgk0r086",
+  "filename": "2026-06-23T14-52-14-887Z-jgk0r086.json",
+  "createdAt": "2026-06-23T14:52:14.887Z",
+  "status": "pending",
+  "author": {
+    "login": "shreyasms1001",
+    "name": "shreyasms1001",
+    "avatar_url": "https://avatars.githubusercontent.com/u/142734229?v=4"
+  },
+  "domain": "Retail",
+  "businessQuestion": "Which categories contribute the highest markdown losses?",
+  "sqlAnswer": "SELECT\n    DP.CATEGORY,\n    SUM(FMC.MARKDOWN_DOLLAR_IMPACT) AS MARKDOWN_LOSS,\n    AVG(FMC.MARKDOWN_DEPTH_PCT) AS AVG_MARKDOWN_PCT\nFROM CONVERSA_DEMO.CLOTHING_RETAIL.FACT_MARKDOWN_CLEARANCE FMC\nJOIN CONVERSA_DEMO.CLOTHING_RETAIL.DIM_PRODUCT DP\nON FMC.PRODUCT_KEY=DP.PRODUCT_KEY\nGROUP BY 1\nORDER BY MARKDOWN_LOSS DESC;",
+  "dbType": "Snowflake",
+  "difficulty": "Hard",
+  "businessContext": "Pricing teams want to minimize discount-driven margin erosion.",
+  "metrics": [],
+  "chainOfThought": [],
+  "schemaFact": [
+    "FACT_SALES"
+  ],
+  "schemaDimension": [
+    "DIM_DATE",
+    "DIM_PRODUCT"
+  ]
+}
