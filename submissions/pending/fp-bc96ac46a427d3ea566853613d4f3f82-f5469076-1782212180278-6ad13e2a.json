@@ -1,0 +1,36 @@
+{
+  "submission_id": "f5469076-1ae8-4b81-a03e-dcacf91385a9",
+  "created_at": "2026-06-23T10:56:20.271Z",
+  "difficulty": "Hard",
+  "db_type": "Snowflake",
+  "domain": "Retail",
+  "business_question": "Which product categories show the strongest year-over-year sales growth?",
+  "business_context": "Category managers need to identify fast-growing categories for future inventory planning and marketing investments.",
+  "metrics": {
+    "kpis": [
+      "Sales Revenue",
+      "YoY Growth %"
+    ],
+    "aggregation_logic": {
+      "Sales Revenue": "SUM(NET_UNITS_SOLD)",
+      "YoY Growth %": "((Current Year Sales - Previous Year Sales) / Previous Year Sales) * 100"
+    }
+  },
+  "chain_of_thought": [],
+  "schema_tables": {
+    "fact_tables": [
+      "FACT_SALES"
+    ],
+    "dimension_tables": [
+      "DIM_PRODUCT",
+      "DIM_DATE"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "",
+    "aggregations": "",
+    "snapshots": ""
+  },
+  "sql_answer": "WITH yearly_sales AS (\nSELECT\np.CATEGORY,\nd.YEAR,\nSUM(s.NET_UNITS_SOLD) AS SALES\nFROM FACT_SALES s\nJOIN DIM_PRODUCT p\nON s.PRODUCT_KEY = p.PRODUCT_KEY\nJOIN DIM_DATE d\nON s.DATE_KEY = d.DATE_KEY\nGROUP BY p.CATEGORY, d.YEAR\n)\nSELECT\nCATEGORY,\nYEAR,\nSALES,\nLAG(SALES) OVER (\nPARTITION BY CATEGORY\nORDER BY YEAR\n) AS PREVIOUS_YEAR_SALES,\nROUND(\n(SALES -\nLAG(SALES) OVER (\nPARTITION BY CATEGORY\nORDER BY YEAR\n))\n* 100.0 /\nNULLIF(\nLAG(SALES) OVER (\nPARTITION BY CATEGORY\nORDER BY YEAR\n),0\n),\n2\n) AS YOY_GROWTH_PCT\nFROM yearly_sales;",
+  "status": "pending"
+}
