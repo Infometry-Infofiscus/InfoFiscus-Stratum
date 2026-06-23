@@ -1,0 +1,26 @@
+{
+  "id": "7a6w96tl",
+  "filename": "2026-06-23T14-50-17-320Z-7a6w96tl.json",
+  "createdAt": "2026-06-23T14:50:17.320Z",
+  "status": "pending",
+  "author": {
+    "login": "shreyasms1001",
+    "name": "shreyasms1001",
+    "avatar_url": "https://avatars.githubusercontent.com/u/142734229?v=4"
+  },
+  "domain": "Retail",
+  "businessQuestion": "What is the customer retention trend by cohort?",
+  "sqlAnswer": "WITH FIRST_PURCHASE AS (\nSELECT\n    CUSTOMER_KEY,\n    MIN(DATE_KEY) AS FIRST_PURCHASE_DATE\nFROM CONVERSA_DEMO.CLOTHING_RETAIL.FACT_SALES\nGROUP BY 1\n)\n\nSELECT\n    FIRST_PURCHASE_DATE,\n    COUNT(DISTINCT FS.CUSTOMER_KEY) AS RETAINED_CUSTOMERS\nFROM CONVERSA_DEMO.CLOTHING_RETAIL.FACT_SALES FS\nJOIN FIRST_PURCHASE FP\nON FS.CUSTOMER_KEY=FP.CUSTOMER_KEY\nGROUP BY 1\nORDER BY 1;",
+  "dbType": "Snowflake",
+  "difficulty": "Expert",
+  "businessContext": "Customer analytics teams want to measure repeat purchase behavior over time.",
+  "metrics": [],
+  "chainOfThought": [],
+  "schemaFact": [
+    "FACT_SALES"
+  ],
+  "schemaDimension": [
+    "DIM_CUSTOMER",
+    "DIM_DATE"
+  ]
+}
