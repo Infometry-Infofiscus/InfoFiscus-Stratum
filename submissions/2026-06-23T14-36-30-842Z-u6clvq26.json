@@ -1,0 +1,26 @@
+{
+  "id": "u6clvq26",
+  "filename": "2026-06-23T14-36-30-842Z-u6clvq26.json",
+  "createdAt": "2026-06-23T14:36:30.842Z",
+  "status": "pending",
+  "author": {
+    "login": "shreyasms1001",
+    "name": "shreyasms1001",
+    "avatar_url": "https://avatars.githubusercontent.com/u/142734229?v=4"
+  },
+  "domain": "Retail",
+  "businessQuestion": "Which regions have experienced the largest decline in sales compared to last year?",
+  "sqlAnswer": "WITH REGION_SALES AS (\nSELECT\n    DS.REGION,\n    DD.FISCAL_YEAR,\n    SUM(NET_SALES_AMT) AS SALES\nFROM CONVERSA_DEMO.CLOTHING_RETAIL.FACT_SALES FS\nJOIN CONVERSA_DEMO.CLOTHING_RETAIL.DIM_STORE DS\nON FS.STORE_KEY=DS.STORE_KEY\nJOIN CONVERSA_DEMO.CLOTHING_RETAIL.DIM_DATE DD\nON FS.DATE_KEY=DD.DATE_KEY\nGROUP BY 1,2\n)\n\nSELECT\n    REGION,\n    FISCAL_YEAR,\n    SALES,\n    SALES-LAG(SALES) OVER(PARTITION BY REGION ORDER BY FISCAL_YEAR) AS YOY_CHANGE\nFROM REGION_SALES\nORDER BY YOY_CHANGE;",
+  "dbType": "Snowflake",
+  "difficulty": "Hard",
+  "businessContext": "Regional managers want to identify underperforming markets and take corrective actions.",
+  "metrics": [],
+  "chainOfThought": [],
+  "schemaFact": [
+    "FACT_SALES"
+  ],
+  "schemaDimension": [
+    "DIM_STORE",
+    "DIM_DATE"
+  ]
+}
