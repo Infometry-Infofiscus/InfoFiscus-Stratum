@@ -1,0 +1,18 @@
+{
+  "id": "hfrnaas6",
+  "filename": "2026-06-23T08-00-42-393Z-hfrnaas6.json",
+  "createdAt": "2026-06-23T08:00:42.393Z",
+  "status": "pending",
+  "author": {
+    "login": "Infometry-Infofiscus",
+    "name": "Infometry",
+    "avatar_url": "https://avatars.githubusercontent.com/u/276885830?v=4"
+  },
+  "domain": "Finance",
+  "businessQuestion": "uhlhb",
+  "sqlAnswer": "bkhkj",
+  "metrics": [],
+  "chainOfThought": [],
+  "schemaFact": [],
+  "schemaDimension": []
+}
