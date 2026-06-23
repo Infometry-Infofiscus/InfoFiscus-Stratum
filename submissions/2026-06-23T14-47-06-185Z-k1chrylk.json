@@ -1,0 +1,26 @@
+{
+  "id": "k1chrylk",
+  "filename": "2026-06-23T14-47-06-185Z-k1chrylk.json",
+  "createdAt": "2026-06-23T14:47:06.185Z",
+  "status": "pending",
+  "author": {
+    "login": "shreyasms1001",
+    "name": "shreyasms1001",
+    "avatar_url": "https://avatars.githubusercontent.com/u/142734229?v=4"
+  },
+  "domain": "Retail",
+  "businessQuestion": "Which suppliers have the highest defect rates?",
+  "sqlAnswer": "SELECT\n    DS.SUPPLIER_NAME,\n    AVG(DEFECT_RATE_PCT) AS DEFECT_RATE\nFROM CONVERSA_DEMO.CLOTHING_RETAIL.FACT_SUPPLIER_DELIVERY FSD\nJOIN CONVERSA_DEMO.CLOTHING_RETAIL.DIM_SUPPLIER DS\nON FSD.SUPPLIER_KEY=DS.SUPPLIER_KEY\nGROUP BY 1\nORDER BY DEFECT_RATE DESC;",
+  "dbType": "Snowflake",
+  "difficulty": "Medium",
+  "businessContext": "Quality teams want to reduce defective inventory and supplier-related losses.",
+  "metrics": [],
+  "chainOfThought": [],
+  "schemaFact": [
+    "FACT_SUPPLIER_DELIVERY"
+  ],
+  "schemaDimension": [
+    "DIM_SUPPLIER",
+    "DIM_PRODUCT"
+  ]
+}
