@@ -1,0 +1,25 @@
+{
+  "id": "lnmdq5qw",
+  "filename": "2026-06-23T14-43-51-531Z-lnmdq5qw.json",
+  "createdAt": "2026-06-23T14:43:51.531Z",
+  "status": "pending",
+  "author": {
+    "login": "shreyasms1001",
+    "name": "shreyasms1001",
+    "avatar_url": "https://avatars.githubusercontent.com/u/142734229?v=4"
+  },
+  "domain": "Retail",
+  "businessQuestion": "Which products are frequently purchased together?",
+  "sqlAnswer": "SELECT\n    A.PRODUCT_KEY AS PRODUCT_1,\n    B.PRODUCT_KEY AS PRODUCT_2,\n    COUNT(*) AS FREQUENCY\nFROM CONVERSA_DEMO.CLOTHING_RETAIL.FACT_SALES A\nJOIN CONVERSA_DEMO.CLOTHING_RETAIL.FACT_SALES B\nON A.ORDER_ID=B.ORDER_ID\nAND A.PRODUCT_KEY<B.PRODUCT_KEY\nGROUP BY 1,2\nORDER BY FREQUENCY DESC\nLIMIT 20;",
+  "dbType": "Snowflake",
+  "difficulty": "Hard",
+  "businessContext": "Merchandising teams want to optimize cross-selling and bundle recommendations.",
+  "metrics": [],
+  "chainOfThought": [],
+  "schemaFact": [
+    "FACT_SALES"
+  ],
+  "schemaDimension": [
+    "DIM_PRODUCT"
+  ]
+}
