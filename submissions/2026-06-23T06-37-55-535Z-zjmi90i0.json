@@ -2,7 +2,7 @@
   "id": "zjmi90i0",
   "filename": "2026-06-23T06-37-55-535Z-zjmi90i0.json",
   "createdAt": "2026-06-23T06:37:55.535Z",
-  "status": "pending",
+  "status": "approved",
   "author": {
     "login": "shreyasms1001",
     "name": "shreyasms1001",
@@ -22,5 +22,6 @@
   "schemaDimension": [
     "DIM_CUSTOMER",
     "DIM_DATE"
-  ]
+  ],
+  "reviewedAt": "2026-06-23T07:51:45.246Z"
 }
