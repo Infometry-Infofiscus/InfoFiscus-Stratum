@@ -1,0 +1,38 @@
+{
+  "submission_id": "722e37f4-dd9a-4d75-8c7c-6e13b6d64c93",
+  "created_at": "2026-06-23T11:10:21.913Z",
+  "difficulty": "Hard",
+  "db_type": "Snowflake",
+  "domain": "Retail",
+  "business_question": "Which products generate the highest sales but also experience high return rates?",
+  "business_context": "Merchandising teams need to identify products that drive revenue but may have quality or customer satisfaction issues.",
+  "metrics": {
+    "kpis": [
+      "Units Sold",
+      "Returned Units",
+      "Return Rate"
+    ],
+    "aggregation_logic": {
+      "Units Sold": "SUM(UNITS_SOLD)",
+      "Returned Units": "SUM(UNITS_RETURNED)",
+      "Return Rate": "Returned Units / Units Sold"
+    }
+  },
+  "chain_of_thought": [],
+  "schema_tables": {
+    "fact_tables": [
+      "FACT_SALES",
+      "FACT_RETURNS"
+    ],
+    "dimension_tables": [
+      "DIM_PRODUCT"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "",
+    "aggregations": "",
+    "snapshots": ""
+  },
+  "sql_answer": "SELECT\np.PRODUCT_NAME,\nSUM(s.UNITS_SOLD) AS TOTAL_SOLD,\nSUM(r.UNITS_RETURNED) AS TOTAL_RETURNED,\nROUND(\nSUM(r.UNITS_RETURNED) * 100.0 /\nNULLIF(SUM(s.UNITS_SOLD),0),\n2\n) AS RETURN_RATE_PCT\nFROM FACT_SALES s\nJOIN FACT_RETURNS r\nON s.PRODUCT_KEY = r.PRODUCT_KEY\nJOIN DIM_PRODUCT p\nON s.PRODUCT_KEY = p.PRODUCT_KEY\nGROUP BY p.PRODUCT_NAME\nORDER BY TOTAL_SOLD DESC;",
+  "status": "pending"
+}
