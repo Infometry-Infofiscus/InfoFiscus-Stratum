@@ -2,7 +2,7 @@
   "id": "u6clvq26",
   "filename": "2026-06-23T14-36-30-842Z-u6clvq26.json",
   "createdAt": "2026-06-23T14:36:30.842Z",
-  "status": "pending",
+  "status": "approved",
   "author": {
     "login": "shreyasms1001",
     "name": "shreyasms1001",
@@ -22,5 +22,6 @@
   "schemaDimension": [
     "DIM_STORE",
     "DIM_DATE"
-  ]
+  ],
+  "reviewedAt": "2026-06-24T20:38:37.875Z"
 }
