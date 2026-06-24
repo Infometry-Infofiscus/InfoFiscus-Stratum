@@ -2,7 +2,7 @@
   "id": "nlacn8la",
   "filename": "2026-06-23T14-41-15-709Z-nlacn8la.json",
   "createdAt": "2026-06-23T14:41:15.709Z",
-  "status": "pending",
+  "status": "approved",
   "author": {
     "login": "shreyasms1001",
     "name": "shreyasms1001",
@@ -23,5 +23,6 @@
   "schemaDimension": [
     "DIM_PRODUCT",
     "DIM_STORE"
-  ]
+  ],
+  "reviewedAt": "2026-06-24T20:38:35.579Z"
 }
