@@ -2,7 +2,7 @@
   "id": "hfrnaas6",
   "filename": "2026-06-23T08-00-42-393Z-hfrnaas6.json",
   "createdAt": "2026-06-23T08:00:42.393Z",
-  "status": "pending",
+  "status": "approved",
   "author": {
     "login": "Infometry-Infofiscus",
     "name": "Infometry",
@@ -14,5 +14,6 @@
   "metrics": [],
   "chainOfThought": [],
   "schemaFact": [],
-  "schemaDimension": []
+  "schemaDimension": [],
+  "reviewedAt": "2026-06-24T20:38:39.008Z"
 }
