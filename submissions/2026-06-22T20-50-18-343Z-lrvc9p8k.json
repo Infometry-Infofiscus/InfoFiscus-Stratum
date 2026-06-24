@@ -2,7 +2,7 @@
   "id": "lrvc9p8k",
   "filename": "2026-06-22T20-50-18-343Z-lrvc9p8k.json",
   "createdAt": "2026-06-22T20:50:18.343Z",
-  "status": "pending",
+  "status": "approved",
   "author": {
     "login": "YuvSingh02",
     "name": "YUVRAJ SINGH",
@@ -14,5 +14,6 @@
   "metrics": [],
   "chainOfThought": [],
   "schemaFact": [],
-  "schemaDimension": []
+  "schemaDimension": [],
+  "reviewedAt": "2026-06-24T20:38:44.032Z"
 }
