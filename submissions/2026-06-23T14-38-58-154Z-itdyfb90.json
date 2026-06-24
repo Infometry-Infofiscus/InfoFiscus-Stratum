@@ -2,7 +2,7 @@
   "id": "itdyfb90",
   "filename": "2026-06-23T14-38-58-154Z-itdyfb90.json",
   "createdAt": "2026-06-23T14:38:58.154Z",
-  "status": "pending",
+  "status": "approved",
   "author": {
     "login": "shreyasms1001",
     "name": "shreyasms1001",
@@ -22,5 +22,6 @@
   "schemaDimension": [
     "DIM_DATE",
     "DIM_PRODUCT"
-  ]
+  ],
+  "reviewedAt": "2026-06-24T20:38:37.351Z"
 }
