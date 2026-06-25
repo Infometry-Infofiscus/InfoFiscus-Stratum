@@ -1,0 +1,34 @@
+{
+  "submission_id": "729e0bdd-0dd9-4ef7-8b29-1d8b8e2c07ed",
+  "created_at": "2026-06-25T09:07:28.651Z",
+  "difficulty": "Hard",
+  "db_type": "Snowflake",
+  "domain": "Retail",
+  "business_question": "Which stores experience the highest sales volatility month over month?",
+  "business_context": "Operations teams want to identify stores with unstable demand patterns.",
+  "metrics": {
+    "kpis": [
+      "Monthly Sales Variance"
+    ],
+    "aggregation_logic": {
+      "Monthly Sales Variance": "SUM(NET_UNITS_SOLD)"
+    }
+  },
+  "chain_of_thought": [],
+  "schema_tables": {
+    "fact_tables": [
+      "FACT_SALES"
+    ],
+    "dimension_tables": [
+      "DIM_STORE",
+      "DIM_DATE"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "",
+    "aggregations": "",
+    "snapshots": ""
+  },
+  "sql_answer": "WITH monthly_sales AS (\nSELECT\nst.STORE_KEY,\nst.STORE_NAME,\nd.YEAR,\nd.MONTH,\nSUM(s.NET_UNITS_SOLD) AS MONTHLY_SALES\nFROM FACT_SALES s\nJOIN DIM_STORE st\nON s.STORE_KEY = st.STORE_KEY\nJOIN DIM_DATE d\nON s.DATE_KEY = d.DATE_KEY\nGROUP BY\nst.STORE_KEY,\nst.STORE_NAME,\nd.YEAR,\nd.MONTH\n),\n\nstore_volatility AS (\nSELECT\nSTORE_KEY,\nSTORE_NAME,\nAVG(MONTHLY_SALES) AS AVG_MONTHLY_SALES,\nSTDDEV(MONTHLY_SALES) AS SALES_STDDEV\nFROM monthly_sales\nGROUP BY\nSTORE_KEY,\nSTORE_NAME\n)\n\nSELECT\nSTORE_NAME,\nROUND(AVG_MONTHLY_SALES,2) AS AVG_MONTHLY_SALES,\nROUND(SALES_STDDEV,2) AS SALES_STDDEV,\nROUND(\nSALES_STDDEV * 100 /\nNULLIF(AVG_MONTHLY_SALES,0),\n2\n) AS VOLATILITY_PCT\nFROM store_volatility\nORDER BY VOLATILITY_PCT DESC;",
+  "status": "pending"
+}
