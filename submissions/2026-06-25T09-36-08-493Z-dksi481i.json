@@ -1,0 +1,25 @@
+{
+  "id": "dksi481i",
+  "filename": "2026-06-25T09-36-08-493Z-dksi481i.json",
+  "createdAt": "2026-06-25T09:36:08.493Z",
+  "status": "pending",
+  "author": {
+    "login": "shreyasms1001",
+    "name": "shreyasms1001",
+    "avatar_url": "https://avatars.githubusercontent.com/u/142734229?v=4"
+  },
+  "domain": "Retail",
+  "businessQuestion": "Which stores have the highest average stockout duration?",
+  "sqlAnswer": "SELECT\n    DS.STORE_NAME,\n    DS.REGION,\n    COUNT(*) AS STOCKOUT_EVENTS,\n    ROUND(AVG(SE.DURATION_DAYS),2) AS AVG_DURATION_DAYS,\n    SUM(SE.LOST_REVENUE_ESTIMATED) AS LOST_REVENUE\nFROM CONVERSA_DEMO.CLOTHING_RETAIL.FACT_STOCKOUT_EVENT SE\nJOIN CONVERSA_DEMO.CLOTHING_RETAIL.DIM_STORE DS\n    ON SE.STORE_KEY = DS.STORE_KEY\nGROUP BY\n    DS.STORE_NAME,\n    DS.REGION\nORDER BY AVG_DURATION_DAYS DESC;",
+  "dbType": "Snowflake",
+  "difficulty": "Medium",
+  "businessContext": "Operations managers want to reduce the length of stockout events to improve product availability.",
+  "metrics": [],
+  "chainOfThought": [],
+  "schemaFact": [
+    "FACT_STOCKOUT_EVENT"
+  ],
+  "schemaDimension": [
+    "DIM_STORE"
+  ]
+}
