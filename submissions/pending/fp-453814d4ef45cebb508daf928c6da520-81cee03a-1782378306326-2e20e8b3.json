@@ -1,0 +1,33 @@
+{
+  "submission_id": "81cee03a-a7bb-4d35-a999-43aeaa072eca",
+  "created_at": "2026-06-25T09:05:06.323Z",
+  "difficulty": "Hard",
+  "db_type": "Snowflake",
+  "domain": "Retail",
+  "business_question": "What is the sales contribution of newly launched products compared to existing products?",
+  "business_context": "Product leadership wants to evaluate the effectiveness of recent product launches.",
+  "metrics": {
+    "kpis": [
+      "Sales Revenue"
+    ],
+    "aggregation_logic": {
+      "Sales Revenue": "SUM(NET_UNITS_SOLD)"
+    }
+  },
+  "chain_of_thought": [],
+  "schema_tables": {
+    "fact_tables": [
+      "FACT_SALES"
+    ],
+    "dimension_tables": [
+      "DIM_PRODUCT"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "",
+    "aggregations": "",
+    "snapshots": ""
+  },
+  "sql_answer": "SELECT\n    PRODUCT_STATUS,\n    SUM(NET_UNITS_SOLD) AS SALES\nFROM FACT_SALES s\nJOIN DIM_PRODUCT p\n    ON s.PRODUCT_KEY = p.PRODUCT_KEY\nGROUP BY PRODUCT_STATUS;",
+  "status": "pending"
+}
