@@ -1,0 +1,33 @@
+{
+  "submission_id": "b48fd987-0e83-4783-bcb5-b004801fcdbd",
+  "created_at": "2026-06-25T09:04:07.587Z",
+  "difficulty": "Medium",
+  "db_type": "Snowflake",
+  "domain": "Retail",
+  "business_question": "Which product colors are most popular among customers?",
+  "business_context": "Merchandising teams use color preferences to guide future product assortment planning.",
+  "metrics": {
+    "kpis": [
+      "Units Sold "
+    ],
+    "aggregation_logic": {
+      "Units Sold ": " SUM(UNITS_SOLD)"
+    }
+  },
+  "chain_of_thought": [],
+  "schema_tables": {
+    "fact_tables": [
+      "FACT_SALES"
+    ],
+    "dimension_tables": [
+      "DIM_PRODUCT"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "",
+    "aggregations": "",
+    "snapshots": ""
+  },
+  "sql_answer": "SELECT\n    COLOR,\n    SUM(UNITS_SOLD) AS TOTAL_UNITS_SOLD\nFROM FACT_SALES s\nJOIN DIM_PRODUCT p\n    ON s.PRODUCT_KEY = p.PRODUCT_KEY\nGROUP BY COLOR\nORDER BY TOTAL_UNITS_SOLD DESC;",
+  "status": "pending"
+}
