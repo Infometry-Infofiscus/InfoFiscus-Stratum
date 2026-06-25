@@ -1,0 +1,26 @@
+{
+  "id": "wpg2iq33",
+  "filename": "2026-06-25T09-09-47-613Z-wpg2iq33.json",
+  "createdAt": "2026-06-25T09:09:47.613Z",
+  "status": "pending",
+  "author": {
+    "login": "shreyasms1001",
+    "name": "shreyasms1001",
+    "avatar_url": "https://avatars.githubusercontent.com/u/142734229?v=4"
+  },
+  "domain": "Retail",
+  "businessQuestion": "Which stores consistently experience understock situations?",
+  "sqlAnswer": "SELECT\n    DS.STORE_NAME,\n    DD.FISCAL_YEAR,\n    DD.FISCAL_MONTH,\n    SUM(CASE WHEN FI.IS_UNDERSTOCK = 1 THEN FI.ON_HAND_UNITS ELSE 0 END) AS UNDERSTOCK_UNITS,\n    COUNT(*) AS INVENTORY_RECORDS\nFROM CONVERSA_DEMO.CLOTHING_RETAIL.FACT_INVENTORY FI\nJOIN CONVERSA_DEMO.CLOTHING_RETAIL.DIM_STORE DS\n    ON FI.STORE_KEY = DS.STORE_KEY\nJOIN CONVERSA_DEMO.CLOTHING_RETAIL.DIM_DATE DD\n    ON FI.DATE_KEY = DD.DATE_KEY\nGROUP BY\n    DS.STORE_NAME,\n    DD.FISCAL_YEAR,\n    DD.FISCAL_MONTH\nORDER BY UNDERSTOCK_UNITS DESC;",
+  "dbType": "Snowflake",
+  "difficulty": "Hard",
+  "businessContext": "Store managers want to identify locations where inventory shortages frequently impact sales.",
+  "metrics": [],
+  "chainOfThought": [],
+  "schemaFact": [
+    "FACT_INVENTORY"
+  ],
+  "schemaDimension": [
+    "DIM_STORE",
+    "DIM_DATE"
+  ]
+}
