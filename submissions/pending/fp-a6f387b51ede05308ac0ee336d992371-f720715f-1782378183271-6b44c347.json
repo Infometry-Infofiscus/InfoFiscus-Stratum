@@ -1,0 +1,33 @@
+{
+  "submission_id": "f720715f-f972-463a-b0a9-29aedb9f7975",
+  "created_at": "2026-06-25T09:03:03.267Z",
+  "difficulty": "Hard",
+  "db_type": "Snowflake",
+  "domain": "Retail",
+  "business_question": "Which stores contribute the highest percentage of sales within their region?",
+  "business_context": "Regional directors want to benchmark store performance against regional peers.",
+  "metrics": {
+    "kpis": [
+      "Regional Sales Share"
+    ],
+    "aggregation_logic": {
+      "Regional Sales Share": "Store Sales / Regional Sales"
+    }
+  },
+  "chain_of_thought": [],
+  "schema_tables": {
+    "fact_tables": [
+      "FACT_SALES"
+    ],
+    "dimension_tables": [
+      "DIM_STORE"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "",
+    "aggregations": "",
+    "snapshots": ""
+  },
+  "sql_answer": "WITH store_sales AS (\n    SELECT\n        REGION,\n        STORE_NAME,\n        SUM(NET_UNITS_SOLD) AS SALES\n    FROM FACT_SALES s\n    JOIN DIM_STORE st\n      ON s.STORE_KEY = st.STORE_KEY\n    GROUP BY REGION, STORE_NAME\n)\nSELECT\n    REGION,\n    STORE_NAME,\n    SALES,\n    ROUND(\n        SALES * 100.0 /\n        SUM(SALES) OVER(PARTITION BY REGION),\n        2\n    ) AS REGIONAL_SHARE_PCT\nFROM store_sales;",
+  "status": "pending"
+}
