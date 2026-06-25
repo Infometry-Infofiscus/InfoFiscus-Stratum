@@ -1,0 +1,33 @@
+{
+  "submission_id": "f13e022a-72fe-4387-af66-8cb8a86ecf54",
+  "created_at": "2026-06-25T09:01:31.635Z",
+  "difficulty": "Medium",
+  "db_type": "Snowflake",
+  "domain": "Retail",
+  "business_question": "Which days of the week generate the highest sales volume?",
+  "business_context": "Store managers use this information to optimize staffing and inventory availability.",
+  "metrics": {
+    "kpis": [
+      "Units Sold"
+    ],
+    "aggregation_logic": {
+      "Units Sold": "SUM(UNITS_SOLD)"
+    }
+  },
+  "chain_of_thought": [],
+  "schema_tables": {
+    "fact_tables": [
+      "FACT_SALES"
+    ],
+    "dimension_tables": [
+      "DIM_DATE"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "",
+    "aggregations": "",
+    "snapshots": ""
+  },
+  "sql_answer": "SELECT\nd.DAY_NAME,\nSUM(s.UNITS_SOLD) AS TOTAL_UNITS\nFROM FACT_SALES s\nJOIN DIM_DATE d\nON s.DATE_KEY = d.DATE_KEY\nGROUP BY d.DAY_NAME\nORDER BY TOTAL_UNITS DESC;",
+  "status": "pending"
+}
