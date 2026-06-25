@@ -1,0 +1,26 @@
+{
+  "id": "mhhjt51o",
+  "filename": "2026-06-25T09-38-57-752Z-mhhjt51o.json",
+  "createdAt": "2026-06-25T09:38:57.752Z",
+  "status": "pending",
+  "author": {
+    "login": "shreyasms1001",
+    "name": "shreyasms1001",
+    "avatar_url": "https://avatars.githubusercontent.com/u/142734229?v=4"
+  },
+  "domain": "Retail",
+  "businessQuestion": "Which products have the largest difference between forecasted demand and actual demand?",
+  "sqlAnswer": "SELECT\n    DP.PRODUCT_NAME,\n    DP.CATEGORY,\n    DD.FISCAL_YEAR,\n    SUM(FF.FORECASTED_UNITS) AS FORECASTED_UNITS,\n    SUM(FF.ACTUAL_DEMAND_UNITS) AS ACTUAL_UNITS,\n    SUM(FF.FORECASTED_UNITS) - SUM(FF.ACTUAL_DEMAND_UNITS) AS DEMAND_VARIANCE\nFROM CONVERSA_DEMO.CLOTHING_RETAIL.FACT_FORECAST FF\nJOIN CONVERSA_DEMO.CLOTHING_RETAIL.DIM_PRODUCT DP\n    ON FF.PRODUCT_KEY = DP.PRODUCT_KEY\nJOIN CONVERSA_DEMO.CLOTHING_RETAIL.DIM_DATE DD\n    ON FF.DATE_KEY = DD.DATE_KEY\nGROUP BY\n    DP.PRODUCT_NAME,\n    DP.CATEGORY,\n    DD.FISCAL_YEAR\nORDER BY ABS(DEMAND_VARIANCE) DESC;",
+  "dbType": "Snowflake",
+  "difficulty": "Hard",
+  "businessContext": "Demand planning teams want to identify products with significant forecast deviations to improve inventory accuracy.",
+  "metrics": [],
+  "chainOfThought": [],
+  "schemaFact": [
+    "FACT_FORECAST"
+  ],
+  "schemaDimension": [
+    "DIM_PRODUCT",
+    "DIM_DATE"
+  ]
+}
