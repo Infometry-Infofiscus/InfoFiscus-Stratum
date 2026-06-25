@@ -1,0 +1,25 @@
+{
+  "id": "ne7l1u7h",
+  "filename": "2026-06-25T09-31-47-121Z-ne7l1u7h.json",
+  "createdAt": "2026-06-25T09:31:47.121Z",
+  "status": "pending",
+  "author": {
+    "login": "shreyasms1001",
+    "name": "shreyasms1001",
+    "avatar_url": "https://avatars.githubusercontent.com/u/142734229?v=4"
+  },
+  "domain": "Retail",
+  "businessQuestion": "Which products generated the highest estimated lost revenue due to stockouts?",
+  "sqlAnswer": "SELECT\n    DP.CATEGORY,\n    DP.PRODUCT_NAME,\n    SUM(SE.LOST_UNITS_ESTIMATED) AS LOST_UNITS,\n    SUM(SE.LOST_REVENUE_ESTIMATED) AS LOST_REVENUE,\n    SUM(SE.LOST_MARGIN_ESTIMATED) AS LOST_MARGIN\nFROM CONVERSA_DEMO.CLOTHING_RETAIL.FACT_STOCKOUT_EVENT SE\nJOIN CONVERSA_DEMO.CLOTHING_RETAIL.DIM_PRODUCT DP\n    ON SE.PRODUCT_KEY = DP.PRODUCT_KEY\nGROUP BY\n    DP.CATEGORY,\n    DP.PRODUCT_NAME\nORDER BY LOST_REVENUE DESC;",
+  "dbType": "Snowflake",
+  "difficulty": "Hard",
+  "businessContext": "Supply chain teams want to prioritize replenishment for products causing the largest revenue loss.",
+  "metrics": [],
+  "chainOfThought": [],
+  "schemaFact": [
+    "FACT_STOCKOUT_EVENT"
+  ],
+  "schemaDimension": [
+    "DIM_PRODUCT"
+  ]
+}
