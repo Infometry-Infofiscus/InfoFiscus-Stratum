@@ -1,0 +1,26 @@
+{
+  "id": "h049zhyl",
+  "filename": "2026-06-25T09-37-06-936Z-h049zhyl.json",
+  "createdAt": "2026-06-25T09:37:06.936Z",
+  "status": "pending",
+  "author": {
+    "login": "shreyasms1001",
+    "name": "shreyasms1001",
+    "avatar_url": "https://avatars.githubusercontent.com/u/142734229?v=4"
+  },
+  "domain": "Retail",
+  "businessQuestion": "Which products have the lowest forecast accuracy?",
+  "sqlAnswer": "SELECT\n        DP.CATEGORY,\n        DP.PRODUCT_NAME,\n        DD.FISCAL_YEAR,\n        ROUND(AVG(FF.FORECAST_ACCURACY_PCT),2) AS FORECAST_ACCURACY,\n        AVG(FF.FORECAST_ERROR_PCT) AS FORECAST_ERROR_PCT\nFROM CONVERSA_DEMO.CLOTHING_RETAIL.FACT_FORECAST FF\n        JOIN CONVERSA_DEMO.CLOTHING_RETAIL.DIM_PRODUCT DP\n        ON FF.PRODUCT_KEY = DP.PRODUCT_KEY\n        JOIN CONVERSA_DEMO.CLOTHING_RETAIL.DIM_DATE DD\n        ON FF.DATE_KEY = DD.DATE_KEY\nGROUP BY\n        DP.CATEGORY,\n        DP.PRODUCT_NAME,\n        DD.FISCAL_YEAR\nORDER BY FORECAST_ACCURACY ASC;",
+  "dbType": "Snowflake",
+  "difficulty": "Hard",
+  "businessContext": "Demand planners want to improve forecasting models for products with poor forecast accuracy.",
+  "metrics": [],
+  "chainOfThought": [],
+  "schemaFact": [
+    "FACT_FORECAST"
+  ],
+  "schemaDimension": [
+    "DIM_PRODUCT",
+    "DIM_DATE"
+  ]
+}
