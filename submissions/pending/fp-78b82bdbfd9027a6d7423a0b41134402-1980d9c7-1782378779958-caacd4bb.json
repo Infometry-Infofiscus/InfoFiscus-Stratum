@@ -1,0 +1,36 @@
+{
+  "submission_id": "1980d9c7-af7b-4f5c-9f79-c7fdaf9bf638",
+  "created_at": "2026-06-25T09:12:59.955Z",
+  "difficulty": "Medium",
+  "db_type": "Snowflake",
+  "domain": "Retail",
+  "business_question": "Which brands sell the most units during promotional periods?",
+  "business_context": "Marketing teams need to understand which brands benefit most from promotions.",
+  "metrics": {
+    "kpis": [
+      "Promotional Units Sold",
+      "Promotional Revenue"
+    ],
+    "aggregation_logic": {
+      "Promotional Units Sold": "SUM(PROMO_UNITS_SOLD)",
+      "Promotional Revenue": "SUM(PROMO_REVENUE)"
+    }
+  },
+  "chain_of_thought": [],
+  "schema_tables": {
+    "fact_tables": [
+      "FACT_PROMOTION_PERFORMANCE"
+    ],
+    "dimension_tables": [
+      "DIM_PRODUCT",
+      "DIM_PROMOTION"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "",
+    "aggregations": "",
+    "snapshots": ""
+  },
+  "sql_answer": "WITH brand_promo_sales AS (\nSELECT\np.BRAND,\nSUM(f.PROMO_UNITS_SOLD) AS TOTAL_PROMO_UNITS,\nSUM(f.PROMO_REVENUE) AS TOTAL_PROMO_REVENUE,\nCOUNT(DISTINCT f.PROMOTION_KEY) AS PROMOTION_COUNT\nFROM FACT_PROMOTION_PERFORMANCE f\nJOIN DIM_PRODUCT p\nON f.PRODUCT_KEY = p.PRODUCT_KEY\nGROUP BY p.BRAND\n)\n\nSELECT\nBRAND,\nTOTAL_PROMO_UNITS,\nTOTAL_PROMO_REVENUE,\nPROMOTION_COUNT,\nROUND(\nTOTAL_PROMO_UNITS /\nNULLIF(PROMOTION_COUNT,0),\n2\n) AS AVG_UNITS_PER_PROMOTION\nFROM brand_promo_sales\nORDER BY TOTAL_PROMO_UNITS DESC;",
+  "status": "pending"
+}
