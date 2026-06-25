@@ -1,0 +1,25 @@
+{
+  "id": "fa2libuz",
+  "filename": "2026-06-25T09-32-54-437Z-fa2libuz.json",
+  "createdAt": "2026-06-25T09:32:54.437Z",
+  "status": "pending",
+  "author": {
+    "login": "shreyasms1001",
+    "name": "shreyasms1001",
+    "avatar_url": "https://avatars.githubusercontent.com/u/142734229?v=4"
+  },
+  "domain": "Retail",
+  "businessQuestion": "Which suppliers have the lowest fill rate?",
+  "sqlAnswer": "SELECT\n    DS.SUPPLIER_NAME,\n    DS.COUNTRY,\n    AVG(FSD.FILL_RATE_PCT) AS AVG_FILL_RATE,\n    AVG(FSD.DELAY_DAYS) AS AVG_DELAY_DAYS,\n    AVG(FSD.DEFECT_RATE_PCT) AS AVG_DEFECT_RATE\nFROM CONVERSA_DEMO.CLOTHING_RETAIL.FACT_SUPPLIER_DELIVERY FSD\nJOIN CONVERSA_DEMO.CLOTHING_RETAIL.DIM_SUPPLIER DS\n    ON FSD.SUPPLIER_KEY = DS.SUPPLIER_KEY\nGROUP BY\n    DS.SUPPLIER_NAME,\n    DS.COUNTRY\nORDER BY AVG_FILL_RATE ASC;",
+  "dbType": "Snowflake",
+  "difficulty": "Medium",
+  "businessContext": "Procurement teams want to identify suppliers failing to deliver requested quantities.",
+  "metrics": [],
+  "chainOfThought": [],
+  "schemaFact": [
+    "FACT_SUPPLIER_DELIVERY"
+  ],
+  "schemaDimension": [
+    "DIM_SUPPLIER"
+  ]
+}
