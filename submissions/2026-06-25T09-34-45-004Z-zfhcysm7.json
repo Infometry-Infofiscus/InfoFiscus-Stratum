@@ -1,0 +1,26 @@
+{
+  "id": "zfhcysm7",
+  "filename": "2026-06-25T09-34-45-004Z-zfhcysm7.json",
+  "createdAt": "2026-06-25T09:34:45.004Z",
+  "status": "pending",
+  "author": {
+    "login": "shreyasms1001",
+    "name": "shreyasms1001",
+    "avatar_url": "https://avatars.githubusercontent.com/u/142734229?v=4"
+  },
+  "domain": "Retail",
+  "businessQuestion": "How has supplier on-time delivery performance changed over the last 12 months?",
+  "sqlAnswer": "SELECT\n    DD.FISCAL_YEAR,\n    DD.FISCAL_MONTH,\n    DS.SUPPLIER_NAME,\n    ROUND(AVG(FSD.IS_ON_TIME) * 100,2) AS ON_TIME_RATE_PCT,\n    AVG(FSD.DELAY_DAYS) AS AVG_DELAY_DAYS\nFROM CONVERSA_DEMO.CLOTHING_RETAIL.FACT_SUPPLIER_DELIVERY FSD\nJOIN CONVERSA_DEMO.CLOTHING_RETAIL.DIM_SUPPLIER DS\n    ON FSD.SUPPLIER_KEY = DS.SUPPLIER_KEY\nJOIN CONVERSA_DEMO.CLOTHING_RETAIL.DIM_DATE DD\n    ON FSD.DATE_KEY = DD.DATE_KEY\nGROUP BY\n    DD.FISCAL_YEAR,\n    DD.FISCAL_MONTH,\n    DS.SUPPLIER_NAME\nORDER BY\n    DD.FISCAL_YEAR,\n    DD.FISCAL_MONTH,\n    ON_TIME_RATE_PCT;",
+  "dbType": "Snowflake",
+  "difficulty": "Hard",
+  "businessContext": "Supply chain leadership wants to monitor supplier reliability trends and identify vendors whose delivery performance has deteriorated.",
+  "metrics": [],
+  "chainOfThought": [],
+  "schemaFact": [
+    "FACT_SUPPLIER_DELIVERY"
+  ],
+  "schemaDimension": [
+    "DIM_SUPPLIER",
+    "DIM_DATE"
+  ]
+}
