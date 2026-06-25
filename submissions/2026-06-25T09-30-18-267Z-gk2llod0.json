@@ -1,0 +1,26 @@
+{
+  "id": "gk2llod0",
+  "filename": "2026-06-25T09-30-18-267Z-gk2llod0.json",
+  "createdAt": "2026-06-25T09:30:18.267Z",
+  "status": "pending",
+  "author": {
+    "login": "shreyasms1001",
+    "name": "shreyasms1001",
+    "avatar_url": "https://avatars.githubusercontent.com/u/142734229?v=4"
+  },
+  "domain": "Retail",
+  "businessQuestion": "What are the top reasons for stockout events across all stores?",
+  "sqlAnswer": "SELECT\n    RC.ROOT_CAUSE,\n    COUNT(*) AS STOCKOUT_EVENTS,\n    SUM(SE.LOST_REVENUE_ESTIMATED) AS LOST_REVENUE,\n    SUM(SE.LOST_MARGIN_ESTIMATED) AS LOST_MARGIN\nFROM CONVERSA_DEMO.CLOTHING_RETAIL.FACT_STOCKOUT_EVENT SE\nJOIN CONVERSA_DEMO.CLOTHING_RETAIL.DIM_ROOT_CAUSE RC\n    ON SE.ROOT_CAUSE_KEY = RC.ROOT_CAUSE_KEY\nGROUP BY RC.ROOT_CAUSE\nORDER BY LOST_REVENUE DESC;",
+  "dbType": "Snowflake",
+  "difficulty": "Medium",
+  "businessContext": "Operations leaders want to understand the operational causes of stockouts and prioritize corrective actions.",
+  "metrics": [],
+  "chainOfThought": [],
+  "schemaFact": [
+    "FACT_STOCKOUT_EVENT"
+  ],
+  "schemaDimension": [
+    "DIM_ROOT_CAUSE",
+    "DIM_STORE"
+  ]
+}
