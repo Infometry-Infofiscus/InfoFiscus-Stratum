@@ -1,0 +1,27 @@
+{
+  "id": "z8pg9suz",
+  "filename": "2026-06-25T09-00-36-337Z-z8pg9suz.json",
+  "createdAt": "2026-06-25T09:00:36.337Z",
+  "status": "pending",
+  "author": {
+    "login": "shreyasms1001",
+    "name": "shreyasms1001",
+    "avatar_url": "https://avatars.githubusercontent.com/u/142734229?v=4"
+  },
+  "domain": "Retail",
+  "businessQuestion": "Which products have the highest weeks of supply and may be overstocked?",
+  "sqlAnswer": "SELECT\n    DP.CATEGORY,\n    DP.PRODUCT_NAME,\n    DS.STORE_NAME,\n    AVG(FI.WEEKS_OF_SUPPLY) AS AVG_WEEKS_OF_SUPPLY,\n    SUM(FI.INVENTORY_VALUE_COST) AS INVENTORY_VALUE\nFROM CONVERSA_DEMO.CLOTHING_RETAIL.FACT_INVENTORY FI\nJOIN CONVERSA_DEMO.CLOTHING_RETAIL.DIM_PRODUCT DP\n    ON FI.PRODUCT_KEY = DP.PRODUCT_KEY\nJOIN CONVERSA_DEMO.CLOTHING_RETAIL.DIM_STORE DS\n    ON FI.STORE_KEY = DS.STORE_KEY\nGROUP BY\n    DP.CATEGORY,\n    DP.PRODUCT_NAME,\n    DS.STORE_NAME\nORDER BY AVG_WEEKS_OF_SUPPLY DESC;",
+  "dbType": "Snowflake",
+  "difficulty": "Medium",
+  "businessContext": "Inventory planners want to identify slow-moving inventory before markdowns become necessary.",
+  "metrics": [],
+  "chainOfThought": [],
+  "schemaFact": [
+    "FACT_INVENTORY"
+  ],
+  "schemaDimension": [
+    "DIM_PRODUCT",
+    "DIM_STORE",
+    "DIM_DATE"
+  ]
+}
