@@ -1,0 +1,25 @@
+{
+  "id": "uwzac1k5",
+  "filename": "2026-06-25T09-38-04-575Z-uwzac1k5.json",
+  "createdAt": "2026-06-25T09:38:04.575Z",
+  "status": "pending",
+  "author": {
+    "login": "shreyasms1001",
+    "name": "shreyasms1001",
+    "avatar_url": "https://avatars.githubusercontent.com/u/142734229?v=4"
+  },
+  "domain": "Retail",
+  "businessQuestion": "Which product categories have the highest forecast error percentage?",
+  "sqlAnswer": "SELECT\n        DP.CATEGORY,\n        ROUND(AVG(FF.FORECAST_ERROR_PCT),2) AS AVG_FORECAST_ERROR,\n        SUM(FF.FORECAST_ERROR_UNITS) AS ERROR_UNITS,\n        SUM(FF.ACTUAL_DEMAND_UNITS) AS ACTUAL_DEMAND\nFROM CONVERSA_DEMO.CLOTHING_RETAIL.FACT_FORECAST FF\n        JOIN CONVERSA_DEMO.CLOTHING_RETAIL.DIM_PRODUCT DP\n        ON FF.PRODUCT_KEY = DP.PRODUCT_KEY\nGROUP BY\n        DP.CATEGORY\nORDER BY AVG_FORECAST_ERROR DESC;",
+  "dbType": "Snowflake",
+  "difficulty": "Medium",
+  "businessContext": "Merchandising teams want to improve inventory planning by focusing on categories with poor demand prediction.",
+  "metrics": [],
+  "chainOfThought": [],
+  "schemaFact": [
+    "FACT_FORECAST"
+  ],
+  "schemaDimension": [
+    "DIM_PRODUCT"
+  ]
+}
