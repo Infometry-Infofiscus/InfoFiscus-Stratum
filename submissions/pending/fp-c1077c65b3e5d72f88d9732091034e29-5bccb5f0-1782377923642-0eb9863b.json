@@ -1,0 +1,33 @@
+{
+  "submission_id": "5bccb5f0-653c-435e-a538-a5204e12544a",
+  "created_at": "2026-06-25T08:58:43.636Z",
+  "difficulty": "Medium",
+  "db_type": "Snowflake",
+  "domain": "Retail",
+  "business_question": "Which customer segments generate the highest average order value?",
+  "business_context": "Marketing teams want to focus acquisition efforts on high-value customer groups.",
+  "metrics": {
+    "kpis": [
+      "Average Order Value"
+    ],
+    "aggregation_logic": {
+      "Average Order Value": "Total Sales / Total Orders"
+    }
+  },
+  "chain_of_thought": [],
+  "schema_tables": {
+    "fact_tables": [
+      "FACT_SALES"
+    ],
+    "dimension_tables": [
+      "DIM_CUSTOMER"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "",
+    "aggregations": "",
+    "snapshots": ""
+  },
+  "sql_answer": "SELECT\nc.CUSTOMER_SEGMENT,\nSUM(s.NET_UNITS_SOLD) AS TOTAL_SALES,\nCOUNT(DISTINCT s.ORDER_ID) AS TOTAL_ORDERS,\nROUND(\nSUM(s.NET_UNITS_SOLD) /\nNULLIF(COUNT(DISTINCT s.ORDER_ID),0),\n2\n) AS AVG_ORDER_VALUE\nFROM FACT_SALES s\nJOIN DIM_CUSTOMER c\nON s.CUSTOMER_KEY = c.CUSTOMER_KEY\nGROUP BY c.CUSTOMER_SEGMENT\nORDER BY AVG_ORDER_VALUE DESC;",
+  "status": "pending"
+}
