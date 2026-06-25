@@ -1,0 +1,37 @@
+{
+  "submission_id": "ad03a0f5-2c1b-4996-8f59-caade6317240",
+  "created_at": "2026-06-25T09:14:48.027Z",
+  "difficulty": "Hard",
+  "db_type": "Snowflake",
+  "domain": "Retail",
+  "business_question": "Which product categories generate the highest revenue per SKU?",
+  "business_context": "Merchandising teams want to evaluate assortment efficiency. Categories generating high revenue with fewer SKUs often indicate a strong product mix, while categories with many SKUs but low revenue may require assortment optimization.",
+  "metrics": {
+    "kpis": [
+      "Total Revenue",
+      "SKU Count",
+      "Revenue per SKU "
+    ],
+    "aggregation_logic": {
+      "Total Revenue": "SUM(NET_UNITS_SOLD)",
+      "SKU Count": "COUNT(DISTINCT PRODUCT_KEY)",
+      "Revenue per SKU ": "Total Revenue / SKU Count"
+    }
+  },
+  "chain_of_thought": [],
+  "schema_tables": {
+    "fact_tables": [
+      "FACT_SALES"
+    ],
+    "dimension_tables": [
+      "DIM_PRODUCT"
+    ]
+  },
+  "data_model_layers": {
+    "hierarchies": "",
+    "aggregations": "",
+    "snapshots": ""
+  },
+  "sql_answer": "WITH category_metrics AS (\nSELECT\np.CATEGORY,\nSUM(s.NET_UNITS_SOLD) AS TOTAL_REVENUE,\nCOUNT(DISTINCT p.PRODUCT_KEY) AS SKU_COUNT\nFROM FACT_SALES s\nJOIN DIM_PRODUCT p\nON s.PRODUCT_KEY = p.PRODUCT_KEY\nGROUP BY p.CATEGORY\n)\n\nSELECT\nCATEGORY,\nTOTAL_REVENUE,\nSKU_COUNT,\nROUND(\nTOTAL_REVENUE /\nNULLIF(SKU_COUNT,0),\n2\n) AS REVENUE_PER_SKU\nFROM category_metrics\nORDER BY REVENUE_PER_SKU DESC;",
+  "status": "pending"
+}
