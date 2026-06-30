@@ -1,0 +1,25 @@
+{
+  "id": "8irwfg8n",
+  "filename": "2026-06-30T12-49-16-101Z-8irwfg8n.json",
+  "createdAt": "2026-06-30T12:49:16.101Z",
+  "status": "pending",
+  "author": {
+    "login": "shreyasms1001",
+    "name": "shreyasms1001",
+    "avatar_url": "https://avatars.githubusercontent.com/u/142734229?v=4"
+  },
+  "domain": "Retail",
+  "businessQuestion": "Which products incur the highest handling costs because of returns?",
+  "sqlAnswer": "SELECT\n    DP.PRODUCT_NAME,\n    DP.CATEGORY,\n    SUM(FR.HANDLING_COST_AMT) AS TOTAL_HANDLING_COST,\n    SUM(FR.REFUND_AMT) AS REFUND_AMOUNT\nFROM CONVERSA_DEMO.CLOTHING_RETAIL.FACT_RETURNS FR\nJOIN CONVERSA_DEMO.CLOTHING_RETAIL.DIM_PRODUCT DP\nON FR.PRODUCT_KEY=DP.PRODUCT_KEY\nGROUP BY\n    DP.PRODUCT_NAME,\n    DP.CATEGORY\nORDER BY TOTAL_HANDLING_COST DESC;",
+  "dbType": "Snowflake",
+  "difficulty": "Hard",
+  "businessContext": "Finance teams want to reduce reverse logistics costs.",
+  "metrics": [],
+  "chainOfThought": [],
+  "schemaFact": [
+    "FACT_RETURNS"
+  ],
+  "schemaDimension": [
+    "DIM_PRODUCT"
+  ]
+}
