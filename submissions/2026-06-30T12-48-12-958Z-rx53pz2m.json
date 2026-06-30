@@ -1,0 +1,25 @@
+{
+  "id": "rx53pz2m",
+  "filename": "2026-06-30T12-48-12-958Z-rx53pz2m.json",
+  "createdAt": "2026-06-30T12:48:12.958Z",
+  "status": "pending",
+  "author": {
+    "login": "shreyasms1001",
+    "name": "shreyasms1001",
+    "avatar_url": "https://avatars.githubusercontent.com/u/142734229?v=4"
+  },
+  "domain": "Retail",
+  "businessQuestion": "Which return reasons contribute the highest refund amount?",
+  "sqlAnswer": "SELECT\n    RETURN_REASON,\n    COUNT(*) AS TOTAL_RETURNS,\n    SUM(REFUND_AMT) AS REFUND_AMOUNT,\n    SUM(HANDLING_COST_AMT) AS HANDLING_COST\nFROM CONVERSA_DEMO.CLOTHING_RETAIL.FACT_RETURNS\nGROUP BY RETURN_REASON\nORDER BY REFUND_AMOUNT DESC;",
+  "dbType": "Snowflake",
+  "difficulty": "Medium",
+  "businessContext": "Customer service teams want to understand why customers return products.",
+  "metrics": [],
+  "chainOfThought": [],
+  "schemaFact": [
+    "FACT_RETURNS"
+  ],
+  "schemaDimension": [
+    "DIM_PRODUCT"
+  ]
+}
