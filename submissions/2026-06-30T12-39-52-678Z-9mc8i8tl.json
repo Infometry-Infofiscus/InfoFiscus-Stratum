@@ -1,0 +1,26 @@
+{
+  "id": "9mc8i8tl",
+  "filename": "2026-06-30T12-39-52-678Z-9mc8i8tl.json",
+  "createdAt": "2026-06-30T12:39:52.678Z",
+  "status": "pending",
+  "author": {
+    "login": "shreyasms1001",
+    "name": "shreyasms1001",
+    "avatar_url": "https://avatars.githubusercontent.com/u/142734229?v=4"
+  },
+  "domain": "Retail",
+  "businessQuestion": "Which promotions delivered the highest demand lift percentage?",
+  "sqlAnswer": "SELECT\n    DPROM.PROMOTION_NAME,\n    DPROM.PROMOTION_TYPE,\n    AVG(FPP.DEMAND_LIFT_PCT) AS AVG_DEMAND_LIFT,\n    SUM(FPP.PROMO_SALES_AMT) AS PROMO_SALES\nFROM CONVERSA_DEMO.CLOTHING_RETAIL.FACT_PROMOTION_PERFORMANCE FPP\nJOIN CONVERSA_DEMO.CLOTHING_RETAIL.DIM_PROMOTION DPROM\nON FPP.PROMOTION_KEY = DPROM.PROMOTION_KEY\nGROUP BY\n    DPROM.PROMOTION_NAME,\n    DPROM.PROMOTION_TYPE\nORDER BY AVG_DEMAND_LIFT DESC;",
+  "dbType": "Snowflake",
+  "difficulty": "Medium",
+  "businessContext": "Marketing wants to identify the promotions that generated the strongest increase in customer demand.",
+  "metrics": [],
+  "chainOfThought": [],
+  "schemaFact": [
+    "FACT_PROMOTION_PERFORMANCE"
+  ],
+  "schemaDimension": [
+    "DIM_PROMOTION",
+    "DIM_PRODUCT"
+  ]
+}
