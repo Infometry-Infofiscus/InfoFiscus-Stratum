@@ -1,0 +1,25 @@
+{
+  "id": "ib17iwhh",
+  "filename": "2026-06-30T12-50-02-845Z-ib17iwhh.json",
+  "createdAt": "2026-06-30T12:50:02.845Z",
+  "status": "pending",
+  "author": {
+    "login": "shreyasms1001",
+    "name": "shreyasms1001",
+    "avatar_url": "https://avatars.githubusercontent.com/u/142734229?v=4"
+  },
+  "domain": "Retail",
+  "businessQuestion": "Which stores have the highest percentage of non-resaleable returned items?",
+  "sqlAnswer": "SELECT\n    DS.STORE_NAME,\n    COUNT(*) AS TOTAL_RETURNS,\n    SUM(CASE WHEN FR.IS_RESALEABLE=0 THEN 1 ELSE 0 END) AS NON_RESALEABLE,\n    ROUND(\n        SUM(CASE WHEN FR.IS_RESALEABLE=0 THEN 1 ELSE 0 END)\n        *100.0/COUNT(*),2\n    ) AS NON_RESALEABLE_PCT\nFROM CONVERSA_DEMO.CLOTHING_RETAIL.FACT_RETURNS FR\nJOIN CONVERSA_DEMO.CLOTHING_RETAIL.DIM_STORE DS\nON FR.STORE_KEY=DS.STORE_KEY\nGROUP BY DS.STORE_NAME\nORDER BY NON_RESALEABLE_PCT DESC;",
+  "dbType": "Snowflake",
+  "difficulty": "Medium",
+  "businessContext": "Operations teams want to reduce inventory loss caused by damaged returns.",
+  "metrics": [],
+  "chainOfThought": [],
+  "schemaFact": [
+    "FACT_RETURNS"
+  ],
+  "schemaDimension": [
+    "DIM_STORE"
+  ]
+}
