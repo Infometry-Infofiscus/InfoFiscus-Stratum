@@ -1,0 +1,25 @@
+{
+  "id": "xspqz86i",
+  "filename": "2026-06-30T12-52-24-369Z-xspqz86i.json",
+  "createdAt": "2026-06-30T12:52:24.369Z",
+  "status": "pending",
+  "author": {
+    "login": "shreyasms1001",
+    "name": "shreyasms1001",
+    "avatar_url": "https://avatars.githubusercontent.com/u/142734229?v=4"
+  },
+  "domain": "Retail",
+  "businessQuestion": "Which stores achieved the highest OTIF (On-Time In-Full) performance?",
+  "sqlAnswer": "SELECT\n    DS.STORE_NAME,\n    AVG(FSO.ON_TIME_IN_FULL_PCT) AS OTIF_PERCENTAGE,\n    AVG(FSO.ORDER_FILL_RATE_PCT) AS AVG_FILL_RATE\nFROM CONVERSA_DEMO.CLOTHING_RETAIL.FACT_STORE_OTIF FSO\nJOIN CONVERSA_DEMO.CLOTHING_RETAIL.DIM_STORE DS\nON FSO.STORE_KEY=DS.STORE_KEY\nGROUP BY DS.STORE_NAME\nORDER BY OTIF_PERCENTAGE DESC;",
+  "dbType": "Snowflake",
+  "difficulty": "Hard",
+  "businessContext": "Retail operations leaders want to benchmark fulfillment performance across stores.",
+  "metrics": [],
+  "chainOfThought": [],
+  "schemaFact": [
+    "FACT_STORE_OTIF"
+  ],
+  "schemaDimension": [
+    "DIM_STORE"
+  ]
+}
