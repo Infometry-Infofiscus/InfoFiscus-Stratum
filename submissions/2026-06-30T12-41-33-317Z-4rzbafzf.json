@@ -1,0 +1,25 @@
+{
+  "id": "4rzbafzf",
+  "filename": "2026-06-30T12-41-33-317Z-4rzbafzf.json",
+  "createdAt": "2026-06-30T12:41:33.317Z",
+  "status": "pending",
+  "author": {
+    "login": "shreyasms1001",
+    "name": "shreyasms1001",
+    "avatar_url": "https://avatars.githubusercontent.com/u/142734229?v=4"
+  },
+  "domain": "Retail",
+  "businessQuestion": "Which promotions generated the highest ROI?",
+  "sqlAnswer": "SELECT\n    DPROM.PROMOTION_NAME,\n    SUM(FPP.PROMO_MARGIN_AMT) AS PROMO_MARGIN,\n    SUM(FPP.BASELINE_MARGIN_AMT) AS BASELINE_MARGIN,\n    ROUND(\n        SUM(FPP.PROMO_MARGIN_AMT) /\n        NULLIF(SUM(FPP.BASELINE_MARGIN_AMT),0),2\n    ) AS ROI\nFROM CONVERSA_DEMO.CLOTHING_RETAIL.FACT_PROMOTION_PERFORMANCE FPP\nJOIN CONVERSA_DEMO.CLOTHING_RETAIL.DIM_PROMOTION DPROM\nON FPP.PROMOTION_KEY=DPROM.PROMOTION_KEY\nGROUP BY DPROM.PROMOTION_NAME\nORDER BY ROI DESC;",
+  "dbType": "Snowflake",
+  "difficulty": "Hard",
+  "businessContext": "Marketing leadership wants to focus future investments on campaigns with the highest return.",
+  "metrics": [],
+  "chainOfThought": [],
+  "schemaFact": [
+    "FACT_PROMOTION_PERFORMANCE"
+  ],
+  "schemaDimension": [
+    "DIM_PROMOTION"
+  ]
+}
