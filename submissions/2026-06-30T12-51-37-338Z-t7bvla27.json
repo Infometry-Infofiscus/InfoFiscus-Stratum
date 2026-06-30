@@ -1,0 +1,25 @@
+{
+  "id": "t7bvla27",
+  "filename": "2026-06-30T12-51-37-338Z-t7bvla27.json",
+  "createdAt": "2026-06-30T12:51:37.338Z",
+  "status": "pending",
+  "author": {
+    "login": "shreyasms1001",
+    "name": "shreyasms1001",
+    "avatar_url": "https://avatars.githubusercontent.com/u/142734229?v=4"
+  },
+  "domain": "Retail",
+  "businessQuestion": "Which product categories incur the highest markdown losses?",
+  "sqlAnswer": "SELECT\n    DP.CATEGORY,\n    SUM(FMC.MARKDOWN_DOLLAR_IMPACT) AS TOTAL_MARKDOWN_LOSS,\n    AVG(FMC.MARKDOWN_DEPTH_PCT) AS AVG_MARKDOWN_DEPTH\nFROM CONVERSA_DEMO.CLOTHING_RETAIL.FACT_MARKDOWN_CLEARANCE FMC\nJOIN CONVERSA_DEMO.CLOTHING_RETAIL.DIM_PRODUCT DP\nON FMC.PRODUCT_KEY=DP.PRODUCT_KEY\nGROUP BY DP.CATEGORY\nORDER BY TOTAL_MARKDOWN_LOSS DESC;",
+  "dbType": "Snowflake",
+  "difficulty": "Medium",
+  "businessContext": "Pricing managers want to identify categories requiring better pricing strategies.",
+  "metrics": [],
+  "chainOfThought": [],
+  "schemaFact": [
+    "FACT_MARKDOWN_CLEARANCE"
+  ],
+  "schemaDimension": [
+    "DIM_PRODUCT"
+  ]
+}
