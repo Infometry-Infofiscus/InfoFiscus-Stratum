@@ -1,0 +1,25 @@
+{
+  "id": "iflgcg99",
+  "filename": "2026-06-30T12-50-51-086Z-iflgcg99.json",
+  "createdAt": "2026-06-30T12:50:51.086Z",
+  "status": "pending",
+  "author": {
+    "login": "shreyasms1001",
+    "name": "shreyasms1001",
+    "avatar_url": "https://avatars.githubusercontent.com/u/142734229?v=4"
+  },
+  "domain": "Retail",
+  "businessQuestion": "Which markdown clearance events resulted in selling products below cost?",
+  "sqlAnswer": "SELECT\n    DP.PRODUCT_NAME,\n    FMC.CLEARANCE_CATEGORY,\n    FMC.MARKDOWN_DEPTH_PCT,\n    FMC.MARKDOWN_DOLLAR_IMPACT,\n    FMC.COST_RECOVERY_PCT\nFROM CONVERSA_DEMO.CLOTHING_RETAIL.FACT_MARKDOWN_CLEARANCE FMC\nJOIN CONVERSA_DEMO.CLOTHING_RETAIL.DIM_PRODUCT DP\nON FMC.PRODUCT_KEY=DP.PRODUCT_KEY\nWHERE FMC.BELOW_COST_FLAG=1\nORDER BY FMC.MARKDOWN_DOLLAR_IMPACT DESC;",
+  "dbType": "Snowflake",
+  "difficulty": "Hard",
+  "businessContext": "Pricing teams want to evaluate whether aggressive markdowns are hurting profitability.",
+  "metrics": [],
+  "chainOfThought": [],
+  "schemaFact": [
+    "FACT_MARKDOWN_CLEARANCE"
+  ],
+  "schemaDimension": [
+    "DIM_PRODUCT"
+  ]
+}
