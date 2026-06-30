@@ -1,0 +1,26 @@
+{
+  "id": "gindaook",
+  "filename": "2026-06-30T12-42-42-495Z-gindaook.json",
+  "createdAt": "2026-06-30T12:42:42.495Z",
+  "status": "pending",
+  "author": {
+    "login": "shreyasms1001",
+    "name": "shreyasms1001",
+    "avatar_url": "https://avatars.githubusercontent.com/u/142734229?v=4"
+  },
+  "domain": "Retail",
+  "businessQuestion": "Which promotions experienced stockouts during campaign periods?",
+  "sqlAnswer": "SELECT\n    DPROM.PROMOTION_NAME,\n    DP.PRODUCT_NAME,\n    COUNT(*) AS STOCKOUT_CASES,\n    SUM(FPP.PROMO_SALES_AMT) AS PROMO_SALES\nFROM CONVERSA_DEMO.CLOTHING_RETAIL.FACT_PROMOTION_PERFORMANCE FPP\nJOIN CONVERSA_DEMO.CLOTHING_RETAIL.DIM_PROMOTION DPROM\nON FPP.PROMOTION_KEY=DPROM.PROMOTION_KEY\nJOIN CONVERSA_DEMO.CLOTHING_RETAIL.DIM_PRODUCT DP\nON FPP.PRODUCT_KEY=DP.PRODUCT_KEY\nWHERE FPP.STOCKED_OUT_DURING_PROMO=1\nGROUP BY\n    DPROM.PROMOTION_NAME,\n    DP.PRODUCT_NAME\nORDER BY STOCKOUT_CASES DESC;",
+  "dbType": "Snowflake",
+  "difficulty": "Medium",
+  "businessContext": "Marketing and Supply Chain want to ensure promotions are adequately stocked.",
+  "metrics": [],
+  "chainOfThought": [],
+  "schemaFact": [
+    "FACT_PROMOTION_PERFORMANCE"
+  ],
+  "schemaDimension": [
+    "DIM_PROMOTION",
+    "DIM_PRODUCT"
+  ]
+}
