@@ -1,0 +1,27 @@
+{
+  "id": "yanl39l4",
+  "filename": "2026-06-30T12-53-31-310Z-yanl39l4.json",
+  "createdAt": "2026-06-30T12:53:31.310Z",
+  "status": "pending",
+  "author": {
+    "login": "shreyasms1001",
+    "name": "shreyasms1001",
+    "avatar_url": "https://avatars.githubusercontent.com/u/142734229?v=4"
+  },
+  "domain": "Retail",
+  "businessQuestion": "Which stores simultaneously have high sales, high stockouts, and low forecast accuracy?",
+  "sqlAnswer": "SELECT\n    DS.STORE_NAME,\n    SUM(FS.NET_SALES_AMT) AS TOTAL_SALES,\n    SUM(SE.LOST_REVENUE_ESTIMATED) AS LOST_REVENUE,\n    AVG(FF.FORECAST_ACCURACY_PCT) AS FORECAST_ACCURACY\nFROM CONVERSA_DEMO.CLOTHING_RETAIL.DIM_STORE DS\nJOIN CONVERSA_DEMO.CLOTHING_RETAIL.FACT_SALES FS\nON DS.STORE_KEY=FS.STORE_KEY\nJOIN CONVERSA_DEMO.CLOTHING_RETAIL.FACT_FORECAST FF\nON DS.STORE_KEY=FF.STORE_KEY\nJOIN CONVERSA_DEMO.CLOTHING_RETAIL.FACT_STOCKOUT_EVENT SE\nON DS.STORE_KEY=SE.STORE_KEY\nGROUP BY DS.STORE_NAME\nORDER BY LOST_REVENUE DESC, FORECAST_ACCURACY ASC;",
+  "dbType": "Snowflake",
+  "difficulty": "Expert",
+  "businessContext": "Executives want to identify stores requiring immediate inventory planning improvements.",
+  "metrics": [],
+  "chainOfThought": [],
+  "schemaFact": [
+    "FACT_SALES",
+    "FACT_FORECAST",
+    "FACT_STOCKOUT_EVENT"
+  ],
+  "schemaDimension": [
+    "DIM_STORE"
+  ]
+}
