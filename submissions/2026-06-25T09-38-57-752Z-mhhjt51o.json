@@ -2,7 +2,7 @@
   "id": "mhhjt51o",
   "filename": "2026-06-25T09-38-57-752Z-mhhjt51o.json",
   "createdAt": "2026-06-25T09:38:57.752Z",
-  "status": "pending",
+  "status": "approved",
   "author": {
     "login": "shreyasms1001",
     "name": "shreyasms1001",
@@ -22,5 +22,6 @@
   "schemaDimension": [
     "DIM_PRODUCT",
     "DIM_DATE"
-  ]
+  ],
+  "reviewedAt": "2026-07-01T06:31:29.757Z"
 }
