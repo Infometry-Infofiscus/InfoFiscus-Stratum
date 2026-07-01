@@ -2,7 +2,7 @@
   "id": "yanl39l4",
   "filename": "2026-06-30T12-53-31-310Z-yanl39l4.json",
   "createdAt": "2026-06-30T12:53:31.310Z",
-  "status": "pending",
+  "status": "approved",
   "author": {
     "login": "shreyasms1001",
     "name": "shreyasms1001",
@@ -23,5 +23,6 @@
   ],
   "schemaDimension": [
     "DIM_STORE"
-  ]
+  ],
+  "reviewedAt": "2026-07-01T06:31:43.467Z"
 }
