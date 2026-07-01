@@ -2,7 +2,7 @@
   "id": "xwqtqdya",
   "filename": "2026-06-24T20-41-54-815Z-xwqtqdya.json",
   "createdAt": "2026-06-24T20:41:54.815Z",
-  "status": "rejected",
+  "status": "approved",
   "author": {
     "login": "YuvSingh02",
     "name": "YUVRAJ SINGH",
@@ -15,5 +15,5 @@
   "chainOfThought": [],
   "schemaFact": [],
   "schemaDimension": [],
-  "reviewedAt": "2026-06-24T20:43:04.822Z"
+  "reviewedAt": "2026-07-01T06:31:13.642Z"
 }
