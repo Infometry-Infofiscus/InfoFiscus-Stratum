@@ -2,7 +2,7 @@
   "id": "xspqz86i",
   "filename": "2026-06-30T12-52-24-369Z-xspqz86i.json",
   "createdAt": "2026-06-30T12:52:24.369Z",
-  "status": "pending",
+  "status": "approved",
   "author": {
     "login": "shreyasms1001",
     "name": "shreyasms1001",
@@ -21,5 +21,6 @@
   ],
   "schemaDimension": [
     "DIM_STORE"
-  ]
+  ],
+  "reviewedAt": "2026-07-01T06:31:41.979Z"
 }
