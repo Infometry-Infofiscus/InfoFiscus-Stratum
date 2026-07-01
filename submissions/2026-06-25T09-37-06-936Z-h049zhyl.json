@@ -2,7 +2,7 @@
   "id": "h049zhyl",
   "filename": "2026-06-25T09-37-06-936Z-h049zhyl.json",
   "createdAt": "2026-06-25T09:37:06.936Z",
-  "status": "pending",
+  "status": "approved",
   "author": {
     "login": "shreyasms1001",
     "name": "shreyasms1001",
@@ -22,5 +22,6 @@
   "schemaDimension": [
     "DIM_PRODUCT",
     "DIM_DATE"
-  ]
+  ],
+  "reviewedAt": "2026-07-01T06:31:27.281Z"
 }
