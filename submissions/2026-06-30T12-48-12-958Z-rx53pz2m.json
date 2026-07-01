@@ -2,7 +2,7 @@
   "id": "rx53pz2m",
   "filename": "2026-06-30T12-48-12-958Z-rx53pz2m.json",
   "createdAt": "2026-06-30T12:48:12.958Z",
-  "status": "pending",
+  "status": "approved",
   "author": {
     "login": "shreyasms1001",
     "name": "shreyasms1001",
@@ -21,5 +21,6 @@
   ],
   "schemaDimension": [
     "DIM_PRODUCT"
-  ]
+  ],
+  "reviewedAt": "2026-07-01T06:31:35.342Z"
 }
