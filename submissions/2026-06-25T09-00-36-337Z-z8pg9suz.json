@@ -2,7 +2,7 @@
   "id": "z8pg9suz",
   "filename": "2026-06-25T09-00-36-337Z-z8pg9suz.json",
   "createdAt": "2026-06-25T09:00:36.337Z",
-  "status": "pending",
+  "status": "approved",
   "author": {
     "login": "shreyasms1001",
     "name": "shreyasms1001",
@@ -23,5 +23,6 @@
     "DIM_PRODUCT",
     "DIM_STORE",
     "DIM_DATE"
-  ]
+  ],
+  "reviewedAt": "2026-07-01T06:31:14.723Z"
 }
