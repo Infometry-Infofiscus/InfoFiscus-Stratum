@@ -2,7 +2,7 @@
   "id": "8irwfg8n",
   "filename": "2026-06-30T12-49-16-101Z-8irwfg8n.json",
   "createdAt": "2026-06-30T12:49:16.101Z",
-  "status": "pending",
+  "status": "approved",
   "author": {
     "login": "shreyasms1001",
     "name": "shreyasms1001",
@@ -21,5 +21,6 @@
   ],
   "schemaDimension": [
     "DIM_PRODUCT"
-  ]
+  ],
+  "reviewedAt": "2026-07-01T06:31:36.823Z"
 }
