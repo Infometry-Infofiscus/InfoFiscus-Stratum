@@ -2,7 +2,7 @@
   "id": "wpg2iq33",
   "filename": "2026-06-25T09-09-47-613Z-wpg2iq33.json",
   "createdAt": "2026-06-25T09:09:47.613Z",
-  "status": "pending",
+  "status": "approved",
   "author": {
     "login": "shreyasms1001",
     "name": "shreyasms1001",
@@ -22,5 +22,6 @@
   "schemaDimension": [
     "DIM_STORE",
     "DIM_DATE"
-  ]
+  ],
+  "reviewedAt": "2026-07-01T06:31:15.874Z"
 }
