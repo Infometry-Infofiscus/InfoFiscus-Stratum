@@ -2,7 +2,7 @@
   "id": "4rzbafzf",
   "filename": "2026-06-30T12-41-33-317Z-4rzbafzf.json",
   "createdAt": "2026-06-30T12:41:33.317Z",
-  "status": "pending",
+  "status": "approved",
   "author": {
     "login": "shreyasms1001",
     "name": "shreyasms1001",
@@ -21,5 +21,6 @@
   ],
   "schemaDimension": [
     "DIM_PROMOTION"
-  ]
+  ],
+  "reviewedAt": "2026-07-01T06:31:32.498Z"
 }
