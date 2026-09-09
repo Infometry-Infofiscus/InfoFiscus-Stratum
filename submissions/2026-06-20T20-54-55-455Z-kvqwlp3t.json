@@ -2,7 +2,7 @@
   "id": "kvqwlp3t",
   "filename": "2026-06-20T20-54-55-455Z-kvqwlp3t.json",
   "createdAt": "2026-06-20T20:54:55.455Z",
-  "status": "approved",
+  "status": "rejected",
   "author": {
     "login": "Infometry-Infofiscus",
     "name": "Infometry",
@@ -15,5 +15,5 @@
   "chainOfThought": [],
   "schemaFact": [],
   "schemaDimension": [],
-  "reviewedAt": "2026-06-20T21:00:11.478Z"
+  "reviewedAt": "2026-09-09T14:47:32.334Z"
 }
