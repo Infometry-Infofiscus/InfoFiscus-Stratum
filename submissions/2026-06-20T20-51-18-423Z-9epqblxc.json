@@ -2,7 +2,7 @@
   "id": "9epqblxc",
   "filename": "2026-06-20T20-51-18-423Z-9epqblxc.json",
   "createdAt": "2026-06-20T20:51:18.423Z",
-  "status": "approved",
+  "status": "rejected",
   "author": {
     "login": "Infometry-Infofiscus",
     "name": "Infometry",
@@ -15,5 +15,5 @@
   "chainOfThought": [],
   "schemaFact": [],
   "schemaDimension": [],
-  "reviewedAt": "2026-06-20T20:51:39.774Z"
+  "reviewedAt": "2026-09-09T14:47:36.220Z"
 }
