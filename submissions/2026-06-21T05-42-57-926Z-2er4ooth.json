@@ -2,7 +2,7 @@
   "id": "2er4ooth",
   "filename": "2026-06-21T05-42-57-926Z-2er4ooth.json",
   "createdAt": "2026-06-21T05:42:57.926Z",
-  "status": "approved",
+  "status": "rejected",
   "author": {
     "login": "Infometry-Infofiscus",
     "name": "Infometry",
@@ -15,5 +15,5 @@
   "chainOfThought": [],
   "schemaFact": [],
   "schemaDimension": [],
-  "reviewedAt": "2026-06-21T05:43:11.884Z"
+  "reviewedAt": "2026-09-09T14:46:52.990Z"
 }
